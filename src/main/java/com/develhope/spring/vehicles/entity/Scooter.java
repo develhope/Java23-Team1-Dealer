@@ -1,4 +1,4 @@
-package com.develhope.spring.vehicles;
+package com.develhope.spring.vehicles.entity;
 
 public class Scooter implements Vehicles {
     String brand;
