@@ -1,4 +1,4 @@
-package com.develhope.spring;
+package com.develhope.spring.vehicles;
 
 public interface Vehicles {
 
