@@ -1,6 +1,6 @@
 package com.develhope.spring.user.entity;
 
-public enum Account {
+public enum UserKind {
     BUYER,
     SELLER,
     ADMIN
