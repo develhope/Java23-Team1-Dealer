@@ -14,8 +14,6 @@ public class Scooter implements Vehicles {
     String accesories;
     boolean isNew;
     //VehicleState vehicleState; bisogna creare classe VehicleState
-    boolean purchasable;
-    boolean rentable;
 
     @Override
     public void addToDealer() {
