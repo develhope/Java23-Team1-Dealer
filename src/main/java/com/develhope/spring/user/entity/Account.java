@@ -1,4 +1,4 @@
-package com.develhope.spring.user;
+package com.develhope.spring.user.entity;
 
 public enum Account {
     BUYER,
