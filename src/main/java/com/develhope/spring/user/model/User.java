@@ -1,6 +1,6 @@
 package com.develhope.spring.user.model;
 
-import com.develhope.spring.user.Account;
+import com.develhope.spring.user.entity.UserKind;
 
 public class User {
 
@@ -14,7 +14,7 @@ public class User {
 
     private long password;
 
-    private Account account;
+    private UserKind userKind;
 
     private static boolean isValidString(String value) {
         return !value.isEmpty() && value.chars().allMatch(Character::isLetter);
@@ -71,13 +71,13 @@ public class User {
     }
 
 
-    public User(String name, String surname, String email, long mobile, long password, Account account) throws InvalidValueException, InvalidEmailException {
+    public User(String name, String surname, String email, long mobile, long password, UserKind userKind) throws InvalidValueException, InvalidEmailException {
         checkValidName(name);
         checkValidSurname(surname);
         checkValidEmail(email);
         checkValidPassword(password);
         this.mobile = mobile;
-        this.account = account;
+        this.userKind = userKind;
     }
 
     public String getName() {
@@ -96,8 +96,8 @@ public class User {
         return mobile;
     }
 
-    public Account getAccount() {
-        return account;
+    public UserKind getUserKind() {
+        return userKind;
     }
 
     public void setName(String name) throws InvalidValueException {
@@ -120,8 +120,8 @@ public class User {
         checkValidPassword(password);
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccount(UserKind userKind) {
+        this.userKind = userKind;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", mobile=" + mobile +
                 ", email='" + email + '\'' +
-                ", account=" + account +
+                ", userKind=" + userKind +
                 '}';
     }
 }
