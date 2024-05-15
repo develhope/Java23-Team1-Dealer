@@ -2,9 +2,16 @@ package com.develhope.spring.user.model;
 
 import com.develhope.spring.user.entity.UserKind;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private String name;
 
@@ -18,31 +25,22 @@ public class User {
 
     private UserKind userKind;
 
-    private static boolean isValidString(String value) {
-        return !value.isEmpty() && value.chars().allMatch(Character::isLetter);
-    }
-
-    private void checkValidName(String name) throws InvalidValueException {
-        String rightName = name.trim(); //rimuove i possibili spazi nella stringa
-        if (rightName.isEmpty() || !rightName.chars().allMatch(Character::isLetter)) {
-            throw new InvalidValueException("This field can't be empty and can't contains numbers or special character, please insert a valid input (Name)");
+    private void checkValidString(String value, String fieldName) throws InvalidValueException {
+        String rightValue = value.trim();
+        if (rightValue.isEmpty() || !rightValue.chars().allMatch(Character::isLetter)) {
+            throw new InvalidValueException("This field can't be empty and can't contains numbers or special character, please insert a valid input");
         } else {
-            this.name = rightName;
-        }
-    }
-
-    private void checkValidSurname(String surname) throws InvalidValueException {
-        String rightSurname = surname.trim();
-        if (rightSurname.isEmpty() || !rightSurname.chars().allMatch(Character::isLetter)) {
-            throw new InvalidValueException("This field can't be empty and can't contains numbers or special character, please insert a valid input (Surname)");
-        } else {
-            this.name = rightSurname;
+            if (fieldName.equals("Name")) {
+                this.name = rightValue;
+            } else if (fieldName.equals("Surname")) {
+                this.surname = rightValue;
+            }
         }
     }
 
     public User(String name, String surname, String email, long mobile, long password, UserKind userKind) throws InvalidValueException, InvalidEmailException {
-        checkValidName(name);
-        checkValidSurname(surname);
+        checkValidString(name, "Name");
+        checkValidString(surname, "Surname");
         this.email = email;
         this.password = password;
         this.mobile = mobile;
@@ -70,11 +68,11 @@ public class User {
     }
 
     public void setName(String name) throws InvalidValueException {
-        checkValidName(name);
+        checkValidString(name, "Name");
     }
 
     public void setSurname(String surname) throws InvalidValueException {
-        checkValidSurname(surname);
+        checkValidString(surname, "Surname");
     }
 
     public void setEmail(String email) {
