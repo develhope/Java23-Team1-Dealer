@@ -34,6 +34,8 @@ public class User {
 
     private UserKind userKind;
 
+    public User(){}
+
     public User(String name, String surname, String email, long mobile, long password, UserKind userKind) {
         this.name = name;
         this.surname = surname;
