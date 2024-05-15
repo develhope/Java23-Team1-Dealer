@@ -1,11 +1,10 @@
 package com.develhope.spring.user.entity;
 
-import com.develhope.spring.user.model.InvalidEmailException;
-import com.develhope.spring.user.model.InvalidValueException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -16,22 +15,26 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @NotBlank(message = "This field can't be empty ")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "can't contains numbers or special character, please insert a valid input")
     private String name;
+
     @NotBlank(message = "This field can't be empty ")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "can't contains numbers or special character, please insert a valid input")
     private String surname;
 
     private long mobile;
 
+    @NotBlank(message = "This field can't be empty ")
+    @Email
     private String email;
 
     private long password;
 
     private UserKind userKind;
 
-    public User(String name, String surname, String email, long mobile, long password, UserKind userKind) throws InvalidValueException, InvalidEmailException {
+    public User(String name, String surname, String email, long mobile, long password, UserKind userKind) {
         this.name = name;
         this.surname = surname;
         this.email = email;
