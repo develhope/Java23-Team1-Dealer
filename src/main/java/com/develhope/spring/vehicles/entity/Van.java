@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.entity;
 
-public class Car implements Vehicles {
+public class Van implements Vehicles {
+
     String brand;
     String model;
     int engineSize;
@@ -20,5 +21,4 @@ public class Car implements Vehicles {
     public void addToDealer() {
 
     }
-
 }
