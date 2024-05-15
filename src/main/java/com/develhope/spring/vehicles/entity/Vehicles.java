@@ -39,6 +39,7 @@ public abstract class Vehicles {
         this.isNew = isNew;
         this.vehicleState = vehicleState;
     }
+    public Vehicles(){}
 
     public long getId() {
         return id;
