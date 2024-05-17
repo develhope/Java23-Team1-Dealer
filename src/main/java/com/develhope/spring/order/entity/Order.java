@@ -11,7 +11,7 @@ public class Order {
     private long orderId;
     private long buyerId;
     private double deposit;
-    boolean payed;
+    private boolean payed;
     private OrderStatus orderStatus;
 
     public Order(long orderId, long buyerId, double deposit, boolean payed, OrderStatus orderStatus) {
