@@ -1,19 +1,19 @@
 package com.develhope.spring.vehicles.entity;
 
 public class Scooter implements Vehicles {
-    String brand;
-    String model;
-    int engineSize;
-    String color;
-    int power;
-    String gearbox;
-    int registrationYear;
-    //Fueltype fuelType; bisogna creare classe Fueltype
-    double price;
-    double discount;
-    String accesories;
-    boolean isNew;
-    //VehicleState vehicleState; bisogna creare classe VehicleState
+    private String brand;
+    private String model;
+    private int engineSize;
+    private String color;
+    private int power;
+    private String gearbox;
+    private int registrationYear;
+    private FuelType fuelType;
+    private double price;
+    private double discount;
+    private String accessories;
+    private boolean isNew;
+    private VehicleState vehicleState;
 
     @Override
     public void addToDealer() {

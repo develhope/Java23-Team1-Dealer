@@ -24,19 +24,19 @@ public class User {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "can't contains numbers or special character, please insert a valid input")
     private String surname;
 
-    private long mobile;
+    private String mobile;
 
     @NotBlank(message = "This field can't be empty ")
     @Email
     private String email;
 
-    private long password;
+    private String password;
 
     private UserKind userKind;
 
     public User(){}
 
-    public User(String name, String surname, String email, long mobile, long password, UserKind userKind) {
+    public User(String name, String surname, String email, String mobile, String password, UserKind userKind) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -61,7 +61,7 @@ public class User {
         return email;
     }
 
-    public long getMobile() {
+    public String getMobile() {
         return mobile;
     }
 
@@ -85,11 +85,11 @@ public class User {
         this.email = email;
     }
 
-    public void setMobile(long mobile) {
+    public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
-    public void setPassword(long password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
