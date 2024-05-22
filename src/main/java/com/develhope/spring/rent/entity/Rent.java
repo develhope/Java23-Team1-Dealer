@@ -1,12 +1,16 @@
 package com.develhope.spring.rent.entity;
 
-import com.develhope.spring.vehicles.entity.Vehicles;
+import com.develhope.spring.vehicles.entity.Vehicle;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Table
+@Data
+@NoArgsConstructor
 public class Rent {
     @Id
     @GeneratedValue
@@ -16,35 +20,5 @@ public class Rent {
     private double dailyPrice, totalPryce;
     private boolean payed;
     @ManyToOne
-    @JoinColumn(name = "idVehicle", nullable = false)
-    private Vehicles vehicles;
-    public Rent(){}
-
-    public long getId() {
-        return id;
-    }
-
-    public Date getStartRent() {
-        return startRent;
-    }
-
-    public Date getStopRent() {
-        return stopRent;
-    }
-
-    public double getDailyPrice() {
-        return dailyPrice;
-    }
-
-    public double getTotalPryce() {
-        return totalPryce;
-    }
-
-    public boolean isPayed() {
-        return payed;
-    }
-
-    public Vehicles getVehicles() {
-        return vehicles;
-    }
+    private Vehicle vehicles;
 }
