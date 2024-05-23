@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicles.service;
 
+import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,4 +9,8 @@ import org.springframework.stereotype.Service;
 public class VehicleServices {
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    public Vehicle insertVehicle(Vehicle vehicle) {
+        return vehicleRepository.save(vehicle);
+    }
 }

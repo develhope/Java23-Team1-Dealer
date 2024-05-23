@@ -19,10 +19,5 @@ public class OrderController {
     @PostMapping
     public Order postOrder (@RequestBody Order order) {
         return orderService.post(order);
-
-    @GetMapping
-    public List<Order> getAllOrders () {
-        return orderService.getAll();
     }
-
 }
