@@ -23,7 +23,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Order> getOrderById (@RequestParam long id) {
+    public Optional<Order> getOrderById (@PathVariable long id) {
         return orderService.get(id);
     }
 
@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrderById (@RequestParam long id) {
+    public void deleteOrderById (@PathVariable long id) {
         orderService.delete(id);
     }
 
