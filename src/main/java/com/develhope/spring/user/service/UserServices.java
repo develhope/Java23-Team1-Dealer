@@ -11,7 +11,7 @@ public class UserServices {
     @Autowired
     private UserRepository userRepository;
 
-    /**
+    /*
      * Verifica se il tipo di utente fornito corrisponde al tipo di utente richiesto.
      *
      * @param user l'utente di cui verificare il tipo
@@ -19,8 +19,7 @@ public class UserServices {
      * @return {@code true} se il tipo di utente dell'utente fornito corrisponde al tipo di utente richiesto,
      *         {@code false} altrimenti
      */
-    public boolean checkPermission(User user, UserKind userKind){
-        return user.getUserKind().equals(userKind);
+    public boolean checkPermission(UserKind userKind){
+        return userRepository.equals(userKind);
     }
-
 }
