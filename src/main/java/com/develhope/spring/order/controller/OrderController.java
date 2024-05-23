@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/order")
@@ -17,7 +18,28 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public Order postOrder (@RequestBody Order order) {
-        return orderService.post(order);
+
+    public Order insertOrder(@RequestBody Order order) {
+        return orderService.insert(order);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Order> getOrderById (@PathVariable long id) {
+        return orderService.getById(id);
+    }
+
+    @GetMapping
+    public List<Order> getAllOrders() {
+        return orderService.getAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteOrderById (@PathVariable long id) {
+        orderService.deleteById(id);
+    }
+
+    @DeleteMapping
+    public void deleteAllOrders () {
+        orderService.deleteAll();
     }
 }
