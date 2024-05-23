@@ -16,7 +16,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Optional<Order> get (long id) {
+    public Optional<Order> getById (long id) {
         return orderRepository.findById(id);
     }
 
@@ -24,7 +24,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void delete (long id) {
+    public void deleteById (long id) {
         orderRepository.deleteById(id);
     }
 
