@@ -1,6 +1,5 @@
 package com.develhope.spring.vehicles.service;
-
-import com.develhope.spring.user.exception.UserNotFoundException;
+import com.develhope.spring.vehicles.exception.VehicleNotFoundException;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ public class VehicleServices {
 
     public void deleteVehicle(long vehicleId) {
         if (!vehicleRepository.existsById(vehicleId)) {
-            throw new IllegalArgumentException(
+            throw new VehicleNotFoundException(
                     "vehicle not found"
             );
         }
