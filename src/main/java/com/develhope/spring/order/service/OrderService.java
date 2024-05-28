@@ -31,5 +31,4 @@ public class OrderService {
     public void deleteAll () {
         orderRepository.deleteAll();
     }
-
 }
