@@ -15,7 +15,7 @@ public class UserServices {
     @Autowired
     private UserRepository userRepository;
 
-    /**
+    /*
      * Verifica se il tipo di utente fornito corrisponde al tipo di utente richiesto.
      *
      * @param user     l'utente di cui verificare il tipo

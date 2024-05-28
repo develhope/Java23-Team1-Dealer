@@ -18,6 +18,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
+
     public Order insertOrder(@RequestBody Order order) {
         return orderService.insert(order);
     }
@@ -41,6 +42,4 @@ public class OrderController {
     public void deleteAllOrders () {
         orderService.deleteAll();
     }
-
-
 }
