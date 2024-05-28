@@ -14,13 +14,44 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/vehicle")
+@RequestMapping(path = "/vehicles")
 public class VehicleController {
     @Autowired
     private VehicleServices vehicleServices;
+
     @GetMapping
-    public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState){
-        List<Vehicle> results = vehicleServices.findByVehicleState(vehicleState);
-        return ResponseEntity.status(HttpStatus.FOUND).body(results) ;
+    public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleServices
+                        .findByVehicleState(vehicleState)
+                );
+    }
+
+    @GetMapping(path = "/rentable")
+    public ResponseEntity<List<Vehicle>> findRentable() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleServices
+                        .findByVehicleState(VehicleState.RENTABLE)
+                );
+    }
+
+    @GetMapping(path = "/purchasable")
+    public ResponseEntity<List<Vehicle>> findPurchasable() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleServices
+                        .findByVehicleState(VehicleState.PURCHASABLE)
+                );
+    }
+
+    @GetMapping(path = "/not_available")
+    public ResponseEntity<List<Vehicle>> findNotAvailable() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleServices
+                        .findByVehicleState(VehicleState.NOT_AVAILABLE)
+                );
     }
 }
