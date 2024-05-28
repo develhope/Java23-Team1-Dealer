@@ -1,4 +1,4 @@
-package com.develhope.spring.exception;
+package com.develhope.spring.user.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {
