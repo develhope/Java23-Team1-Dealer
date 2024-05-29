@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:h2://127.0.0.1:3306
+    driverClassName: org.h2.Driver
+    username:
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+---
+environment: test
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username:
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database: h2
