@@ -2,8 +2,11 @@ package com.develhope.spring.order.service;
 
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.repository.OrderRepository;
+import com.develhope.spring.user.exception.OrderNotFoundException;
+import com.develhope.spring.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,23 +15,32 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order insert (Order order) {
+    public Order createOrder(Order order) {
         return orderRepository.save(order);
     }
 
-    public Optional<Order> getById (long id) {
-        return orderRepository.findById(id);
+    public Order findOrderById(long id) {
+        if (orderRepository.existsById(id)) {
+            return orderRepository.findById(id).get();
+        } else {
+            throw new OrderNotFoundException("No order founded with this id: " + id);
+        }
     }
 
-    public List<Order> getAll () {
+    public List<Order> findAllOrders() {
         return orderRepository.findAll();
     }
 
-    public void deleteById (long id) {
+    public Order updateOrder (long id, Order order) {
+        order.setId(id);
+        return orderRepository.save(order);
+    }
+
+    public void deleteOrderById(long id) {
         orderRepository.deleteById(id);
     }
 
-    public void deleteAll () {
+    public void deleteAllOrders() {
         orderRepository.deleteAll();
     }
 }
