@@ -2,13 +2,11 @@ package com.develhope.spring.order.service;
 
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.repository.OrderRepository;
-import com.develhope.spring.user.exception.OrderNotFoundException;
-import com.develhope.spring.user.exception.UserNotFoundException;
+import com.develhope.spring.exception.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
