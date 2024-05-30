@@ -17,7 +17,7 @@ public class Rent {
     private long id;
     @Temporal(TemporalType.DATE)
     private Date startRent, stopRent;
-    private double dailyPrice, totalPryce;
+    private double dailyPrice, totalPrice;
     private boolean payed;
     @ManyToOne
     private Vehicle vehicles;

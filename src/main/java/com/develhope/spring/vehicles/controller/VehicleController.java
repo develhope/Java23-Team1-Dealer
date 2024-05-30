@@ -1,47 +1,32 @@
 package com.develhope.spring.vehicles.controller;
 
 import com.develhope.spring.vehicles.entity.Vehicle;
-import com.develhope.spring.vehicles.service.VehicleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/vehicles")
-public class VehicleController {
-    @Autowired
-    private VehicleService vehicleServices;
-
-    @PostMapping
-    public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle){
-        Vehicle vehicleAdded = vehicleServices.insertVehicle(vehicle);
-        return ResponseEntity.ok(vehicleAdded);
 import com.develhope.spring.vehicles.entity.VehicleState;
-import com.develhope.spring.vehicles.service.VehicleServices;
+import com.develhope.spring.vehicles.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/vehicles")
+@RequestMapping("/vehicle")
 public class VehicleController {
     @Autowired
-    private VehicleServices vehicleServices;
+    private VehicleService vehicleService;
+
+    @PostMapping
+    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
+        Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
+        return ResponseEntity.ok(vehicleAdded);
+    }
 
     @GetMapping
     public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(vehicleState)
                 );
     }
@@ -50,7 +35,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> findRentable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(VehicleState.RENTABLE)
                 );
     }
@@ -59,7 +44,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> findPurchasable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(VehicleState.PURCHASABLE)
                 );
     }
@@ -68,7 +53,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> findNotAvailable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(VehicleState.NOT_AVAILABLE)
                 );
     }
