@@ -15,7 +15,7 @@ public class VehicleController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehicleServices.deleteVehicle(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
 
