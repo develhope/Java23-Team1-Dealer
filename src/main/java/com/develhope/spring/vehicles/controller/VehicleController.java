@@ -1,5 +1,7 @@
 package com.develhope.spring.vehicles.controller;
 
+import com.develhope.spring.exception.OrderNotFoundException;
+import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -29,19 +31,23 @@ public class VehicleController {
                 return ResponseEntity.ok("Vehicle has been successfully purchased!");
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vehicle purchase failed, please call our agency for more information.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<String> readPurchasedVehiclesByUserId(@PathVariable Long userId) {
-        List<Vehicle> vehicles = vehicleService.readPurchasedVehiclesByUserId(userId);
-        if (vehicles.isEmpty()) {
-            String errorMessage = "This user " + userId + " has not yet purchased vehicles with us.";
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    public ResponseEntity<String> findPurchasedVehiclesByUserId(@PathVariable Long userId, Order order) {
+        try {
+            List<Vehicle> vehicles = vehicleService.findPurchasedVehiclesByUserId(userId, order);
+            if (vehicles.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This user " + userId + " has not yet purchased vehicles with us.");
+            }
+            return ResponseEntity.ok(vehicles.toString());
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found for user " + userId + ": " + e.getMessage());
         }
-        return ResponseEntity.ok(vehicles.toString());
+    }
 
     @GetMapping
     public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
