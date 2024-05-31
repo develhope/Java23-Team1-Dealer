@@ -17,7 +17,7 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public Vehicle insertVehicle(Vehicle vehicle) {
+    public Vehicle createVehicle(Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
     public List<Vehicle> findByVehicleState(VehicleState vehicleState){

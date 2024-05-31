@@ -1,5 +1,4 @@
 package com.develhope.spring.vehicles.controller;
-
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -8,16 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
+    
     @Autowired
     private VehicleService vehicleServices;
 
@@ -27,12 +22,11 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleAdded);
     }
 
-
     @GetMapping
     public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(vehicleState)
                 );
     }
@@ -41,7 +35,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> findRentable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(VehicleState.RENTABLE)
                 );
     }
@@ -50,7 +44,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> findPurchasable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(VehicleState.PURCHASABLE)
                 );
     }
@@ -59,7 +53,7 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> findNotAvailable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleServices
+                .body(vehicleService
                         .findByVehicleState(VehicleState.NOT_AVAILABLE)
                 );
     }
