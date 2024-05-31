@@ -2,7 +2,7 @@ package com.develhope.spring.user.service;
 
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
-import com.develhope.spring.user.exception.UserNotFoundException;
+import com.develhope.spring.exception.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,19 +10,32 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserServices {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+  
     /*
-     * Verifica se il tipo di utente fornito corrisponde al tipo di utente richiesto.
-     *
-     * @param user     l'utente di cui verificare il tipo
-     * @param userKind il tipo di utente richiesto da verificare
-     * @return {@code true} se il tipo di utente dell'utente fornito corrisponde al tipo di utente richiesto,
-     * {@code false} altrimenti
-     */
+    * Verifica se il tipo di utente fornito corrisponde al tipo di utente richiesto.
+    *
+    * @param user: l'utente di cui verificare il tipo
+    * @param userKind il tipo di utente richiesto da verificare
+    * @return {@code true} se il tipo di utente dell'utente fornito corrisponde al tipo di utente richiesto,
+    * {@code false} altrimenti
+    */
+
+    public boolean checkAdminPrivilege(User user) {
+        return user.getUserKind().equals(UserKind.ADMIN);
+    }
+    
+    public boolean checkSellerPrivilege(User user) {
+        return user.getUserKind().equals(UserKind.SELLER);
+    }
+    
+    public boolean checkBuyerPrivilege(User user) {
+        return user.getUserKind().equals(UserKind.BUYER);
+    }
+  
     public boolean checkPermission(User user, UserKind userKind) {
         return user.getUserKind().equals(userKind);
     }

@@ -1,5 +1,9 @@
 package com.develhope.spring.vehicles.service;
 
+import com.develhope.spring.exception.NoResultsException;
+import com.develhope.spring.exception.UserNotFoundException;
+import com.develhope.spring.vehicles.entity.Vehicle;
+import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
@@ -13,7 +17,7 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public Vehicle insertVehicle(Vehicle vehicle) {
+    public Vehicle createVehicle(Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
 
@@ -28,5 +32,11 @@ public class VehicleService {
 
     public List<Vehicle> readPurchasedVehiclesByUserId(Long userId) {
         return vehicleRepository.findByUserId(userId);
+
+    public List<Vehicle> findByVehicleState(VehicleState vehicleState){
+        List<Vehicle> results = vehicleRepository.findByVehicleState(vehicleState);
+        if (results.isEmpty()) throw new NoResultsException("The search has not returned any results");
+        return results;
+
     }
 }

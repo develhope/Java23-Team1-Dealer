@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehicles")
+@RequestMapping("/vehicle")
 public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-    @PostMapping
-    public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle) {
-        Vehicle vehicleAdded = vehicleService.insertVehicle(vehicle);
+    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
+        Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
         return ResponseEntity.ok(vehicleAdded);
     }
 
@@ -43,5 +42,40 @@ public class VehicleController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         }
         return ResponseEntity.ok(vehicles.toString());
+
+    @GetMapping
+    public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService
+                        .findByVehicleState(vehicleState)
+                );
+    }
+
+    @GetMapping(path = "/rentable")
+    public ResponseEntity<List<Vehicle>> findRentable() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService
+                        .findByVehicleState(VehicleState.RENTABLE)
+                );
+    }
+
+    @GetMapping(path = "/purchasable")
+    public ResponseEntity<List<Vehicle>> findPurchasable() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService
+                        .findByVehicleState(VehicleState.PURCHASABLE)
+                );
+    }
+
+    @GetMapping(path = "/not_available")
+    public ResponseEntity<List<Vehicle>> findNotAvailable() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService
+                        .findByVehicleState(VehicleState.NOT_AVAILABLE)
+                );
     }
 }
