@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/vehicles")
 public class VehicleController {
@@ -31,5 +33,15 @@ public class VehicleController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<String> readPurchasedVehiclesByUserId(@PathVariable Long userId) {
+        List<Vehicle> vehicles = vehicleService.readPurchasedVehiclesByUserId(userId);
+        if (vehicles.isEmpty()) {
+            String errorMessage = "This user " + userId + " has not yet purchased vehicles with us.";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+        }
+        return ResponseEntity.ok(vehicles.toString());
     }
 }

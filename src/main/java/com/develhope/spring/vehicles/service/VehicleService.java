@@ -6,6 +6,8 @@ import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VehicleService {
     @Autowired
@@ -22,5 +24,9 @@ public class VehicleService {
         } else {
             throw new IllegalArgumentException("Vehicle purchase failed, please call our agency for more information.");
         }
+    }
+
+    public List<Vehicle> readPurchasedVehiclesByUserId(Long userId) {
+        return vehicleRepository.findByUserId(userId);
     }
 }
