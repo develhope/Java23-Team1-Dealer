@@ -1,4 +1,5 @@
 package com.develhope.spring.vehicles.controller;
+
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -6,19 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/vehicles")
+@RequestMapping("/vehicle")
 public class VehicleController {
-    
     @Autowired
-    private VehicleService vehicleServices;
+    private VehicleService vehicleService;
 
     @PostMapping
-    public ResponseEntity<Vehicle> addVehicle(@RequestBody Vehicle vehicle) {
-        Vehicle vehicleAdded = vehicleServices.insertVehicle(vehicle);
+    public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
+        Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
         return ResponseEntity.ok(vehicleAdded);
     }
 
@@ -57,10 +57,10 @@ public class VehicleController {
                         .findByVehicleState(VehicleState.NOT_AVAILABLE)
                 );
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
-        vehicleServices.deleteVehicle(id);
+        vehicleService.deleteVehicle(id);
         return ResponseEntity.notFound().build();
     }
-
 }
