@@ -20,7 +20,7 @@ public class VehicleService {
             System.out.println("Vehicle has been successfully purchased!");
             return true;
         } else {
-            throw new IllegalArgumentException("Vehicle currently not available, please call our agency for more information.");
+            throw new IllegalArgumentException("Vehicle purchase failed, please call our agency for more information.");
         }
     }
 }
