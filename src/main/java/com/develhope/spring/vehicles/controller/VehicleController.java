@@ -57,4 +57,10 @@ public class VehicleController {
                         .findByVehicleState(VehicleState.NOT_AVAILABLE)
                 );
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
+        vehicleService.deleteVehicle(id);
+        return ResponseEntity.notFound().build();
+    }
 }
