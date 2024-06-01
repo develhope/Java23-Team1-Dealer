@@ -45,9 +45,7 @@ public class OrderService {
 
     public void updateOrderStatus(long orderId) {
         Order order = orderRepository.findById(orderId).get();
-        if (order.getOrderStatus() == null) {
-            throw new IllegalArgumentException("order status can't be null");
-        } else if (order.getOrderStatus() == OrderStatus.ORDERED) {
+        if (order.getOrderStatus() == OrderStatus.ORDERED) {
             order.setOrderStatus(OrderStatus.PURCHASED);
         } else if (order.getOrderStatus() == OrderStatus.PURCHASED) {
             order.setOrderStatus(OrderStatus.ORDERED);
