@@ -45,7 +45,9 @@ public class VehicleService {
 
     public List<Vehicle> findByVehicleState(VehicleState vehicleState) {
         List<Vehicle> results = vehicleRepository.findByVehicleState(vehicleState);
-        if (results.isEmpty()) throw new NoResultsException("The search has not returned any results");
+        if (results.isEmpty()) {
+            throw new NoResultsException("The search has not returned any results");
+        }
         return results;
     }
 }
