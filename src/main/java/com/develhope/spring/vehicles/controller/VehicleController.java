@@ -18,9 +18,14 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
+    @PostMapping
     public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
-        Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
-        return ResponseEntity.ok(vehicleAdded);
+        try {
+            Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
+            return ResponseEntity.ok(vehicleAdded);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @PostMapping("/shop")
@@ -45,7 +50,7 @@ public class VehicleController {
             }
             return ResponseEntity.ok(vehicles.toString());
         } catch (OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found for user " + userId + ": " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Order not found for user " + userId + ": " + e.getMessage());
         }
     }
 

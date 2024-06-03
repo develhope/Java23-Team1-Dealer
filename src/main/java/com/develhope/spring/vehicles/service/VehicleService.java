@@ -22,6 +22,9 @@ public class VehicleService {
     private OrderRepository orderRepository;
 
     public Vehicle createVehicle(Vehicle vehicle) {
+        if (vehicle.getBrand() == null || vehicle.getModel() == null || vehicle.getColor() == null || vehicle.getGearbox() == null || vehicle.getAccessories() == null ||vehicle.getEngineSize() < 0 || vehicle.getPower() < 0 || vehicle.getRegistrationYear() < 0|| vehicle.getPrice() < 0) {
+            throw new IllegalArgumentException("Invalid vehicle data.");
+        }
         return vehicleRepository.save(vehicle);
     }
 
@@ -32,7 +35,6 @@ public class VehicleService {
         }
         if (vehicle.getVehicleState() == isPurchasable || vehicle.isAvailable()) {
             orderRepository.save(newOrder);
-            System.out.println("Vehicle has been successfully purchased!");
             return true;
         } else {
             throw new OrderNotFoundException("Vehicle purchase failed, please call our agency for more information.");
