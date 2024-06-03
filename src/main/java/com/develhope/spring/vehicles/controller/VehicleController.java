@@ -23,14 +23,14 @@ public class VehicleController {
     public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
         try {
             Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
-            return ResponseEntity.ok(vehicleAdded);
+            return ResponseEntity.status(HttpStatus.CREATED).body(vehicleAdded);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @PostMapping("/shop")
-    public ResponseEntity<String> shopVehicle(@RequestBody Vehicle vehicle, @RequestParam VehicleState isPurchasable) {
+    @PostMapping("/shop/{id}")
+    public ResponseEntity<String> shopVehicle(@RequestBody Vehicle vehicle,@PathVariable long userId , @RequestParam VehicleState isPurchasable) {
         try {
             boolean isPurchased = vehicleService.shopVehicle(vehicle, isPurchasable);
             if (isPurchased) {
@@ -47,11 +47,11 @@ public class VehicleController {
         try {
             List<Vehicle> vehicles = vehicleService.findPurchasedVehiclesByUserId(userId, order);
             if (vehicles.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This user " + userId + " has not yet purchased vehicles with us.");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Order not found for user " + userId);
             }
             return ResponseEntity.ok(vehicles.toString());
         } catch (OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Order not found for user " + userId + ": " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This user " + userId + " has not yet purchased vehicles with us."  + ": " + e.getMessage());
         }
     }
 
