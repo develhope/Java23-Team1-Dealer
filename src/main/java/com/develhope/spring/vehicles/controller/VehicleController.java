@@ -25,14 +25,6 @@ public class VehicleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicleAdded);
     }
 
-    @PostMapping("/shop/{id}")
-    public ResponseEntity<String> shopVehicle(@RequestBody Vehicle vehicle, @RequestParam VehicleState isPurchasable) {
-        boolean isPurchased = vehicleService.shopVehicle(vehicle, isPurchasable);
-        if (isPurchased) {
-            return ResponseEntity.ok("Vehicle has been successfully purchased!");
-        }
-        return ResponseEntity.badRequest().body("Vehicle purchase failed, please call our agency for more information.");
-    }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Vehicle>> findPurchasedVehiclesByUserId(@PathVariable Long userId) {

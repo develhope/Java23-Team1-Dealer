@@ -1,7 +1,6 @@
 package com.develhope.spring.vehicles.service;
 
 import com.develhope.spring.exception.NoResultsException;
-import com.develhope.spring.exception.OrderNotFoundException;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.vehicles.entity.Vehicle;
@@ -26,20 +25,6 @@ public class VehicleService {
             throw new IllegalArgumentException("Invalid vehicle data.");
         }
         return vehicleRepository.save(vehicle);
-    }
-
-    public boolean shopVehicle(Vehicle vehicle, VehicleState isPurchasable){
-        if (vehicle == null || isPurchasable == null) {
-            throw new NoResultsException("These fields cannot be null.");
-        }
-        if (vehicle.getVehicleState() == isPurchasable || vehicle.isAvailable()) {
-            Order newOrder = new Order();
-            newOrder.setVehicle(vehicle);
-            orderRepository.save(newOrder);
-            return true;
-        } else {
-            throw new OrderNotFoundException("Vehicle purchase failed, please call our agency for more information.");
-        }
     }
 
     public List<Vehicle> findPurchasedVehiclesByUserId(Long userId) {
