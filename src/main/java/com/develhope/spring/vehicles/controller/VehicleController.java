@@ -21,38 +21,26 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle vehicle) {
-        try {
-            Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
-            return ResponseEntity.status(HttpStatus.CREATED).body(vehicleAdded);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
+        return ResponseEntity.status(HttpStatus.CREATED).body(vehicleAdded);
     }
 
     @PostMapping("/shop/{id}")
-    public ResponseEntity<String> shopVehicle(@RequestBody Vehicle vehicle,@PathVariable long userId , @RequestParam VehicleState isPurchasable) {
-        try {
-            boolean isPurchased = vehicleService.shopVehicle(vehicle, isPurchasable);
-            if (isPurchased) {
-                return ResponseEntity.ok("Vehicle has been successfully purchased!");
-            }
-            return ResponseEntity.badRequest().body("Vehicle purchase failed, please call our agency for more information.");
-        } catch (OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    public ResponseEntity<String> shopVehicle(@RequestBody Vehicle vehicle, @RequestParam VehicleState isPurchasable) {
+        boolean isPurchased = vehicleService.shopVehicle(vehicle, isPurchasable);
+        if (isPurchased) {
+            return ResponseEntity.ok("Vehicle has been successfully purchased!");
         }
+        return ResponseEntity.badRequest().body("Vehicle purchase failed, please call our agency for more information.");
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<String> findPurchasedVehiclesByUserId(@PathVariable Long userId, Order order) {
-        try {
-            List<Vehicle> vehicles = vehicleService.findPurchasedVehiclesByUserId(userId, order);
-            if (vehicles.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Order not found for user " + userId);
-            }
-            return ResponseEntity.ok(vehicles.toString());
-        } catch (OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This user " + userId + " has not yet purchased vehicles with us."  + ": " + e.getMessage());
+    public ResponseEntity<List<Vehicle>> findPurchasedVehiclesByUserId(@PathVariable Long userId) {
+        List<Vehicle> vehicles = vehicleService.findPurchasedVehiclesByUserId(userId);
+        if (vehicles.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(vehicles);
     }
 
     @GetMapping
