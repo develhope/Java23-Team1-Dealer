@@ -36,7 +36,7 @@ public class VehicleController {
             if (isPurchased) {
                 return ResponseEntity.ok("Vehicle has been successfully purchased!");
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vehicle purchase failed, please call our agency for more information.");
+            return ResponseEntity.badRequest().body("Vehicle purchase failed, please call our agency for more information.");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
