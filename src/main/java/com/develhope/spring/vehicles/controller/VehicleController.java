@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vehicle")
 public class VehicleController {
+
     @Autowired
     private VehicleService vehicleService;
 
@@ -24,7 +25,7 @@ public class VehicleController {
             Vehicle vehicleAdded = vehicleService.createVehicle(vehicle);
             return ResponseEntity.ok(vehicleAdded);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.badRequest().build();
         }
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 @Service
 public class VehicleService {
+
     @Autowired
     private VehicleRepository vehicleRepository;
     private OrderRepository orderRepository;
@@ -58,6 +59,5 @@ public class VehicleService {
             );
         }
         vehicleRepository.deleteById(vehicleId);
-
     }
 }
