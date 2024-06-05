@@ -31,6 +31,16 @@ public class OrderController {
         }
     }
 
+    @PostMapping("/rent/{userId}")
+    public ResponseEntity<String> rentVehicle(@RequestBody Vehicle vehicle, @PathVariable User userId, @RequestParam VehicleState isRentable) {
+        try {
+            Order order = orderService.shopVehicle(vehicle, isRentable, userId);
+            return ResponseEntity.ok("Vehicle has been successfully rented! Order ID: " + order.getId());
+        } catch (OrderNotFoundException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/{id}")
     public Order findOrderById(@PathVariable long id) {
         return orderService.findOrderById(id);

@@ -34,6 +34,22 @@ public class OrderService {
         }
     }
 
+    public Order rentVehicle(Vehicle vehicle, VehicleState isRentable, User userId) {
+        if (vehicle == null || isRentable == null) {
+            throw new IllegalArgumentException("Vehicle and isRentable parameters cannot be null.");
+        }
+
+        if (vehicle.getVehicleState() == isRentable && vehicle.isAvailable()) {
+            Order newOrder = new Order();
+            newOrder.setVehicle(vehicle);
+            newOrder.setUser(userId);
+            orderRepository.save(newOrder);
+            return newOrder;
+        } else {
+            throw new OrderNotFoundException("Vehicle rent failed, the vehicle is not rentable.");
+        }
+    }
+
     public Order findOrderById(long id) {
         if (orderRepository.existsById(id)) {
             return orderRepository.findById(id).get();
