@@ -22,6 +22,16 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleAdded);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Vehicle>> findPurchasedVehiclesByUserId(@PathVariable Long userId) {
+        List<Vehicle> vehicles = vehicleService.findPurchasedVehiclesByUserId(userId);
+        if (vehicles.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(vehicles);
+    }
+
+
     @GetMapping
     public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
         return ResponseEntity

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface VehicleRepository extends JpaRepository <Vehicle, Long> {
-    public List<Vehicle> findByVehicleState(VehicleState vehicleState);
+    List<Vehicle> findByVehicleState(VehicleState vehicleState);
 }
