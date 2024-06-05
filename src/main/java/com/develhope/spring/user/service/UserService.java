@@ -1,10 +1,11 @@
 package com.develhope.spring.user.service;
 
-import com.develhope.spring.user.entity.User;
-import com.develhope.spring.user.entity.UserKind;
+import com.develhope.spring.user.dto.RegistrationDto;
+import com.develhope.spring.user.entity.Account;
 import com.develhope.spring.exception.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,38 +16,24 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-  
-    /*
-    * Verifica se il tipo di utente fornito corrisponde al tipo di utente richiesto.
-    *
-    * @param user: l'utente di cui verificare il tipo
-    * @param userKind il tipo di utente richiesto da verificare
-    * @return {@code true} se il tipo di utente dell'utente fornito corrisponde al tipo di utente richiesto,
-    * {@code false} altrimenti
-    */
 
-    public boolean checkAdminPrivilege(User user) {
-        return user.getUserKind().equals(UserKind.ADMIN);
-    }
-    
-    public boolean checkSellerPrivilege(User user) {
-        return user.getUserKind().equals(UserKind.SELLER);
-    }
-    
-    public boolean checkBuyerPrivilege(User user) {
-        return user.getUserKind().equals(UserKind.BUYER);
-    }
-  
-    public boolean checkPermission(User user, UserKind userKind) {
-        return user.getUserKind().equals(userKind);
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public List<User> findAll() {
+    public List<Account> findAll() {
         return userRepository.findAll();
     }
 
-    public User createProfile(User user) {
-        return userRepository.save(user);
+    public Account create(RegistrationDto registrationDto) {
+        Account account = new Account();
+        account.setUsername(registrationDto.getUsername());
+        account.setName(registrationDto.getName());
+        account.setSurname(registrationDto.getSurname());
+        account.setMobile(registrationDto.getMobile());
+        account.setEmail(registrationDto.getEmail());
+        account.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        account.setUserKind(registrationDto.getUserKind());
+        return userRepository.save(account);
     }
 
     public void deleteProfile(Long id) {
@@ -56,29 +43,29 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User updateProfile(Long id, User userDetails) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public Account updateProfile(Long id, Account accountDetails) {
+        Optional<Account> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            if (userDetails.getName() != null && !userDetails.getName().isEmpty()) {
-                user.setName(userDetails.getName());
+            Account account = userOptional.get();
+            if (accountDetails.getName() != null && !accountDetails.getName().isEmpty()) {
+                account.setName(accountDetails.getName());
             }
-            if (userDetails.getSurname() != null && !userDetails.getSurname().isEmpty()) {
-                user.setSurname(userDetails.getSurname());
+            if (accountDetails.getSurname() != null && !accountDetails.getSurname().isEmpty()) {
+                account.setSurname(accountDetails.getSurname());
             }
-            if (userDetails.getMobile() != null) {
-                user.setMobile(userDetails.getMobile());
+            if (accountDetails.getMobile() != null) {
+                account.setMobile(accountDetails.getMobile());
             }
-            if (userDetails.getEmail() != null && !userDetails.getEmail().isEmpty()) {
-                user.setEmail(userDetails.getEmail());
+            if (accountDetails.getEmail() != null && !accountDetails.getEmail().isEmpty()) {
+                account.setEmail(accountDetails.getEmail());
             }
-            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-                user.setPassword(userDetails.getPassword());
+            if (accountDetails.getPassword() != null && !accountDetails.getPassword().isEmpty()) {
+                account.setPassword(accountDetails.getPassword());
             }
-            if (userDetails.getUserKind() != null) {
-                user.setUserKind(userDetails.getUserKind());
+            if (accountDetails.getUserKind() != null) {
+                account.setUserKind(accountDetails.getUserKind());
             }
-            return userRepository.save(user);
+            return userRepository.save(account);
         } else {
             throw new UserNotFoundException("User not found with id " + id);
         }

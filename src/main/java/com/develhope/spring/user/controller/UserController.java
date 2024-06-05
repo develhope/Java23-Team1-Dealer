@@ -1,6 +1,7 @@
 package com.develhope.spring.user.controller;
 
-import com.develhope.spring.user.entity.User;
+import com.develhope.spring.user.dto.RegistrationDto;
+import com.develhope.spring.user.entity.Account;
 import com.develhope.spring.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<Account> getAllUsers() {
         return userService.findAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createProfile(@RequestBody User user) {
-        User createdUser = userService.createProfile(user);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<Account> createProfile(@RequestBody RegistrationDto registrationDto) {
+        Account createdAccount = userService.create(registrationDto);
+        return ResponseEntity.ok(createdAccount);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -32,9 +33,9 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateProfile(@PathVariable Long id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateProfile(id, userDetails);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<Account> updateProfile(@PathVariable Long id, @RequestBody Account accountDetails) {
+        Account updatedAccount = userService.updateProfile(id, accountDetails);
+        return ResponseEntity.ok(updatedAccount);
     }
 
 }
