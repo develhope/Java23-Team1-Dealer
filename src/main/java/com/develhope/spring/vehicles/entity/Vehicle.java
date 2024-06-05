@@ -43,4 +43,8 @@ public class Vehicle {
     private boolean isNew;
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;
+
+    public boolean isAvailable() {
+        return vehicleState != VehicleState.NOT_AVAILABLE;
+    }
 }
