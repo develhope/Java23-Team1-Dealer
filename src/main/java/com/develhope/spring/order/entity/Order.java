@@ -1,6 +1,6 @@
 package com.develhope.spring.order.entity;
 
-import com.develhope.spring.user.entity.User;
+import com.develhope.spring.user.entity.Account;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class Order {
     @GeneratedValue
     private long id;
     @ManyToOne
-    private User user;
+    private Account account;
     private double deposit;
     private boolean payed;
     @Enumerated(EnumType.STRING)
