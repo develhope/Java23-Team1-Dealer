@@ -22,15 +22,6 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleAdded);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
-        return ResponseEntity
-                .status(HttpStatus.FOUND)
-                .body(vehicleService
-                        .findByVehicleState(vehicleState)
-                );
-    }
-
     @GetMapping(path = "/rentable")
     public ResponseEntity<List<Vehicle>> findRentable() {
         return ResponseEntity
@@ -55,6 +46,15 @@ public class VehicleController {
                 .status(HttpStatus.FOUND)
                 .body(vehicleService
                         .findByVehicleState(VehicleState.NOT_AVAILABLE)
+                );
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Vehicle>> findAll() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService
+                        .findAll()
                 );
     }
 }

@@ -19,9 +19,14 @@ public class VehicleService {
     public Vehicle createVehicle(Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
+
     public List<Vehicle> findByVehicleState(VehicleState vehicleState){
         List<Vehicle> results = vehicleRepository.findByVehicleState(vehicleState);
         if (results.isEmpty()) throw new NoResultsException("La ricerca non ha prodotto nessun risultato");
         return results;
+    }
+    
+    public List<Vehicle> findAll(){
+        return vehicleRepository.findAll();
     }
 }
