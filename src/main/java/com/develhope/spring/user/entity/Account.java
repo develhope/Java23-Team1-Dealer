@@ -22,20 +22,27 @@ public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @Column(unique = true)
     private String username;
+
     @NotBlank(message = "This field can't be empty ")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "can't contains numbers or special character, please insert a valid input")
     private String name;
+
     @NotBlank(message = "This field can't be empty ")
     @Pattern(regexp = "^[a-zA-Z]+$", message = "can't contains numbers or special character, please insert a valid input")
     private String surname;
+
     private String mobile;
+
     @NotBlank(message = "This field can't be empty ")
     @Email
     @Column(unique = true)
     private String email;
+
     private String password;
+
     @Enumerated(EnumType.STRING)
     private UserKind userKind;
 
@@ -43,7 +50,6 @@ public class Account implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(userKind);
     }
-
 
 
     @Override

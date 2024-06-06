@@ -88,7 +88,7 @@ public class UserService {
                 )
         );
 
-        return userRepository.findByEmail(input.getUsernameOrEmail())
+        return userRepository.findByUsernameOrEmail(input.getUsernameOrEmail(),input.getUsernameOrEmail())
                 .orElseThrow();
     }
 }
