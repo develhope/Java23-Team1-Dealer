@@ -1,16 +1,20 @@
 package com.develhope.spring.user.service;
 
+import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.Account;
 import com.develhope.spring.exception.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class UserService {
 
@@ -19,6 +23,11 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+
 
     public List<Account> findAll() {
         return userRepository.findAll();
@@ -69,5 +78,17 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User not found with id " + id);
         }
+    }
+
+    public Account authenticate(LoginDto input) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getUsernameOrEmail(),
+                        input.getPassword()
+                )
+        );
+
+        return userRepository.findByEmail(input.getUsernameOrEmail())
+                .orElseThrow();
     }
 }
