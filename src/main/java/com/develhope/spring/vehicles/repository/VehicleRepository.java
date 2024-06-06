@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface VehicleRepository extends JpaRepository <Vehicle, Long> {
-    List<Vehicle> findByVehicleState(VehicleState vehicleState);
 
     List<Vehicle> findByVehicleKind (VehicleKind vehicleKind);
 
@@ -43,5 +42,7 @@ public interface VehicleRepository extends JpaRepository <Vehicle, Long> {
     List<Vehicle> findByIsNewTrue ();
 
     List<Vehicle> findByIsNewFalse ();
+
+    List<Vehicle> findByVehicleState(VehicleState vehicleState);
 
 }
