@@ -60,7 +60,7 @@ public class VehicleController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
-        vehicleService.deleteVehicle(id);
+        vehicleService.deleteVehicleById(id);
         return ResponseEntity.notFound().build();
     }
 }
