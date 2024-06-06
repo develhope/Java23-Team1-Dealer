@@ -1,5 +1,9 @@
-package com.develhope.spring.exception;
+package com.develhope.spring.exceptions.globalExceptionHandler;
 
+import com.develhope.spring.exceptions.customExceptions.NoResultsException;
+import com.develhope.spring.exceptions.customExceptions.OrderNotFoundException;
+import com.develhope.spring.exceptions.customExceptions.UserNotFoundException;
+import com.develhope.spring.exceptions.customExceptions.VehicleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

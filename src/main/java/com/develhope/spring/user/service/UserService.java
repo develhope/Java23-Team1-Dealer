@@ -2,7 +2,7 @@ package com.develhope.spring.user.service;
 
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
-import com.develhope.spring.exception.UserNotFoundException;
+import com.develhope.spring.exceptions.customExceptions.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

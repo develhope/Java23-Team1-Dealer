@@ -1,7 +1,7 @@
 package com.develhope.spring.vehicles.service;
 
-import com.develhope.spring.exception.NoResultsException;
-import com.develhope.spring.exception.VehicleNotFoundException;
+import com.develhope.spring.exceptions.customExceptions.NoResultsException;
+import com.develhope.spring.exceptions.customExceptions.VehicleNotFoundException;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
