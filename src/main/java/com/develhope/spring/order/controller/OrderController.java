@@ -3,6 +3,7 @@ package com.develhope.spring.order.controller;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,22 @@ public class OrderController {
         return orderService.findOrderById(id);
     }
 
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Order> findOrderByUserId(@PathVariable Long userId) {
+        Optional<Order> order = orderService.findOrderByUserId(userId);
+        if (order.isPresent()) {
+            return ResponseEntity.ok(order.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping
     public List<Order> findAllOrders() {
         return orderService.findAllOrders();
     }
+
+
 
     @PutMapping("/{id}")
     public Order updateOrder(@PathVariable long id, @RequestBody Order order) {
