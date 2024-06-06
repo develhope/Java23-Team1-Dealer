@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
-@Service
 @Data
 public class OrderDTO {
 
@@ -14,9 +13,6 @@ public class OrderDTO {
     private double deposit;
 
     private boolean payed;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
 
     private long vehicleId;
 }

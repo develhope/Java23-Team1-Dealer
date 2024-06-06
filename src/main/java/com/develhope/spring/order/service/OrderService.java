@@ -1,6 +1,7 @@
 package com.develhope.spring.order.service;
 
 import com.develhope.spring.order.dto.OrderDTO;
+import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.repository.OrderRepository;
@@ -28,14 +29,14 @@ public class OrderService {
 
 
     public Order createOrder(OrderDTO orderDTO) {
-        Order orderEntity = new Order();
         User user = userRepository.findById(orderDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
                 .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+        Order orderEntity = new Order();
         orderEntity.setUser(user);
         orderEntity.setVehicle(vehicle);
-        orderEntity.setOrderStatus(orderDTO.getOrderStatus());
+        orderEntity.setOrderStatus(OrderStatus.ORDERED);
         orderEntity.setDeposit(orderDTO.getDeposit());
         orderEntity.setPayed(orderDTO.isPayed());
         return orderRepository.save(orderEntity);
