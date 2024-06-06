@@ -2,11 +2,10 @@ package com.develhope.spring.user.controller;
 
 import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
-import com.develhope.spring.user.entity.Account;
+import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.LoginResponse;
 import com.develhope.spring.user.service.JwtService;
 import com.develhope.spring.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,19 +24,19 @@ public class UserController {
     }
 
     @GetMapping
-    public List<Account> getAllUsers() {
+    public List<User> getAllUsers() {
         return userService.findAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Account> createProfile(@RequestBody RegistrationDto registrationDto) {
-        Account createdAccount = userService.create(registrationDto);
-        return ResponseEntity.ok(createdAccount);
+    public ResponseEntity<User> createProfile(@RequestBody RegistrationDto registrationDto) {
+        User createdUser = userService.create(registrationDto);
+        return ResponseEntity.ok(createdUser);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginDto loginUserDto) {
-        Account authenticatedUser = userService.authenticate(loginUserDto);
+        User authenticatedUser = userService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
@@ -55,9 +54,9 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Account> updateProfile(@PathVariable Long id, @RequestBody Account accountDetails) {
-        Account updatedAccount = userService.updateProfile(id, accountDetails);
-        return ResponseEntity.ok(updatedAccount);
+    public ResponseEntity<User> updateProfile(@PathVariable Long id, @RequestBody User userDetails) {
+        User updatedUser = userService.updateProfile(id, userDetails);
+        return ResponseEntity.ok(updatedUser);
     }
 
 }

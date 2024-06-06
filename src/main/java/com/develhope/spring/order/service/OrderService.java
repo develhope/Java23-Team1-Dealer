@@ -1,7 +1,7 @@
 package com.develhope.spring.order.service;
 
 import com.develhope.spring.order.dto.OrderDTO;
-import com.develhope.spring.user.entity.Account;
+import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.exception.OrderNotFoundException;
@@ -26,11 +26,11 @@ public class OrderService {
 
     public Order createOrder(OrderDTO orderDTO) {
         Order orderEntity = new Order();
-        Account account = userRepository.findById(orderDTO.getUserId())
+        User user = userRepository.findById(orderDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
                 .orElseThrow(() -> new RuntimeException("Vehicle not found"));
-        orderEntity.setAccount(account);
+        orderEntity.setUser(user);
         orderEntity.setVehicle(vehicle);
         orderEntity.setOrderStatus(orderDTO.getOrderStatus());
         orderEntity.setDeposit(orderDTO.getDeposit());
