@@ -1,8 +1,6 @@
 package com.develhope.spring.vehicles.controller;
 
-import com.develhope.spring.vehicles.entity.Vehicle;
-import com.develhope.spring.vehicles.entity.VehicleKind;
-import com.develhope.spring.vehicles.entity.VehicleState;
+import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +31,7 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicleState/rentable")
-    public ResponseEntity<List<Vehicle>> findRentable() {
+    public ResponseEntity<List<Vehicle>> findVehicleState_Rentable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService
@@ -42,7 +40,7 @@ public class VehicleController {
     }
 
     @GetMapping(path = "/vehicleState/purchasable")
-    public ResponseEntity<List<Vehicle>> findPurchasable() {
+    public ResponseEntity<List<Vehicle>> findVehicleState_Purchasable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService
@@ -51,7 +49,7 @@ public class VehicleController {
     }
 
     @GetMapping(path = "/vehicleState/not_available")
-    public ResponseEntity<List<Vehicle>> findNotAvailable() {
+    public ResponseEntity<List<Vehicle>> findVehicleState_NotAvailable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService
@@ -60,7 +58,7 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicleKind/van")
-    public ResponseEntity<List<Vehicle>> findVan() {
+    public ResponseEntity<List<Vehicle>> findVehicleKind_Van() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService.findByVehicleKind(VehicleKind.VAN)
@@ -68,7 +66,7 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicleKind/scooter")
-    public ResponseEntity<List<Vehicle>> findScooter() {
+    public ResponseEntity<List<Vehicle>> findVehicleKind_Scooter() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService.findByVehicleKind(VehicleKind.SCOOTER)
@@ -76,7 +74,7 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicleKind/motorcycle")
-    public ResponseEntity<List<Vehicle>> findMotorcycle() {
+    public ResponseEntity<List<Vehicle>> findVehicleKind_Motorcycle() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService.findByVehicleKind(VehicleKind.MOTORCYCLE)
@@ -84,7 +82,7 @@ public class VehicleController {
     }
 
     @GetMapping("/vehicleKind/car")
-    public ResponseEntity<List<Vehicle>> findCar() {
+    public ResponseEntity<List<Vehicle>> findVehicleKind_Car() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService.findByVehicleKind(VehicleKind.CAR)
@@ -140,12 +138,101 @@ public class VehicleController {
                 .body(vehicleService.findByPowerGreaterThanEqual(power));
     }
 
-    @GetMapping("/car")
-    public ResponseEntity<List<Vehicle>> findManual() {
+    @GetMapping("/gearbox/manual")
+    public ResponseEntity<List<Vehicle>> findGearbox_Manual() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
-                .body(vehicleService.findByVehicleKind(VehicleKind.CAR)
+                .body(vehicleService.findByGearbox(Gearbox.MANUAL)
                 );
+    }
+
+    @GetMapping("/gearbox/semi")
+    public ResponseEntity<List<Vehicle>> findGearbox_Semi() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByGearbox(Gearbox.SEMI)
+                );
+    }
+
+    @GetMapping("/gearbox/automatic")
+    public ResponseEntity<List<Vehicle>> findGearbox_Automatic() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByGearbox(Gearbox.AUTOMATIC)
+                );
+    }
+
+    @GetMapping("/registrationYear/lessThanEqual")
+    public ResponseEntity<List<Vehicle>> findRegistrationYearLessThanEqual (@RequestParam int registrationYear) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByRegistrationYearLessThanEqual(registrationYear));
+    }
+
+    @GetMapping("/registrationYear/greaterThanEqual")
+    public ResponseEntity<List<Vehicle>> findRegistrationYearGreaterThanEqual (@RequestParam int registrationYear) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByRegistrationYearGreaterThanEqual(registrationYear));
+    }
+
+    @GetMapping("/fuelType/gasoline")
+    public ResponseEntity<List<Vehicle>> findFuelType_Gasoline() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByFuelType(FuelType.GASOLINE)
+                );
+    }
+
+    @GetMapping("/fuelType/diesel")
+    public ResponseEntity<List<Vehicle>> findFuelType_Diesel() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByFuelType(FuelType.DIESEL)
+                );
+    }
+
+    @GetMapping("/fuelType/battery")
+    public ResponseEntity<List<Vehicle>> findFuelType_Battery() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByFuelType(FuelType.BATTERY)
+                );
+    }
+
+    @GetMapping("/price/lessThanEqual")
+    public ResponseEntity<List<Vehicle>> findPriceLessThanEqual (@RequestParam int price) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByPriceLessThanEqual(price));
+    }
+
+    @GetMapping("/price/greaterThanEqual")
+    public ResponseEntity<List<Vehicle>> findPriceGreaterThanEqual (@RequestParam int price) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByPriceGreaterThanEqual(price));
+    }
+
+    @GetMapping("/isDiscounted/true")
+    public ResponseEntity<List<Vehicle>> findIsDiscountedTrue () {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByIsDiscountedTrue());
+    }
+
+    @GetMapping("/isNew/true")
+    public ResponseEntity<List<Vehicle>> findIsNewTrue () {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByIsNewTrue());
+    }
+
+    @GetMapping("/isNew/false")
+    public ResponseEntity<List<Vehicle>> findIsNewFalse () {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findByIsNewFalse());
     }
 
     @DeleteMapping("/delete/{id}")
