@@ -2,11 +2,9 @@ package com.develhope.spring.user.service;
 
 import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
-import com.develhope.spring.user.entity.Account;
+import com.develhope.spring.user.entity.User;
 import com.develhope.spring.exception.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,20 +27,20 @@ public class UserService {
 
 
 
-    public List<Account> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public Account create(RegistrationDto registrationDto) {
-        Account account = new Account();
-        account.setUsername(registrationDto.getUsername());
-        account.setName(registrationDto.getName());
-        account.setSurname(registrationDto.getSurname());
-        account.setMobile(registrationDto.getMobile());
-        account.setEmail(registrationDto.getEmail());
-        account.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        account.setUserKind(registrationDto.getUserKind());
-        return userRepository.save(account);
+    public User create(RegistrationDto registrationDto) {
+        User user = new User();
+        user.setUsername(registrationDto.getUsername());
+        user.setName(registrationDto.getName());
+        user.setSurname(registrationDto.getSurname());
+        user.setMobile(registrationDto.getMobile());
+        user.setEmail(registrationDto.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        user.setUserKind(registrationDto.getUserKind());
+        return userRepository.save(user);
     }
 
     public void deleteProfile(Long id) {
@@ -52,35 +50,35 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public Account updateProfile(Long id, Account accountDetails) {
-        Optional<Account> userOptional = userRepository.findById(id);
+    public User updateProfile(Long id, User userDetails) {
+        Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            Account account = userOptional.get();
-            if (accountDetails.getName() != null && !accountDetails.getName().isEmpty()) {
-                account.setName(accountDetails.getName());
+            User user = userOptional.get();
+            if (userDetails.getName() != null && !userDetails.getName().isEmpty()) {
+                user.setName(userDetails.getName());
             }
-            if (accountDetails.getSurname() != null && !accountDetails.getSurname().isEmpty()) {
-                account.setSurname(accountDetails.getSurname());
+            if (userDetails.getSurname() != null && !userDetails.getSurname().isEmpty()) {
+                user.setSurname(userDetails.getSurname());
             }
-            if (accountDetails.getMobile() != null) {
-                account.setMobile(accountDetails.getMobile());
+            if (userDetails.getMobile() != null) {
+                user.setMobile(userDetails.getMobile());
             }
-            if (accountDetails.getEmail() != null && !accountDetails.getEmail().isEmpty()) {
-                account.setEmail(accountDetails.getEmail());
+            if (userDetails.getEmail() != null && !userDetails.getEmail().isEmpty()) {
+                user.setEmail(userDetails.getEmail());
             }
-            if (accountDetails.getPassword() != null && !accountDetails.getPassword().isEmpty()) {
-                account.setPassword(accountDetails.getPassword());
+            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+                user.setPassword(userDetails.getPassword());
             }
-            if (accountDetails.getUserKind() != null) {
-                account.setUserKind(accountDetails.getUserKind());
+            if (userDetails.getUserKind() != null) {
+                user.setUserKind(userDetails.getUserKind());
             }
-            return userRepository.save(account);
+            return userRepository.save(user);
         } else {
             throw new UserNotFoundException("User not found with id " + id);
         }
     }
 
-    public Account authenticate(LoginDto input) {
+    public User authenticate(LoginDto input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getUsernameOrEmail(),
@@ -90,5 +88,9 @@ public class UserService {
 
         return userRepository.findByUsernameOrEmail(input.getUsernameOrEmail(),input.getUsernameOrEmail())
                 .orElseThrow();
+    }
+
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
     }
 }

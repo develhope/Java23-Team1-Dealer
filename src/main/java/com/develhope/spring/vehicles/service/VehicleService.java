@@ -192,4 +192,8 @@ public class VehicleService {
         }
     }
 
+    public boolean existsById(Long id) {
+        return vehicleRepository.existsById(id);
+    }
+
 }

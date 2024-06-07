@@ -1,8 +1,10 @@
 package com.develhope.spring;
 
+import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.entity.Order;
-import com.develhope.spring.order.entity.OrderDTO;
+import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
+import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.UserService;
@@ -12,9 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,8 +26,8 @@ public class OrderTests {
     @Autowired
     private VehicleService vehicleService;
 
-    User user = new User(
-            0, "Gianni", "Rossi", "53434343", "e.k@g.it", "root", UserKind.ADMIN
+    RegistrationDto registrationDto = new RegistrationDto(
+            "Gianni", "Rossi", "53434343", "e.k@g.it", "gianni", "root", UserKind.ADMIN
     );
 
     Vehicle vehicle = new Vehicle(
@@ -36,15 +35,13 @@ public class OrderTests {
     );
 
     private OrderDTO orderDTO = new OrderDTO(
-            1, 100, false, 1
+            1, 100, false, OrderStatus.ORDERED, 1
     );
 
     @BeforeEach
     void setUp() {
-        User returnedUser = userService.createProfile(user);
-//        if (returnedUser != null) throw new RuntimeException("error saving user");
-        Vehicle returnedVehicle = vehicleService.createVehicle(vehicle);
-//        if (returnedVehicle != null) throw new RuntimeException("error saving vehicle");
+        if (!userService.existsById(1L)) userService.create(registrationDto);
+        if (!vehicleService.existsById(1L)) vehicleService.createVehicle(vehicle);
     }
 
     @Test
