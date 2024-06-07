@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -23,9 +24,15 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username) {
+        if(userService.findByUsername(username)!= null) return ResponseEntity.ok(userService.findByUsername(username));
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/create")

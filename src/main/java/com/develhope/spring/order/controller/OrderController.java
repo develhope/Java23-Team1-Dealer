@@ -4,7 +4,9 @@ import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
+import com.develhope.spring.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public Order createOrder(@RequestBody OrderDTO orderDTO) {
-        return orderService.createOrder(orderDTO);
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
+        return ResponseEntity.ok(orderService.createOrder(orderDTO));
     }
 
     @GetMapping("/{id}")
@@ -39,8 +41,9 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOrderById(@PathVariable long id) {
+    public ResponseEntity<String> deleteOrderById(@PathVariable long id) {
         orderService.deleteOrderById(id);
+        return ResponseEntity.ok().body("Deleted");
     }
 
     @DeleteMapping
