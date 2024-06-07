@@ -2,6 +2,7 @@ package com.develhope.spring.order.controller;
 
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.entity.Order;
+import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +46,10 @@ public class OrderController {
     @DeleteMapping
     public void deleteAllOrders() {
         orderService.deleteAllOrders();
+    }
+
+    @PatchMapping("/{id}")
+    public void updateOrderStatus (@PathVariable long id, @RequestParam OrderStatus orderStatus) {
+        orderService.updateOrderStatus(id, orderStatus);
     }
 }

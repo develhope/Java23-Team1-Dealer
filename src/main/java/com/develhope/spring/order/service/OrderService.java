@@ -1,8 +1,11 @@
 package com.develhope.spring.order.service;
 
+import com.develhope.spring.exception.UserNotFoundException;
+import com.develhope.spring.exception.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
+import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.exception.OrderNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
@@ -27,9 +30,9 @@ public class OrderService {
     public Order createOrder(OrderDTO orderDTO) {
         Order orderEntity = new Order();
         User user = userRepository.findById(orderDTO.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
         Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
-                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
+                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
         orderEntity.setUser(user);
         orderEntity.setVehicle(vehicle);
         orderEntity.setOrderStatus(orderDTO.getOrderStatus());
@@ -62,4 +65,10 @@ public class OrderService {
     public void deleteAllOrders() {
         orderRepository.deleteAll();
     }
+
+    public void updateOrderStatus(long orderId, OrderStatus orderStatus) {
+        Order order = orderRepository.findById(orderId).get();
+        order.setOrderStatus(orderStatus);
+    }
 }
+
