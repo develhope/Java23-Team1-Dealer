@@ -1,10 +1,7 @@
 package com.develhope.spring;
 
 import com.develhope.spring.exception.VehicleNotFoundException;
-import com.develhope.spring.vehicles.entity.FuelType;
-import com.develhope.spring.vehicles.entity.Vehicle;
-import com.develhope.spring.vehicles.entity.VehicleKind;
-import com.develhope.spring.vehicles.entity.VehicleState;
+import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.vehicles.service.VehicleService;
 import org.junit.jupiter.api.Test;
@@ -26,15 +23,16 @@ public class VehicleServiceTest {
 
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle(
             1, VehicleKind.MOTORCYCLE, "HONDA", "yuhuu", 800,
-            "black", 2, "de", 1, FuelType.GASOLINE,
-            2022, 33, "gb", true, VehicleState.PURCHASABLE);
+            "black", 20, Gearbox.AUTOMATIC, 2012, FuelType.GASOLINE,
+            2022, false, 33, "gb", true, VehicleState.PURCHASABLE, false, false
+    );
 
 
     @Test
     void deleteVehicle_withValidVehicle() {
         long vehicleID = 1;
         when(vehicleRepository.existsById(vehicleID)).thenReturn(true);
-        vehicleService.deleteVehicle(vehicleID);
+        vehicleService.deleteVehicleById(vehicleID);
         verify(vehicleRepository, times(1)).deleteById(vehicleID);
 
     }
@@ -43,7 +41,7 @@ public class VehicleServiceTest {
     void deleteVehicle_withInvalidVehicle() {
         long vehicleID = 0;
         when(vehicleRepository.existsById(vehicleID)).thenReturn(false);
-        assertThrows(VehicleNotFoundException.class, () -> vehicleService.deleteVehicle(vehicleID));
+        assertThrows(VehicleNotFoundException.class, () -> vehicleService.deleteVehicleById(vehicleID));
 
     }
 
