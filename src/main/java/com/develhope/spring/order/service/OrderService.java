@@ -43,14 +43,9 @@ public class OrderService {
         orderRepository.deleteAll();
     }
 
-    public void updateOrderStatus(long orderId) {
+    public void updateOrderStatus(long orderId, OrderStatus orderStatus) {
         Order order = orderRepository.findById(orderId).get();
-        if (order.getOrderStatus() == OrderStatus.ORDERED) {
-            order.setOrderStatus(OrderStatus.PURCHASED);
-        } else if (order.getOrderStatus() == OrderStatus.PURCHASED) {
-            order.setOrderStatus(OrderStatus.ORDERED);
-        }
+        order.setOrderStatus(orderStatus);
     }
-
 }
 
