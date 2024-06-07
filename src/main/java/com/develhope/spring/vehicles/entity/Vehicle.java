@@ -29,8 +29,8 @@ public class Vehicle {
     private String color;
     @NonNull
     private int power;
-    @NonNull
-    private String gearbox;
+    @Enumerated(EnumType.STRING)
+    private Gearbox gearbox;
     @NonNull
     private int registrationYear;
     @NonNull
@@ -39,6 +39,8 @@ public class Vehicle {
     @NonNull
     private double price;
     @NonNull
+    private boolean isDiscounted;
+    @NonNull
     private double discount;
     @NonNull
     private String accessories;
@@ -46,6 +48,8 @@ public class Vehicle {
     private boolean isNew;
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;
-
-
+    @NonNull
+    private boolean purchased;
+    @NonNull
+    private boolean rented;
 }
