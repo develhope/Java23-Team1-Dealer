@@ -1,10 +1,13 @@
 package com.develhope.spring.vehicles.service;
 
-import com.develhope.spring.exceptions.customExceptions.NoResultsException;
-import com.develhope.spring.exceptions.customExceptions.VehicleNotFoundException;
+import com.develhope.spring.exception.customException.NoResultsException;
+import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.vehicles.entity.*;
+import com.develhope.spring.vehicles.filter.VehicleSpecifications;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -196,4 +199,33 @@ public class VehicleService {
         return vehicleRepository.existsById(id);
     }
 
+    public List<Vehicle> getFilteredVehicles(String brand, String model, VehicleKind vehicleKind, FuelType fuelType, Gearbox gearbox, VehicleState vehicleState) {
+        Specification<Vehicle> specification = Specification.where(null);
+
+        if (brand != null && !brand.isEmpty()) {
+            specification = specification.and(VehicleSpecifications.hasBrand(brand));
+        }
+
+        if (model != null && !model.isEmpty()) {
+            specification = specification.and(VehicleSpecifications.hasModel(model));
+        }
+
+        if (vehicleKind != null) {
+            specification = specification.and(VehicleSpecifications.hasVehicleKind(vehicleKind));
+        }
+
+        if (fuelType != null) {
+            specification = specification.and(VehicleSpecifications.hasFuelType(fuelType));
+        }
+
+        if (gearbox != null) {
+            specification = specification.and(VehicleSpecifications.hasGearbox(gearbox));
+        }
+
+        if (vehicleState != null) {
+            specification = specification.and(VehicleSpecifications.hasVehicleState(vehicleState));
+        }
+
+        return vehicleRepository.findAll(specification);
+    }
 }

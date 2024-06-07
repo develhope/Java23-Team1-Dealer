@@ -22,6 +22,22 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleAdded);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<Vehicle>> getFilteredVehicles(
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) VehicleKind vehicleKind,
+            @RequestParam(required = false) FuelType fuelType,
+            @RequestParam(required = false) Gearbox gearbox,
+            @RequestParam(required = false) VehicleState vehicleState) {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                        .body(
+                                vehicleService.getFilteredVehicles(
+                                brand, model, vehicleKind, fuelType, gearbox, vehicleState)
+                        );
+    }
+
     @GetMapping
     public ResponseEntity<List<Vehicle>> findByVehicleState(@RequestParam VehicleState vehicleState) {
         return ResponseEntity
