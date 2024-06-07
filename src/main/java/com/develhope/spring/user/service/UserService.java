@@ -1,46 +1,45 @@
 package com.develhope.spring.user.service;
 
+import com.develhope.spring.user.dto.LoginDto;
+import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.User;
-import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.exception.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-  
-    /*
-    * Verifica se il tipo di utente fornito corrisponde al tipo di utente richiesto.
-    *
-    * @param user: l'utente di cui verificare il tipo
-    * @param userKind il tipo di utente richiesto da verificare
-    * @return {@code true} se il tipo di utente dell'utente fornito corrisponde al tipo di utente richiesto,
-    * {@code false} altrimenti
-    */
 
-    public boolean checkAdminPrivilege(User user) {
-        return user.getUserKind().equals(UserKind.ADMIN);
-    }
-    
-    public boolean checkSellerPrivilege(User user) {
-        return user.getUserKind().equals(UserKind.SELLER);
-    }
-    
-    public boolean checkBuyerPrivilege(User user) {
-        return user.getUserKind().equals(UserKind.BUYER);
-    }
-  
-    public boolean checkPermission(User user, UserKind userKind) {
-        return user.getUserKind().equals(userKind);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
-    public User createProfile(User user) {
+    public User create(RegistrationDto registrationDto) {
+        User user = new User();
+        user.setUsername(registrationDto.getUsername());
+        user.setName(registrationDto.getName());
+        user.setSurname(registrationDto.getSurname());
+        user.setMobile(registrationDto.getMobile());
+        user.setEmail(registrationDto.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        user.setUserKind(registrationDto.getUserKind());
         return userRepository.save(user);
     }
 
@@ -77,5 +76,21 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User not found with id " + id);
         }
+    }
+
+    public User authenticate(LoginDto input) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getUsernameOrEmail(),
+                        input.getPassword()
+                )
+        );
+
+        return userRepository.findByUsernameOrEmail(input.getUsernameOrEmail(),input.getUsernameOrEmail())
+                .orElseThrow();
+    }
+
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
     }
 }
