@@ -11,6 +11,7 @@ import com.develhope.spring.exception.OrderNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
+import com.develhope.spring.exceptions.customExceptions.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
