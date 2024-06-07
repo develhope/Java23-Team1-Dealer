@@ -31,13 +31,21 @@ public class VehicleController {
                 );
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Vehicle>> findAll() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService
+                        .findAll()
+                );
+    }
+
     @GetMapping("/vehicleState/rentable")
     public ResponseEntity<List<Vehicle>> findVehicleState_Rentable() {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleService
-                        .findByVehicleState(VehicleState.RENTABLE)
-                );
+                        .findByVehicleState(VehicleState.RENTABLE));
     }
 
     @GetMapping(path = "/vehicleState/purchasable")

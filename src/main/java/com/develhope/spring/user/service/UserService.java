@@ -90,6 +90,10 @@ public class UserService {
                 .orElseThrow();
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow();
+    }
+
     public boolean existsById(Long id) {
         return userRepository.existsById(id);
     }
