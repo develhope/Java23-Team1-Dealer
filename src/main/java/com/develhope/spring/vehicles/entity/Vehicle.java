@@ -1,6 +1,8 @@
 package com.develhope.spring.vehicles.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -9,6 +11,7 @@ import lombok.NonNull;
 @Table
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Vehicle {
     @Id
     @GeneratedValue
