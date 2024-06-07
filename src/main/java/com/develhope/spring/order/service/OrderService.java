@@ -3,6 +3,7 @@ package com.develhope.spring.order.service;
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
+import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.exception.OrderNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
@@ -62,4 +63,10 @@ public class OrderService {
     public void deleteAllOrders() {
         orderRepository.deleteAll();
     }
+
+    public void updateOrderStatus(long orderId, OrderStatus orderStatus) {
+        Order order = orderRepository.findById(orderId).get();
+        order.setOrderStatus(orderStatus);
+    }
 }
+
