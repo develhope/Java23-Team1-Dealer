@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -15,6 +16,7 @@ import static org.springframework.test.util.AssertionErrors.assertFalse;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @SpringBootTest
+@Profile("test")
 public class VehicleServiceTest {
     @MockBean
     private VehicleRepository vehicleRepository;
@@ -42,7 +44,6 @@ public class VehicleServiceTest {
         long vehicleID = 0;
         when(vehicleRepository.existsById(vehicleID)).thenReturn(false);
         assertThrows(VehicleNotFoundException.class, () -> vehicleService.deleteVehicleById(vehicleID));
-
     }
 
 }

@@ -3,7 +3,7 @@ package com.develhope.spring.user.service;
 import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.User;
-import com.develhope.spring.exception.UserNotFoundException;
+import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
