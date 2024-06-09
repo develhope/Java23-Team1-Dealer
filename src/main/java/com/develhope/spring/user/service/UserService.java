@@ -35,6 +35,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow( () -> new UsernameNotFoundException("User not found with username " + username));
+    }
+
     public User create(RegistrationDto registrationDto) {
         if (userRepository.existsByUsername(registrationDto.getUsername())) {
             throw new BadCredentialsException("Username is already in use");
@@ -98,11 +103,6 @@ public class UserService {
 
         return userRepository.findByUsernameOrEmail(input.getUsernameOrEmail(),input.getUsernameOrEmail())
                 .orElseThrow();
-    }
-
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow( () -> new UsernameNotFoundException("User not found with username " + username));
     }
 
     public boolean existsById(Long id) {

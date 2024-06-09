@@ -24,18 +24,18 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<User>> findAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUser(@PathVariable String username) {
+    public ResponseEntity<User> findByUsername(@PathVariable String username) {
         if(userService.findByUsername(username)!= null) return ResponseEntity.ok(userService.findByUsername(username));
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<User> createProfile(@RequestBody RegistrationDto registrationDto) {
+    public ResponseEntity<User> create(@RequestBody RegistrationDto registrationDto) {
         User createdUser = userService.create(registrationDto);
         return ResponseEntity.ok(createdUser);
     }
@@ -54,13 +54,13 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<User> updateProfile(@PathVariable Long id, @RequestBody User userDetails) {
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User userDetails) {
         User updatedUser = userService.updateProfile(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
