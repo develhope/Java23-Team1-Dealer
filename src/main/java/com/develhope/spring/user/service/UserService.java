@@ -7,7 +7,9 @@ import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,18 @@ public class UserService {
 
 
     public List<User> findAll() {
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) throw new UserNotFoundException("No users where register");
         return userRepository.findAll();
     }
 
     public User create(RegistrationDto registrationDto) {
+        if (userRepository.existsByUsername(registrationDto.getUsername())) {
+            throw new BadCredentialsException("Username is already in use");
+        };
+        if (userRepository.existsByEmail(registrationDto.getEmail())) {
+            throw new BadCredentialsException("Email is already in use");
+        }
         User user = new User();
         user.setUsername(registrationDto.getUsername());
         user.setName(registrationDto.getName());
@@ -43,7 +53,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteProfile(Long id) {
+    public void deleteById(Long id) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException("User not found with id " + id);
         }
@@ -91,7 +101,8 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow();
+        return userRepository.findByUsername(username)
+                .orElseThrow( () -> new UsernameNotFoundException("User not found with username " + username));
     }
 
     public boolean existsById(Long id) {
