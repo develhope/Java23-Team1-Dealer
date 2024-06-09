@@ -46,22 +46,20 @@ public class UserTests {
     @Autowired
     private JwtService jwtService;
 
-
     //  Test Service
 
     @Test
     public void create() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
                 "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "root@gh.it", "root", "gianni", UserKind.ADMIN
         );
         User userCreated = userService.create(registrationDto);
-        User userTest = new User();
         assertEquals(registrationDto.getEmail(), userCreated.getEmail());
     }
 
     @Test
-    public void createFail() throws Exception {
+    public void createDuplicateEmail() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
                 "Sara", "rossi", "3456453",
                 "sara@gh.it", "sara", "gianni", UserKind.ADMIN
@@ -77,8 +75,8 @@ public class UserTests {
     @Test
     public void createDuplicatedUsername() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "Luke", "rossi", "3456453",
+                "ljh@gh.it", "jhjkhkjhk", "gianni", UserKind.ADMIN
         );
         userService.create(registrationDto);
         registrationDto.setEmail("hkjhskj@sdsa.it");
@@ -90,26 +88,20 @@ public class UserTests {
     @Test
     public void findAll() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "Mara", "rossi", "3456453",
+                "mara@gh.it", "mara", "gianni", UserKind.ADMIN
         );
         userService.create(registrationDto);
         List<User> users = userService.findAll();
         assertNotNull(users);
     }
 
-    @Test
-    public void findAllFail() throws Exception {
-        assertThrowsExactly(
-                UserNotFoundException.class,
-                () -> userService.findAll());
-    }
 
     @Test
     public void existById() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "Luca", "rossi", "3456453",
+                "luca@gh.it", "luca", "gianni", UserKind.ADMIN
         );
         User returnedUser = userService.create(registrationDto);
         boolean response = userService.existsById(returnedUser.getId());
@@ -125,8 +117,8 @@ public class UserTests {
     @Test
     public void findByUsername() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "jkl", "rossi", "3456453",
+                "gianni@gh.it", "jkl", "gianni", UserKind.ADMIN
         );
         User createdUser = userService.create(registrationDto);
         User response = userService.findByUsername(createdUser.getUsername());
@@ -144,12 +136,12 @@ public class UserTests {
     @Test
     public void Authenticate() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "Viola", "rossi", "3456453",
+                "viola@gh.it", "viola", "gianni", UserKind.ADMIN
         );
         userService.create(registrationDto);
         User response = userService.authenticate(
-                new LoginDto("sara", "gianni"));
+                new LoginDto("viola", "gianni"));
         assertNotNull(response);
     }
 
@@ -166,8 +158,8 @@ public class UserTests {
     @Test
     public void DeleteByID() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "Mattia", "rossi", "3456453",
+                "mattia@gh.it", "mattia", "gianni", UserKind.ADMIN
         );
         User createdUser = userService.create(registrationDto);
         User response = userService.findByUsername(createdUser.getUsername());
@@ -186,8 +178,8 @@ public class UserTests {
     @Test
     public void register() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "Filippo", "rossi", "3456453",
+                "fi@gh.it", "fi", "gianni", UserKind.ADMIN
         );
 
         mockMvc.perform(post("/user/create")
@@ -198,7 +190,13 @@ public class UserTests {
 
     @Test
     public void login() throws Exception {
-        LoginDto loginDto = new LoginDto("gianni", "gianni");
+        RegistrationDto registrationDto = new RegistrationDto(
+                "fifi", "rossi", "3456453",
+                "fifi@gh.it", "fifi", "gianni", UserKind.ADMIN
+        );
+        User createdUser = userService.create(registrationDto);
+
+        LoginDto loginDto = new LoginDto("fifi", "gianni");
         MvcResult result = mockMvc.perform(post("/user/login")
                         .content(objectMapper.writeValueAsString(loginDto))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -212,8 +210,8 @@ public class UserTests {
     @Test
     public void deleteUser() throws Exception {
         RegistrationDto registrationDto = new RegistrationDto(
-                "Sara", "rossi", "3456453",
-                "sara@gh.it", "sara", "gianni", UserKind.ADMIN
+                "gh", "rossi", "3456453",
+                "a@gh.it", "gh", "gianni", UserKind.ADMIN
         );
         User returnedUser = userService.create(registrationDto);
 

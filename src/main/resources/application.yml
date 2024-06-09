@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: test
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:8889/dealer
     username: root
