@@ -12,6 +12,8 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.yml
+.properties
 
 /src/resources/
 
@@ -20,6 +22,11 @@ target/
 *.iws
 *.iml
 *.ipr
+/src/main/resources/application.properties
+/src/main/resources/application.yml
+/src/main/resources/application-demo.properties
+/src/main/resources/application-h2.properties
+/src/main/resources/application-test.yml
 
 ### NetBeans ###
 /nbproject/private/
@@ -33,3 +40,4 @@ build/
 
 ### VS Code ###
 .vscode/
+
