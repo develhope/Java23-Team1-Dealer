@@ -4,7 +4,7 @@ import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
-import com.develhope.spring.user.entity.User;
+import com.develhope.spring.vehicles.dto.VehicleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +28,11 @@ public class OrderController {
     @GetMapping("/{id}")
     public Order findOrderById(@PathVariable long id) {
         return orderService.findOrderById(id);
+    }
+
+    @GetMapping("/vehicles/user/{userId}")
+    public List<VehicleDTO> findVehiclesByUserId(@PathVariable long userId) {
+        return orderService.findVehiclesByUserId(userId);
     }
 
     @GetMapping
