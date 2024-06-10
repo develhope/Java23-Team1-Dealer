@@ -1,8 +1,7 @@
 package com.develhope.spring.order.service;
 
-
-import com.develhope.spring.exceptions.customExceptions.UserNotFoundException;
-import com.develhope.spring.exceptions.customExceptions.VehicleNotFoundException;
+import com.develhope.spring.exception.customException.UserNotFoundException;
+import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
@@ -11,7 +10,7 @@ import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
-import com.develhope.spring.exceptions.customExceptions.OrderNotFoundException;
+import com.develhope.spring.exception.customException.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
