@@ -53,9 +53,19 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order updateOrder(long id, Order order) {
-        order.setId(id);
-        return orderRepository.save(order);
+    public Order updateOrder(long id, OrderDTO orderDTO) {
+        Order orderToUpdate = orderRepository.findById(id).get();
+        User user = userRepository.findById(orderDTO.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
+                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
+        orderToUpdate.setId(id);
+        orderToUpdate.setUser(user);
+        orderToUpdate.setVehicle(vehicle);
+        orderToUpdate.setOrderStatus(orderDTO.getOrderStatus());
+        orderToUpdate.setDeposit(orderDTO.getDeposit());
+        orderToUpdate.setPayed(orderDTO.isPayed());
+        return orderRepository.save(orderToUpdate);
     }
 
     public void deleteOrderById(long id) {
@@ -66,9 +76,10 @@ public class OrderService {
         orderRepository.deleteAll();
     }
 
-    public void updateOrderStatus(long orderId, OrderStatus orderStatus) {
+    public Order updateOrderStatus(long orderId, OrderStatus orderStatus) {
         Order order = orderRepository.findById(orderId).get();
         order.setOrderStatus(orderStatus);
+        return order;
     }
 }
 
