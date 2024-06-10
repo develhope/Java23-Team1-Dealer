@@ -1,13 +1,14 @@
-package com.develhope.spring.exceptions.globalExceptionHandler;
+package com.develhope.spring.exception.globalExceptionHandler;
 
-import com.develhope.spring.exceptions.customExceptions.NoResultsException;
-import com.develhope.spring.exceptions.customExceptions.OrderNotFoundException;
-import com.develhope.spring.exceptions.customExceptions.UserNotFoundException;
-import com.develhope.spring.exceptions.customExceptions.VehicleNotFoundException;
+import com.develhope.spring.exception.customException.NoResultsException;
+import com.develhope.spring.exception.customException.OrderNotFoundException;
+import com.develhope.spring.exception.customException.UserNotFoundException;
+import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+@ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
