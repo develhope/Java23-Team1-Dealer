@@ -1,4 +1,4 @@
-package com.develhope.spring.exception;
+package com.develhope.spring.exceptions.customExceptions;
 
 public class OrderNotFoundException extends RuntimeException {
     public OrderNotFoundException (String message) {
