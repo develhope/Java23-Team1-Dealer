@@ -4,9 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### Properties ###
-.properties
-.yml
+
 
 ### STS ###
 .apt_generated
@@ -35,3 +33,8 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/application.yml
+/src/main/resources/application-demo.properties
+/src/main/resources/application-h2.properties
+/src/main/resources/application-test.yml
+/src/main/resources/application.properties
