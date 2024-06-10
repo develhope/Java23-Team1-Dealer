@@ -1,13 +1,13 @@
 package com.develhope.spring.order.service;
 
-import com.develhope.spring.exception.UserNotFoundException;
-import com.develhope.spring.exception.VehicleNotFoundException;
+
+import com.develhope.spring.exceptions.customExceptions.UserNotFoundException;
+import com.develhope.spring.exceptions.customExceptions.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.repository.OrderRepository;
-import com.develhope.spring.exception.OrderNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
