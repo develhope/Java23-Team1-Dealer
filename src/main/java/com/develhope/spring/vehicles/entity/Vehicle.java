@@ -1,7 +1,6 @@
 package com.develhope.spring.vehicles.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,7 +48,8 @@ public class Vehicle {
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;
     @NonNull
-    private boolean purchased;
+    private boolean isSellable;
     @NonNull
-    private boolean rented;
+    private boolean isRentable;
+
 }
