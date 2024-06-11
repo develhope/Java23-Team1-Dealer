@@ -1,6 +1,7 @@
 package com.develhope.spring.order.controller;
 
 import com.develhope.spring.order.dto.OrderDTO;
+import com.develhope.spring.order.dto.ResponseOrderDto;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
@@ -21,7 +22,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<ResponseOrderDto> createOrder(@RequestBody OrderDTO orderDTO) {
         return ResponseEntity.ok(orderService.createOrder(orderDTO));
     }
 
