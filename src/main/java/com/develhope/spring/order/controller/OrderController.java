@@ -5,8 +5,8 @@ import com.develhope.spring.order.dto.ResponseOrderDto;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
-import com.develhope.spring.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,38 +22,39 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<ResponseOrderDto> createOrder(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<ResponseOrderDto> create(@RequestBody OrderDTO orderDTO) {
         return ResponseEntity.ok(orderService.createOrder(orderDTO));
     }
 
     @GetMapping("/{id}")
-    public Order findOrderById(@PathVariable long id) {
+    public Order findById(@PathVariable long id) {
         return orderService.findOrderById(id);
     }
 
     @GetMapping
-    public List<Order> findAllOrders() {
-        return orderService.findAllOrders();
+    public ResponseEntity<List<Order>> findAll() {
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findAllOrders());
     }
 
     @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable long id, @RequestBody Order order) {
-        return orderService.updateOrder(id, order);
+    public ResponseEntity<Order> update(@PathVariable long id, @RequestBody OrderDTO orderDTO) {
+        return ResponseEntity.ok().body(orderService.updateOrder(id, orderDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrderById(@PathVariable long id) {
+    public ResponseEntity<String> deleteById(@PathVariable long id) {
         orderService.deleteOrderById(id);
         return ResponseEntity.ok().body("Deleted");
     }
 
     @DeleteMapping
-    public void deleteAllOrders() {
+    public ResponseEntity<String> deleteAll() {
         orderService.deleteAllOrders();
+        return ResponseEntity.ok().body("All orderse where deleted");
     }
 
     @PatchMapping("/{id}")
-    public void updateOrderStatus (@PathVariable long id, @RequestParam OrderStatus orderStatus) {
-        orderService.updateOrderStatus(id, orderStatus);
+    public ResponseEntity<Order> updateOrderStatus (@PathVariable long id, @RequestParam OrderStatus orderStatus) {
+        return ResponseEntity.ok().body(orderService.updateOrderStatus(id, orderStatus));
     }
 }
