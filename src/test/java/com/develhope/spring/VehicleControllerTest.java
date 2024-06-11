@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -55,7 +54,7 @@ public class VehicleControllerTest {
                 1600, "Blue", 120, Gearbox.MANUAL,
                 2020, FuelType.GASOLINE, 15000.0,
                 false, 0.0, "Air Conditioning",
-                true, VehicleState.RENTABLE, false, false
+                true, VehicleState.RENTED, false, false
         );
         vehicleRepository.save(vehicle);
 
