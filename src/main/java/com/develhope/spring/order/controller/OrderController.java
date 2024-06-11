@@ -31,8 +31,8 @@ public class OrderController {
     }
 
     @GetMapping("/vehicles/user/{userId}")
-    public List<VehicleDTO> findVehiclesByUserId(@PathVariable long userId) {
-        return orderService.findVehiclesByUserId(userId);
+    public List<OrderDTO> findVehiclesByUserId(@PathVariable long userId) {
+        return orderService.findOrdersByUserId(userId);
     }
 
     @GetMapping

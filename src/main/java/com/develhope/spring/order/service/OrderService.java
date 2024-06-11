@@ -3,6 +3,7 @@ package com.develhope.spring.order.service;
 import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
+import com.develhope.spring.order.dto.OrderMapper;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
@@ -16,12 +17,7 @@ import com.develhope.spring.exception.customException.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -34,6 +30,8 @@ public class OrderService {
     private VehicleRepository vehicleRepository;
     @Autowired
     private VehicleMapper vehicleMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     public Order createOrder(OrderDTO orderDTO) {
         Order orderEntity = new Order();
@@ -57,16 +55,12 @@ public class OrderService {
         }
     }
 
-    public List<VehicleDTO> findVehiclesByUserId(long userId) {
+    public List<OrderDTO> findOrdersByUserId(long userId) {
         List<Order> orders = orderRepository.findByUserId(userId);
         if (orders.isEmpty()) {
             throw new OrderNotFoundException("No orders found for User id: " + userId);
         }
-        List<Vehicle> vehicles = new ArrayList<>();
-        for (Order order : orders) {
-            vehicles.addAll((Collection<? extends Vehicle>) order.getVehicle());
-        }
-        return vehicleMapper.toDTO(vehicles);
+        return orderMapper.toDTO(orders);
     }
 
     public List<Order> findAllOrders() {
