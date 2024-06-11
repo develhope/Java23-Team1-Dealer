@@ -38,15 +38,8 @@ public class VehicleController {
 
     @GetMapping("/mostExpensiveSoldedVehicle")
     public ResponseEntity<Vehicle> findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
-        vehicleServiceFilter.setVehicleRepository(vehicleRepository);
-        List<Vehicle> vehicleList = vehicleServiceFilter.getFilteredVehicles();
-        Vehicle mostExpensiveSoldedVehicle = new Vehicle();
-        for (Vehicle vehicle : vehicleList) {
-            if (vehicle.isPurchasable() && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
-                mostExpensiveSoldedVehicle = vehicle;
-            }
-        }
-        return ResponseEntity.status(HttpStatus.FOUND).body(mostExpensiveSoldedVehicle);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(vehicleService.findMostExpensiveSoldedVehicle(vehicleServiceFilter));
     }
 
     @DeleteMapping("/delete/{id}")

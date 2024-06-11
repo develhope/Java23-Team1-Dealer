@@ -5,7 +5,12 @@ import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 
 @Service
@@ -17,7 +22,17 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-
+    public Vehicle findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
+        vehicleServiceFilter.setVehicleRepository(vehicleRepository);
+        List<Vehicle> vehicleList = vehicleServiceFilter.getFilteredVehicles();
+        Vehicle mostExpensiveSoldedVehicle = new Vehicle();
+        for (Vehicle vehicle : vehicleList) {
+            if (vehicle.isPurchasable() && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
+                mostExpensiveSoldedVehicle = vehicle;
+            }
+        }
+        return mostExpensiveSoldedVehicle;
+    }
 
     public void deleteVehicleById(long vehicleId) {
         if (!vehicleRepository.existsById(vehicleId)) {
