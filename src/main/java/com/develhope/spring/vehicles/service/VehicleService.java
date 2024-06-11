@@ -17,6 +17,8 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
+
+
     public void deleteVehicleById(long vehicleId) {
         if (!vehicleRepository.existsById(vehicleId)) {
             throw new VehicleNotFoundException(

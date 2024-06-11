@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext
 public class VehicleControllerTest {
 
     @Autowired
@@ -100,30 +99,8 @@ public class VehicleControllerTest {
         adminJwtToken = loginResponse.getToken();
     }
 
-
     @Test
-    public void testGetFilteredVehicles() throws Exception {
-
-        MvcResult result = mockMvc.perform(get("/vehicle/filter")
-                        .header("Authorization", "Bearer " + adminJwtToken)
-                        .content("""
-                                {
-                                "brand":"Toyota",
-                                "model":"Corolla"
-                                }
-                                """
-                        )
-                        .contentType(MediaType.APPLICATION_JSON))
-
-                .andExpect(status().isFound())
-                .andReturn();
-
-        String jsonResponse = result.getResponse().getContentAsString();
-        List<Vehicle> vehicles = objectMapper.readValue(jsonResponse, List.class);
-        assertEquals(1, vehicles.size());
-    }
-
-    @Test
+    @DirtiesContext
     void testCreateVehicle_withValidVehicle() throws Exception {
         MvcResult post = mockMvc.perform(post("/vehicle")
                         .header("Authorization", "Bearer " + adminJwtToken)
@@ -157,6 +134,30 @@ public class VehicleControllerTest {
     }
 
     @Test
+    @DirtiesContext
+    public void testGetFilteredVehicles() throws Exception {
+
+        MvcResult result = mockMvc.perform(get("/vehicle/filter")
+                        .header("Authorization", "Bearer " + adminJwtToken)
+                        .content("""
+                                {
+                                "brand":"Toyota",
+                                "model":"Corolla"
+                                }
+                                """
+                        )
+                        .contentType(MediaType.APPLICATION_JSON))
+
+                .andExpect(status().isFound())
+                .andReturn();
+
+        String jsonResponse = result.getResponse().getContentAsString();
+        List<Vehicle> vehicles = objectMapper.readValue(jsonResponse, List.class);
+        assertEquals(1, vehicles.size());
+    }
+
+    @Test
+    @DirtiesContext
     void testfindMostExpensiveSoldedVehicle_withValidVehicle() throws Exception {
         vehicleRepository.save(DEFAULT_VEHICLE2);
         vehicleRepository.save(DEFAULT_VEHICLE3);
