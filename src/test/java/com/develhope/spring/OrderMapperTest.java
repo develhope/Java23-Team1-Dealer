@@ -4,8 +4,6 @@ import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.dto.OrderMapper;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
-import com.develhope.spring.order.repository.OrderRepository;
-import com.develhope.spring.order.service.OrderService;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
@@ -25,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 @SpringBootTest
-public class TestOrderMapper {
+public class OrderMapperTest {
     @Mock
     UserRepository userRepository;
 

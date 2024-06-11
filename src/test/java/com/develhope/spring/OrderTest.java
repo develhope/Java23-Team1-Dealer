@@ -1,21 +1,17 @@
 package com.develhope.spring;
 
 import com.develhope.spring.order.dto.OrderDTO;
-import com.develhope.spring.order.dto.OrderMapper;
-import com.develhope.spring.order.dto.ResponseOrderDto;
-import com.develhope.spring.order.entity.Order;
+import com.develhope.spring.order.dto.OrderResponseDto;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
 import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
-import com.develhope.spring.user.entity.LoginResponse;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.JwtService;
 import com.develhope.spring.user.service.UserService;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.service.VehicleService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -36,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Profile("test")
 @AutoConfigureMockMvc
-public class OrderTests {
+public class OrderTest {
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -88,7 +83,7 @@ public class OrderTests {
                .andExpect(status().isOk())
                .andReturn();
         String responseBody = result.getResponse().getContentAsString();
-        ResponseOrderDto orderReturned = objectMapper.readValue(responseBody, ResponseOrderDto.class);
+        OrderResponseDto orderReturned = objectMapper.readValue(responseBody, OrderResponseDto.class);
         assertNotNull(orderReturned);
     }
 

@@ -3,12 +3,8 @@ package com.develhope.spring.order.dto;
 import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.order.entity.Order;
-import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.repository.UserRepository;
-import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +44,16 @@ public class OrderMapper {
         return orderEntity;
     }
 
-    public ResponseOrderDto toResponseOrderDTO(Order order) {
-        ResponseOrderDto responseOrderDto = new ResponseOrderDto();
-        responseOrderDto.setId(order.getId());
-        responseOrderDto.setUserId(order.getUser().getId());
-        responseOrderDto.setVehicleId(order.getVehicle().getId());
-        responseOrderDto.setCreatedAt(order.getCreatedAt());
-        responseOrderDto.setOrderStatus(order.getOrderStatus());
-        responseOrderDto.setDeposit(order.getDeposit());
-        responseOrderDto.setPayed(order.isPayed());
-        responseOrderDto.setSellerId(order.getSeller().getId());
-        return responseOrderDto;
+    public OrderResponseDto toResponseOrderDTO(Order order) {
+        OrderResponseDto orderResponseDto = new OrderResponseDto();
+        orderResponseDto.setId(order.getId());
+        orderResponseDto.setUserId(order.getUser().getId());
+        orderResponseDto.setVehicleId(order.getVehicle().getId());
+        orderResponseDto.setCreatedAt(order.getCreatedAt());
+        orderResponseDto.setOrderStatus(order.getOrderStatus());
+        orderResponseDto.setDeposit(order.getDeposit());
+        orderResponseDto.setPayed(order.isPayed());
+        orderResponseDto.setSellerId(order.getSeller().getId());
+        return orderResponseDto;
     }
 }

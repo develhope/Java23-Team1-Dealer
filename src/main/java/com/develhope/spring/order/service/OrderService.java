@@ -4,7 +4,7 @@ import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.dto.OrderMapper;
-import com.develhope.spring.order.dto.ResponseOrderDto;
+import com.develhope.spring.order.dto.OrderResponseDto;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
@@ -31,7 +31,7 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-    public ResponseOrderDto createOrder(OrderDTO orderDTO) {
+    public OrderResponseDto createOrder(OrderDTO orderDTO) {
         Order order = orderRepository.save(
                 orderMapper.toOrder(orderDTO));
         return orderMapper.toResponseOrderDTO(order);

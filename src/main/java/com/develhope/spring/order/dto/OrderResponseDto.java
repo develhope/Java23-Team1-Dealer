@@ -1,7 +1,6 @@
 package com.develhope.spring.order.dto;
 
 import com.develhope.spring.order.entity.OrderStatus;
-import com.develhope.spring.user.entity.User;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
@@ -11,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Service
-public class ResponseOrderDto {
+public class OrderResponseDto {
     private long id;
     private long userId;
     private double deposit;
