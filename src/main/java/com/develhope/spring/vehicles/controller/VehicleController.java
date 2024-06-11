@@ -42,7 +42,7 @@ public class VehicleController {
         List<Vehicle> vehicleList = vehicleServiceFilter.getFilteredVehicles();
         Vehicle mostExpensiveSoldedVehicle = new Vehicle();
         for (Vehicle vehicle : vehicleList) {
-            if (vehicle.isPurchased() && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
+            if (vehicle.isPurchasable() && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
                 mostExpensiveSoldedVehicle = vehicle;
             }
         }
