@@ -22,7 +22,7 @@ public class VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-    public Vehicle findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
+    public Vehicle findMostExpensiveSoldedVehicle (VehicleServiceFilter vehicleServiceFilter) {
         vehicleServiceFilter.setVehicleRepository(vehicleRepository);
         List<Vehicle> vehicleList = vehicleServiceFilter.getFilteredVehicles();
         Vehicle mostExpensiveSoldedVehicle = new Vehicle();
