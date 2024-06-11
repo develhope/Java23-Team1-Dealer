@@ -17,20 +17,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext
 public class VehicleControllerTest {
 
     @Autowired
@@ -45,7 +49,27 @@ public class VehicleControllerTest {
     @Autowired
     private UserService userService;
 
-    String jwtToken;
+    String adminJwtToken;
+
+    private final static Vehicle DEFAULT_VEHICLE1 = new Vehicle(
+            0L, VehicleKind.CAR, "Toyota", "Corolla",
+            1600, "Blue", 120, Gearbox.MANUAL,
+            2020, FuelType.GASOLINE, 15000.0,
+            false, 0.0, "Air Conditioning",
+            true, VehicleState.RENTABLE, false, false);
+    private final static Vehicle DEFAULT_VEHICLE2 = new Vehicle(
+            0L, VehicleKind.CAR, "Toyota", "Corolla",
+            1600, "Blue", 120, Gearbox.MANUAL,
+            2020, FuelType.GASOLINE, 15000.0,
+            false, 0.0, "Air Conditioning",
+            true, VehicleState.PURCHASABLE, true, false);
+
+    private final static Vehicle DEFAULT_VEHICLE3 = new Vehicle(
+            0L, VehicleKind.SCOOTER, "Yamaha", "Fuciu",
+            1600, "Blue", 120, Gearbox.MANUAL,
+            2020, FuelType.GASOLINE, 17000.0,
+            false, 0.0, "Air Conditioning",
+            true, VehicleState.PURCHASABLE, true, false);
 
 
     @BeforeEach
@@ -73,7 +97,7 @@ public class VehicleControllerTest {
                 .andReturn();
         String jsonResponse = result.getResponse().getContentAsString();
         LoginResponse loginResponse = objectMapper.readValue(jsonResponse, LoginResponse.class);
-        jwtToken = loginResponse.getToken();
+        adminJwtToken = loginResponse.getToken();
     }
 
 
@@ -81,7 +105,7 @@ public class VehicleControllerTest {
     public void testGetFilteredVehicles() throws Exception {
 
         MvcResult result = mockMvc.perform(get("/vehicle/filter")
-                        .header("Authorization", "Bearer " + jwtToken)
+                        .header("Authorization", "Bearer " + adminJwtToken)
                         .content("""
                                 {
                                 "brand":"Toyota",
@@ -97,5 +121,57 @@ public class VehicleControllerTest {
         String jsonResponse = result.getResponse().getContentAsString();
         List<Vehicle> vehicles = objectMapper.readValue(jsonResponse, List.class);
         assertEquals(1, vehicles.size());
+    }
+
+    @Test
+    void testCreateVehicle_withValidVehicle() throws Exception {
+        MvcResult post = mockMvc.perform(post("/vehicle")
+                        .header("Authorization", "Bearer " + adminJwtToken)
+                        .content("""
+                                {
+                                "vehicleKind":"CAR",
+                                "brand":"Toyota",
+                                "model":"Corolla",
+                                "engineSize":300,
+                                "color":"blu",
+                                "power":150,
+                                "gearbox":"MANUAL",
+                                "registrationYear":2012,
+                                "fuelType":"GASOLINE",
+                                "price":160,
+                                "isDiscounted":false,
+                                "discount":0,
+                                "accessories":"none",
+                                "isNew":true,
+                                "vehicleState":"PURCHASABLE",
+                                "purchased":false,
+                                "rented":false
+                                }
+                                """
+                        )
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(2))
+                .andReturn();
+    }
+
+    @Test
+    void testfindMostExpensiveSoldedVehicle_withValidVehicle() throws Exception {
+        vehicleRepository.save(DEFAULT_VEHICLE2);
+        vehicleRepository.save(DEFAULT_VEHICLE3);
+
+        this.mockMvc.perform(get("/vehicle/mostExpensiveSoldedVehicle")
+                .header("Authorization", "Bearer " + adminJwtToken)
+                        .content("""
+                                {
+                                "isPurchased":true
+                                }
+                                """)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isFound())
+                .andExpect(jsonPath("$.id").value(3))
+                .andReturn();
+
     }
 }
