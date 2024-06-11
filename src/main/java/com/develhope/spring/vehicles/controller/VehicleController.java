@@ -41,7 +41,7 @@ public class VehicleController {
         vehicleServiceFilter.setVehicleRepository(vehicleRepository);
         List<Vehicle> vehicleList = vehicleServiceFilter.getFilteredVehicles();
         Vehicle mostExpensiveSoldedVehicle = new Vehicle();
-        for (Vehicle vehicle : vehicleServiceFilter.getFilteredVehicles()) {
+        for (Vehicle vehicle : vehicleList) {
             if (vehicle.isPurchased() && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
                 mostExpensiveSoldedVehicle = vehicle;
             }
