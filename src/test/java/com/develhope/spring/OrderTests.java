@@ -5,7 +5,6 @@ import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
 import com.develhope.spring.user.dto.RegistrationDto;
-import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.UserService;
 import com.develhope.spring.vehicles.entity.*;
@@ -33,7 +32,7 @@ public class OrderTests {
     );
 
     Vehicle vehicle = new Vehicle(
-            0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue", 40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000, false, 0, "", true, VehicleState.PURCHASABLE, false, false
+            0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue", 40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000, false, 0, "", true, VehicleState.PURCHASED, false, false
     );
 
     private OrderDTO orderDTO = new OrderDTO(

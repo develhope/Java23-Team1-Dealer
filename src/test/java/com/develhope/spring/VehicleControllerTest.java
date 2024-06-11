@@ -78,7 +78,7 @@ public class VehicleControllerTest {
                 1600, "Blue", 120, Gearbox.MANUAL,
                 2020, FuelType.GASOLINE, 15000.0,
                 false, 0.0, "Air Conditioning",
-                true, VehicleState.RENTABLE, false, false
+                true, VehicleState.RENTED, false, false
         );
         vehicleRepository.save(vehicle);
 
