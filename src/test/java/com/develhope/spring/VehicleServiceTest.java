@@ -24,7 +24,7 @@ public class VehicleServiceTest {
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle(
             1, VehicleKind.MOTORCYCLE, "HONDA", "yuhuu", 800,
             "black", 20, Gearbox.AUTOMATIC, 2012, FuelType.GASOLINE,
-            2022, false, 33, "gb", true, VehicleState.SELLED, false, false
+            2022, false, 33, "gb", true, VehicleState.PURCHASED, false, false
     );
 
 

@@ -32,7 +32,7 @@ public class OrderTests {
     );
 
     Vehicle vehicle = new Vehicle(
-            0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue", 40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000, false, 0, "", true, VehicleState.SELLED, false, false
+            0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue", 40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000, false, 0, "", true, VehicleState.PURCHASED, false, false
     );
 
     private OrderDTO orderDTO = new OrderDTO(

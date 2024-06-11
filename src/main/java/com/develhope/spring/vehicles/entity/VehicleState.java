@@ -1,7 +1,7 @@
 package com.develhope.spring.vehicles.entity;
 
 public enum VehicleState {
-    SELLED,
+    PURCHASED,
     RENTED,
     NOT_AVAILABLE
 }
