@@ -9,8 +9,6 @@ import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.user.repository.UserRepository;
-import com.develhope.spring.vehicles.dto.VehicleDTO;
-import com.develhope.spring.vehicles.dto.VehicleMapper;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.exception.customException.OrderNotFoundException;
@@ -28,8 +26,6 @@ public class OrderService {
     private UserRepository userRepository;
     @Autowired
     private VehicleRepository vehicleRepository;
-    @Autowired
-    private VehicleMapper vehicleMapper;
     @Autowired
     private OrderMapper orderMapper;
 

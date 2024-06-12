@@ -30,7 +30,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findOrderById(id));
     }
 
-    @GetMapping("/vehicles/user/{userId}")
+    @GetMapping("/user/{userId}")
     public List<OrderDTO> findVehiclesByUserId(@PathVariable long userId) {
         return orderService.findOrdersByUserId(userId);
     }
