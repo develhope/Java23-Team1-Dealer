@@ -37,6 +37,15 @@ public class VehicleController {
                 .body(vehicleServiceFilter.getFilteredVehicles());
     }
 
+    @GetMapping("/mostOrderedModel")
+    public ResponseEntity<String> getMostOrderedVehicleModel() {
+
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(vehicleService.findMostOrderedVehicleModel());
+
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicleById(id);

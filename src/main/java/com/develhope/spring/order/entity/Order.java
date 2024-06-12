@@ -27,7 +27,8 @@ public class Order {
     private Date createdAt;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
     @ManyToOne
     private User seller;
