@@ -1,5 +1,6 @@
 package com.develhope.spring.rent.service;
 
+import com.develhope.spring.exception.customException.BadVehicleStateException;
 import com.develhope.spring.exception.customException.OrderNotFoundException;
 import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.rent.dto.RentOrderCreationDTO;
@@ -9,6 +10,7 @@ import com.develhope.spring.rent.entity.RentOrderStatus;
 import com.develhope.spring.rent.repository.RentRepository;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
+import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class RentOrderService {
         RentOrder rentEntity = rentMapper.toRentOrder(rentOrderCreationDTO);
         if (rentEntity.getSeller().getUserKind() != UserKind.SELLER) {
             throw new UserWithoutPrivilegeException("Seller is not authorized");
+        }
+        if (rentEntity.getVehicle().getVehicleState() != VehicleState.RENTABLE) {
+            throw new BadVehicleStateException("This vehicle is not rentable");
         }
         rentEntity.setRentOrderStatus(RentOrderStatus.ACCEPTED);
         return rentRepository.save(rentEntity);

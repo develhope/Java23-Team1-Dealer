@@ -36,6 +36,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(BadVehicleStateException.class)
+    public ResponseEntity<String> handleBadVehicleStateException(BadVehicleStateException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(OutOfDateException.class)
     public ResponseEntity<String> handleOutOfDateException(OutOfDateException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
