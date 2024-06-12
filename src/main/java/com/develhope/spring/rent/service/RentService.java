@@ -1,8 +1,10 @@
 package com.develhope.spring.rent.service;
 
+import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.rent.dto.RentOrderCreationDTO;
 import com.develhope.spring.rent.entity.RentOrder;
 import com.develhope.spring.rent.repository.RentRepository;
+import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class RentService {
     private VehicleRepository vehicleRepository;
 
     public RentOrder createRent (RentOrderCreationDTO rentOrderCreationDTO) {
-
+//        if (rentOrderEntity.getSeller().getUserKind() != UserKind.SELLER) {
+//            throw new UserWithoutPrivilegeException("User not authorized");
+//        }
     }
 }

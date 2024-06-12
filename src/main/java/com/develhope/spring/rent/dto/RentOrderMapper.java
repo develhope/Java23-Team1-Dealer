@@ -1,8 +1,10 @@
 package com.develhope.spring.rent.dto;
 
 import com.develhope.spring.exception.customException.UserNotFoundException;
+import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.rent.entity.RentOrder;
+import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import lombok.Data;
@@ -27,5 +29,11 @@ public class RentOrderMapper {
         rentOrderEntity.setVehicle(vehicleRepository.findById(rentOrderCreationDTO.getVehicleId())
                 .orElseThrow(() -> new VehicleNotFoundException(
                         "Vehicle with id " + rentOrderCreationDTO.getVehicleId() + " not found")));
+        rentOrderEntity.setSeller(userRepository.findById(rentOrderCreationDTO.getSellerId())
+                .orElseThrow(() -> new UserNotFoundException(
+                        "Seller with id " + rentOrderCreationDTO.getSellerId() + " not found")));
+        rentOrderEntity.setStartRent(rentOrderCreationDTO.getStartRent());
+        rentOrderEntity.setStopRent(rentOrderCreationDTO.getStopRent());
+
     }
 }
