@@ -18,6 +18,8 @@ public class RentOrder {
     @Id
     @GeneratedValue
     private long id;
+    @OneToOne
+    private User user;
     @Temporal(TemporalType.DATE)
     private Date startRent, stopRent;
     private double dailyPrice, totalPrice;

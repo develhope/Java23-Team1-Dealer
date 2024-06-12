@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RentCreationDTO {
+public class RentOrderCreationDTO {
     private long userId;
     @Temporal(TemporalType.DATE)
     private Date startRent, stopRent;

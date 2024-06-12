@@ -1,5 +1,7 @@
 package com.develhope.spring.rent.service;
 
+import com.develhope.spring.rent.dto.RentOrderCreationDTO;
+import com.develhope.spring.rent.entity.RentOrder;
 import com.develhope.spring.rent.repository.RentRepository;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
@@ -14,4 +16,8 @@ public class RentService {
     private UserRepository userRepository;
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    public RentOrder createRent (RentOrderCreationDTO rentOrderCreationDTO) {
+
+    }
 }
