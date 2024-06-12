@@ -4,8 +4,8 @@ import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
-import com.develhope.spring.vehicles.dto.VehicleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +21,13 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<Order> create(@RequestBody OrderDTO orderDTO) {
         return ResponseEntity.ok(orderService.createOrder(orderDTO));
     }
 
     @GetMapping("/{id}")
-    public Order findOrderById(@PathVariable long id) {
-        return orderService.findOrderById(id);
+    public ResponseEntity<Order> findById(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findOrderById(id));
     }
 
     @GetMapping("/vehicles/user/{userId}")
@@ -36,28 +36,29 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> findAllOrders() {
-        return orderService.findAllOrders();
+    public ResponseEntity<List<Order>> findAll() {
+        return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findAllOrders());
     }
 
     @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable long id, @RequestBody Order order) {
-        return orderService.updateOrder(id, order);
+    public ResponseEntity<Order> update(@PathVariable long id, @RequestBody OrderDTO orderDTO) {
+        return ResponseEntity.ok().body(orderService.updateOrder(id, orderDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrderById(@PathVariable long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable long id) {
         orderService.deleteOrderById(id);
-        return ResponseEntity.ok().body("Deleted");
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    public void deleteAllOrders() {
+    public ResponseEntity<Void> deleteAll() {
         orderService.deleteAllOrders();
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{id}")
-    public void updateOrderStatus (@PathVariable long id, @RequestParam OrderStatus orderStatus) {
-        orderService.updateOrderStatus(id, orderStatus);
+    public ResponseEntity<Order> updateOrderStatus (@PathVariable long id, @RequestParam OrderStatus orderStatus) {
+        return ResponseEntity.ok().body(orderService.updateOrderStatus(id, orderStatus));
     }
 }
