@@ -36,8 +36,6 @@ public class VehicleServiceFilter {
     private String accessories;
     private Boolean isNew;
     private VehicleState vehicleState;
-    private Boolean purchased;
-    private Boolean rented;
 
     public List<Vehicle> getFilteredVehicles(
     ) {
@@ -112,14 +110,6 @@ public class VehicleServiceFilter {
 
         if (vehicleState != null) {
             specification = specification.and(VehicleFilterSpecifications.hasVehicleState(vehicleState));
-        }
-
-        if (purchased != null) {
-            specification = specification.and(VehicleFilterSpecifications.isPurchased(purchased));
-        }
-
-        if (rented != null) {
-            specification = specification.and(VehicleFilterSpecifications.isRented(rented));
         }
 
         List<Vehicle> results = vehicleRepository.findAll(specification);

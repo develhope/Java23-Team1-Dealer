@@ -59,26 +59,26 @@ public class VehicleControllerTest {
             1600, "Blue", 120, Gearbox.MANUAL,
             2020, FuelType.GASOLINE, 15000.0,
             false, 0.0, "Air Conditioning",
-            true, VehicleState.RENTED, false, true);
+            true, VehicleState.RENTED);
     private final static Vehicle DEFAULT_VEHICLE2 = new Vehicle(
             0L, VehicleKind.CAR, "Ford", "Fiesta",
             1800, "Red", 140, Gearbox.MANUAL,
             2020, FuelType.DIESEL, 12500,
             false, 0.0, "Air Conditioning",
-            true, VehicleState.PURCHASED, true, false);
+            true, VehicleState.PURCHASED);
 
     private final static Vehicle DEFAULT_VEHICLE3 = new Vehicle(
             0L, VehicleKind.SCOOTER, "Yamaha", "Fuciu",
             750, "Blue", 120, Gearbox.MANUAL,
             2023, FuelType.GASOLINE, 19000.0,
             false, 0.0, "none",
-            true, VehicleState.PURCHASED, true, false);
+            true, VehicleState.PURCHASED);
     private final static Vehicle DEFAULT_VEHICLE4 = new Vehicle(
             0L, VehicleKind.VAN, "FIAT", "Doblo",
             1200, "White", 100, Gearbox.MANUAL,
             2015, FuelType.BATTERY, 9500.0,
             false, 0.0, "none",
-            true, VehicleState.RENTED, false, true);
+            true, VehicleState.PURCHASABLE);
 
     @BeforeEach
     public void setup() throws Exception {

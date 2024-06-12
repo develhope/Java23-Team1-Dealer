@@ -47,9 +47,4 @@ public class Vehicle {
     private boolean isNew;
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;
-    @NonNull
-    private boolean isPurchasable;
-    @NonNull
-    private boolean isRentable;
-
 }

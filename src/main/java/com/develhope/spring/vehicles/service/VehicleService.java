@@ -27,7 +27,7 @@ public class VehicleService {
         List<Vehicle> vehicleList = vehicleServiceFilter.getFilteredVehicles();
         Vehicle mostExpensiveSoldedVehicle = new Vehicle();
         for (Vehicle vehicle : vehicleList) {
-            if (vehicle.isPurchasable() && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
+            if (vehicle.getVehicleState() == VehicleState.PURCHASED && vehicle.getPrice() > mostExpensiveSoldedVehicle.getPrice()) {
                 mostExpensiveSoldedVehicle = vehicle;
             }
         }
