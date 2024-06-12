@@ -3,6 +3,7 @@ package com.develhope.spring.rent.service;
 import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.rent.dto.RentOrderCreationDTO;
 import com.develhope.spring.rent.entity.RentOrder;
+import com.develhope.spring.rent.entity.RentOrderStatus;
 import com.develhope.spring.rent.repository.RentRepository;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
@@ -23,5 +24,7 @@ public class RentService {
 //        if (rentOrderEntity.getSeller().getUserKind() != UserKind.SELLER) {
 //            throw new UserWithoutPrivilegeException("User not authorized");
 //        }
+        RentOrder order = new RentOrder();
+        order.setRentOrderStatus(RentOrderStatus.ACCEPTED);
     }
 }

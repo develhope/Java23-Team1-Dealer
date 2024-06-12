@@ -30,4 +30,8 @@ public class RentOrder {
     private Vehicle vehicle;
     @ManyToOne
     private User seller;
+
+    //    public double getTotalPrice () {
+//        aggiungere logica che calcola il prezzo totale in base allo startRent e stopRent.
+//    }
 }
