@@ -1,14 +1,12 @@
 package com.develhope.spring.rent.service;
 
 import com.develhope.spring.exception.customException.OrderNotFoundException;
-import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.rent.dto.RentOrderCreationDTO;
 import com.develhope.spring.rent.dto.RentOrderMapper;
 import com.develhope.spring.rent.entity.RentOrder;
 import com.develhope.spring.rent.entity.RentOrderStatus;
 import com.develhope.spring.rent.repository.RentRepository;
-import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
@@ -51,7 +49,9 @@ public class RentOrderService {
     public RentOrder updateRent (long id, RentOrderCreationDTO rentOrderCreationDTO) {
         RentOrder rentToUpdate = rentRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException("No order founded with this id: " + id));
+        rentToUpdate.setId(id);
         rentToUpdate = rentMapper.toRentOrder(rentOrderCreationDTO);
+        rentToUpdate.setId(id);
         rentToUpdate.setRentOrderStatus(RentOrderStatus.ACCEPTED);
         return rentRepository.save(rentToUpdate);
         // da aggiungere anche un check sul pagamento, in modo da impostare "payed" a true.
