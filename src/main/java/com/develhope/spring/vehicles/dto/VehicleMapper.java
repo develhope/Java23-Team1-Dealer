@@ -22,8 +22,6 @@ public class VehicleMapper {
         dto.setAccessories(vehicle.getAccessories());
         dto.setNew(vehicle.isNew());
         dto.setVehicleState(vehicle.getVehicleState());
-        dto.setPurchased(vehicle.isPurchased());
-        dto.setRented(vehicle.isRented());
         return dto;
     }
 
