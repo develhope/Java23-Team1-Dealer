@@ -1,6 +1,7 @@
 package com.develhope.spring.order.controller;
 
 import com.develhope.spring.order.dto.OrderDTO;
+import com.develhope.spring.order.dto.OrderResponseDto;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
@@ -21,13 +22,13 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> create(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<OrderResponseDto> create(@RequestBody OrderDTO orderDTO) {
         return ResponseEntity.ok(orderService.createOrder(orderDTO));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> findById(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findOrderById(id));
+    public Order findById(@PathVariable long id) {
+        return orderService.findOrderById(id);
     }
 
     @GetMapping
@@ -41,15 +42,15 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable long id) {
+    public ResponseEntity<String> deleteById(@PathVariable long id) {
         orderService.deleteOrderById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Deleted");
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteAll() {
+    public ResponseEntity<String> deleteAll() {
         orderService.deleteAllOrders();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("All orderse where deleted");
     }
 
     @PatchMapping("/{id}")
