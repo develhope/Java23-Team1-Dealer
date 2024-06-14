@@ -3,6 +3,8 @@ package com.develhope.spring.order.service;
 import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
+import com.develhope.spring.order.dto.OrderMapper;
+import com.develhope.spring.order.dto.OrderResponseDto;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
@@ -26,19 +28,13 @@ public class OrderService {
     private UserRepository userRepository;
     @Autowired
     private VehicleRepository vehicleRepository;
+    @Autowired
+    private OrderMapper orderMapper;
 
-    public Order createOrder(OrderDTO orderDTO) {
-        Order orderEntity = new Order();
-        User user = userRepository.findById(orderDTO.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
-                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
-        orderEntity.setUser(user);
-        orderEntity.setVehicle(vehicle);
-        orderEntity.setOrderStatus(orderDTO.getOrderStatus());
-        orderEntity.setDeposit(orderDTO.getDeposit());
-        orderEntity.setPayed(orderDTO.isPayed());
-        return orderRepository.save(orderEntity);
+    public OrderResponseDto createOrder(OrderDTO orderDTO) {
+        Order order = orderRepository.save(
+                orderMapper.toOrder(orderDTO));
+        return orderMapper.toResponseOrderDTO(order);
     }
 
     public Order findOrderById(long id) {
@@ -53,9 +49,19 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order updateOrder(long id, Order order) {
-        order.setId(id);
-        return orderRepository.save(order);
+    public Order updateOrder(long id, OrderDTO orderDTO) {
+        Order orderToUpdate = orderRepository.findById(id).get();
+        User user = userRepository.findById(orderDTO.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
+                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
+        orderToUpdate.setId(id);
+        orderToUpdate.setUser(user);
+        orderToUpdate.setVehicle(vehicle);
+        orderToUpdate.setOrderStatus(orderDTO.getOrderStatus());
+        orderToUpdate.setDeposit(orderDTO.getDeposit());
+        orderToUpdate.setPayed(orderDTO.isPayed());
+        return orderRepository.save(orderToUpdate);
     }
 
     public void deleteOrderById(long id) {
@@ -66,9 +72,10 @@ public class OrderService {
         orderRepository.deleteAll();
     }
 
-    public void updateOrderStatus(long orderId, OrderStatus orderStatus) {
+    public Order updateOrderStatus(long orderId, OrderStatus orderStatus) {
         Order order = orderRepository.findById(orderId).get();
         order.setOrderStatus(orderStatus);
+        return order;
     }
 }
 

@@ -38,4 +38,3 @@ public class VehicleDTO {
     private boolean purchased;
     private boolean rented;
 }
-

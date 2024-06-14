@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Profile;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.util.AssertionErrors.assertFalse;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @SpringBootTest
 @Profile("test")
@@ -26,7 +24,7 @@ public class VehicleServiceTest {
     private static final Vehicle DEFAULT_VEHICLE = new Vehicle(
             1, VehicleKind.MOTORCYCLE, "HONDA", "yuhuu", 800,
             "black", 20, Gearbox.AUTOMATIC, 2012, FuelType.GASOLINE,
-            2022, false, 33, "gb", true, VehicleState.PURCHASABLE, false, false
+            2022, false, 33, "gb", true, VehicleState.PURCHASED
     );
 
 

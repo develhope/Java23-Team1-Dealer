@@ -17,16 +17,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -45,43 +48,75 @@ public class VehicleControllerTest {
     @Autowired
     private UserService userService;
 
-    String jwtToken;
+    String adminJwtToken;
 
+    private final static RegistrationDto USER_REGISTRATION = new RegistrationDto("Gianni", "Rossi",
+            "3456453222", "jk@gh.it",
+            "gianni", "gianni", UserKind.ADMIN);
+    private final static LoginDto USER_LOGIN = new LoginDto("gianni", "gianni");
+    private final static Vehicle DEFAULT_VEHICLE1 = new Vehicle(
+            0L, VehicleKind.CAR, "Toyota", "Corolla",
+            1600, "Blue", 120, Gearbox.MANUAL,
+            2020, FuelType.GASOLINE, 15000.0,
+            false, 0.0, "Air Conditioning",
+            true, VehicleState.RENTED);
+    private final static Vehicle DEFAULT_VEHICLE2 = new Vehicle(
+            0L, VehicleKind.CAR, "Ford", "Fiesta",
+            1800, "Red", 140, Gearbox.MANUAL,
+            2020, FuelType.DIESEL, 12500,
+            false, 0.0, "Air Conditioning",
+            true, VehicleState.PURCHASED);
+
+    private final static Vehicle DEFAULT_VEHICLE3 = new Vehicle(
+            0L, VehicleKind.SCOOTER, "Yamaha", "Fuciu",
+            750, "Blue", 120, Gearbox.MANUAL,
+            2023, FuelType.GASOLINE, 19000.0,
+            false, 0.0, "none",
+            true, VehicleState.PURCHASED);
+    private final static Vehicle DEFAULT_VEHICLE4 = new Vehicle(
+            0L, VehicleKind.VAN, "FIAT", "Doblo",
+            1200, "White", 100, Gearbox.MANUAL,
+            2015, FuelType.BATTERY, 9500.0,
+            false, 0.0, "none",
+            true, VehicleState.PURCHASABLE);
 
     @BeforeEach
     public void setup() throws Exception {
-        Vehicle vehicle = new Vehicle(
-                0L, VehicleKind.CAR, "Toyota", "Corolla",
-                1600, "Blue", 120, Gearbox.MANUAL,
-                2020, FuelType.GASOLINE, 15000.0,
-                false, 0.0, "Air Conditioning",
-                true, VehicleState.RENTABLE, false, false
-        );
-        vehicleRepository.save(vehicle);
+        vehicleRepository.save(DEFAULT_VEHICLE1);
+        vehicleRepository.save(DEFAULT_VEHICLE2);
+        vehicleRepository.save(DEFAULT_VEHICLE3);
+        vehicleRepository.save(DEFAULT_VEHICLE4);
+        userService.create(USER_REGISTRATION);
 
-        RegistrationDto registrationDto = new RegistrationDto(
-                "Gianni", "rossi", "3456453",
-                "jk@gh.it", "gianni", "gianni", UserKind.ADMIN
-        );
-        userService.create(registrationDto);
-
-        LoginDto loginDto = new LoginDto("gianni", "gianni");
         MvcResult result = mockMvc.perform(post("/user/login")
-                        .content(objectMapper.writeValueAsString(loginDto))
+                        .content(objectMapper.writeValueAsString(USER_LOGIN))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
         String jsonResponse = result.getResponse().getContentAsString();
         LoginResponse loginResponse = objectMapper.readValue(jsonResponse, LoginResponse.class);
-        jwtToken = loginResponse.getToken();
+        adminJwtToken = loginResponse.getToken();
     }
 
+    @Test
+    @DirtiesContext
+    void testCreateVehicle_withValidVehicle() throws Exception {
+        this.mockMvc.perform(post("/vehicle")
+                        .header("Authorization", "Bearer " + adminJwtToken)
+                        .content(objectMapper.writeValueAsString(DEFAULT_VEHICLE1)
+                        )
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andReturn();
+    }
 
     @Test
+    @DirtiesContext
     public void testGetFilteredVehicles() throws Exception {
-
         MvcResult result = mockMvc.perform(get("/vehicle/filter")
-                        .header("Authorization", "Bearer " + jwtToken)
+                        .header("Authorization", "Bearer " + adminJwtToken)
                         .content("""
                                 {
                                 "brand":"Toyota",
@@ -90,7 +125,6 @@ public class VehicleControllerTest {
                                 """
                         )
                         .contentType(MediaType.APPLICATION_JSON))
-
                 .andExpect(status().isFound())
                 .andReturn();
 
@@ -98,4 +132,21 @@ public class VehicleControllerTest {
         List<Vehicle> vehicles = objectMapper.readValue(jsonResponse, List.class);
         assertEquals(1, vehicles.size());
     }
+
+    @Test
+    @DirtiesContext
+    void testfindMostExpensiveSoldedVehicle_withValidVehicle() throws Exception {
+        this.mockMvc.perform(get("/vehicle/mostExpensiveSoldedVehicle")
+                .header("Authorization", "Bearer " + adminJwtToken)
+                        .content("""
+                                {
+                                "isPurchased":true
+                                }
+                                """)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isFound())
+                .andExpect(jsonPath("$.id").value(3))
+                .andReturn();
+    }
+
 }
