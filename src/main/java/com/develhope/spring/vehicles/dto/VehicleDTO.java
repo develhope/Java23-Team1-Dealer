@@ -35,6 +35,4 @@ public class VehicleDTO {
     private boolean isNew;
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;
-    private boolean purchased;
-    private boolean rented;
 }
