@@ -4,7 +4,9 @@ import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.LoginResponse;
+import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.JwtService;
+import com.develhope.spring.user.service.NecessaryAuthority;
 import com.develhope.spring.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +25,29 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
+    @GetMapping
+    public ResponseEntity<User> getUsers() {
+        return ResponseEntity.ok().body(userService.loggedInUser());
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<User>> findAllUsers() {
+        NecessaryAuthority.of(
+                        UserKind.ADMIN,
+                        UserKind.SELLER)
+                .grant();
+
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<User> findByUsername(@PathVariable String username) {
-        if(userService.findByUsername(username)!= null) return ResponseEntity.ok(userService.findByUsername(username));
+        NecessaryAuthority.of(
+                        UserKind.ADMIN,
+                        UserKind.SELLER)
+                .grant();
+        if (userService.findByUsername(username) != null)
+            return ResponseEntity.ok(userService.findByUsername(username));
         return ResponseEntity.notFound().build();
     }
 
@@ -55,12 +72,20 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        NecessaryAuthority.of(
+                        UserKind.ADMIN,
+                        UserKind.SELLER)
+                .grant();
         userService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User userDetails) {
+        NecessaryAuthority.of(
+                        UserKind.ADMIN,
+                        UserKind.SELLER)
+                .grant();
         User updatedUser = userService.updateProfile(id, userDetails);
         return ResponseEntity.ok(updatedUser);
     }
