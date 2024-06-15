@@ -1,6 +1,5 @@
 package com.develhope.spring.vehicles.controller;
 
-import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -35,6 +34,12 @@ public class VehicleController {
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .body(vehicleServiceFilter.getFilteredVehicles());
+    }
+
+    @GetMapping("/mostExpensiveSoldedVehicle")
+    public ResponseEntity<Vehicle> findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(vehicleService.findMostExpensiveSoldedVehicle(vehicleServiceFilter));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -1,49 +1,37 @@
-package com.develhope.spring.vehicles.entity;
+package com.develhope.spring.vehicles.dto;
 
-import jakarta.persistence.*;
+import com.develhope.spring.vehicles.entity.FuelType;
+import com.develhope.spring.vehicles.entity.Gearbox;
+import com.develhope.spring.vehicles.entity.VehicleKind;
+import com.develhope.spring.vehicles.entity.VehicleState;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import org.springframework.stereotype.Service;
 
-@Entity
-@Table
+@Service
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Vehicle {
-    @Id
-    @GeneratedValue
-    private long id;
+@NoArgsConstructor
+public class VehicleDTO {
     @Enumerated(EnumType.STRING)
-    @NonNull
     private VehicleKind vehicleKind;
-    @NonNull
     private String brand;
-    @NonNull
     private String model;
-    @NonNull
     private int engineSize;
-    @NonNull
     private String color;
-    @NonNull
     private int power;
     @Enumerated(EnumType.STRING)
     private Gearbox gearbox;
-    @NonNull
     private int registrationYear;
-    @NonNull
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
-    @NonNull
     private double price;
-    @NonNull
     private boolean isDiscounted;
-    @NonNull
     private double discount;
-    @NonNull
     private String accessories;
-    @NonNull
     private boolean isNew;
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;

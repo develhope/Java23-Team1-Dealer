@@ -4,6 +4,7 @@ import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.order.dto.OrderDTO;
 import com.develhope.spring.order.dto.OrderMapper;
+import com.develhope.spring.order.dto.OrderResponseDto;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
@@ -29,18 +30,10 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-    public Order createOrder(OrderDTO orderDTO) {
-        Order orderEntity = new Order();
-        User user = userRepository.findById(orderDTO.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        Vehicle vehicle = vehicleRepository.findById(orderDTO.getVehicleId())
-                .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
-        orderEntity.setUser(user);
-        orderEntity.setVehicle(vehicle);
-        orderEntity.setOrderStatus(orderDTO.getOrderStatus());
-        orderEntity.setDeposit(orderDTO.getDeposit());
-        orderEntity.setPayed(orderDTO.isPayed());
-        return orderRepository.save(orderEntity);
+    public OrderResponseDto createOrder(OrderDTO orderDTO) {
+        Order order = orderRepository.save(
+                orderMapper.toOrder(orderDTO));
+        return orderMapper.toResponseOrderDTO(order);
     }
 
     public Order findOrderById(long id) {
