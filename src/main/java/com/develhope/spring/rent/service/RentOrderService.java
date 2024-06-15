@@ -5,6 +5,7 @@ import com.develhope.spring.exception.customException.OrderNotFoundException;
 import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.rent.dto.RentOrderCreationDTO;
 import com.develhope.spring.rent.dto.RentOrderMapper;
+import com.develhope.spring.rent.dto.RentOrderResponseDTO;
 import com.develhope.spring.rent.entity.RentOrder;
 import com.develhope.spring.rent.entity.RentOrderStatus;
 import com.develhope.spring.rent.repository.RentRepository;
@@ -28,7 +29,7 @@ public class RentOrderService {
     @Autowired
     private RentOrderMapper rentMapper;
 
-    public RentOrder createRent(RentOrderCreationDTO rentOrderCreationDTO) {
+    public RentOrderResponseDTO createRent(RentOrderCreationDTO rentOrderCreationDTO) {
         RentOrder rentEntity = rentMapper.toRentOrder(rentOrderCreationDTO);
         if (rentEntity.getSeller().getUserKind() != UserKind.SELLER) {
             throw new UserWithoutPrivilegeException("Seller is not authorized");
@@ -37,7 +38,8 @@ public class RentOrderService {
             throw new BadVehicleStateException("This vehicle is not rentable");
         }
         rentEntity.setRentOrderStatus(RentOrderStatus.ACCEPTED);
-        return rentRepository.save(rentEntity);
+        rentRepository.save(rentEntity);
+        return rentMapper.toRentOrderResponseDTO(rentEntity);
         // da aggiungere anche un check sul pagamento, in modo da impostare "payed" a true.
         // il totalPrice va impostato in base a startRent e stopRent.
     }

@@ -24,7 +24,6 @@ public class RentOrderMapper {
 
     public RentOrder toRentOrder (RentOrderCreationDTO rentOrderCreationDTO) {
         RentOrder rentOrderEntity = new RentOrder();
-        rentOrderEntity.setId(rentOrderCreationDTO.getId());
         rentOrderEntity.setUser(userRepository.findById(rentOrderCreationDTO.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(
                         "User with id: " + rentOrderCreationDTO.getUserId() + " not found")));
@@ -43,17 +42,19 @@ public class RentOrderMapper {
         return rentOrderEntity;
     }
 
-    public RentOrderCreationDTO toRentOrderCreationDTO(RentOrder rentOrder) {
-        RentOrderCreationDTO rentOrderCreationDTO = new RentOrderCreationDTO();
-        rentOrderCreationDTO.setId(rentOrder.getId());
-        rentOrderCreationDTO.setUserId(rentOrder.getUser().getId());
-        rentOrderCreationDTO.setStartRent(rentOrder.getStartRent());
-        rentOrderCreationDTO.setStopRent(rentOrder.getStopRent());
-        rentOrderCreationDTO.setDailyPrice(rentOrder.getDailyPrice());
-        rentOrderCreationDTO.setTotalPrice(rentOrder.getTotalPrice());
-        rentOrderCreationDTO.setVehicleId(rentOrder.getVehicle().getId());
-        rentOrderCreationDTO.setSellerId(rentOrder.getSeller().getId());
-        return rentOrderCreationDTO;
+    public RentOrderResponseDTO toRentOrderResponseDTO(RentOrder rentOrder) {
+        RentOrderResponseDTO rentOrderResponseEntity = new RentOrderResponseDTO();
+        rentOrderResponseEntity.setId(rentOrder.getId());
+        rentOrderResponseEntity.setUserId(rentOrder.getUser().getId());
+        rentOrderResponseEntity.setStartRent(rentOrder.getStartRent());
+        rentOrderResponseEntity.setStopRent(rentOrder.getStopRent());
+        rentOrderResponseEntity.setDailyPrice(rentOrder.getDailyPrice());
+        rentOrderResponseEntity.setTotalPrice(rentOrder.getTotalPrice());
+        rentOrderResponseEntity.setPayed(rentOrder.isPayed());
+        rentOrderResponseEntity.setRentOrderStatus(rentOrder.getRentOrderStatus());
+        rentOrderResponseEntity.setVehicleId(rentOrder.getVehicle().getId());
+        rentOrderResponseEntity.setSellerId(rentOrder.getSeller().getId());
+        return rentOrderResponseEntity;
     }
 
 }

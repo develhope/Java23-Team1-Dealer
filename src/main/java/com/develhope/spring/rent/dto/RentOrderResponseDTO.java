@@ -13,13 +13,15 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RentOrderCreationDTO {
+public class RentOrderResponseDTO {
+    private long id;
     private long userId;
     @Temporal(TemporalType.DATE)
     private Date startRent, stopRent;
     private double dailyPrice, totalPrice;
-    @Column(nullable = false)
+    private boolean payed;
+    @Enumerated(EnumType.STRING)
+    private RentOrderStatus rentOrderStatus;
     private long vehicleId;
     private long sellerId;
-
 }

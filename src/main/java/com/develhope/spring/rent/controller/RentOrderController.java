@@ -1,6 +1,7 @@
 package com.develhope.spring.rent.controller;
 
 import com.develhope.spring.rent.dto.RentOrderCreationDTO;
+import com.develhope.spring.rent.dto.RentOrderResponseDTO;
 import com.develhope.spring.rent.entity.RentOrder;
 import com.develhope.spring.rent.service.RentOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class RentOrderController {
     private RentOrderService rentService;
 
     @PostMapping
-    public ResponseEntity<RentOrder> create(@RequestBody RentOrderCreationDTO rentOrderCreationDTO) {
+    public ResponseEntity<RentOrderResponseDTO> create(@RequestBody RentOrderCreationDTO rentOrderCreationDTO) {
         return ResponseEntity.ok().body(rentService.createRent(rentOrderCreationDTO));
     }
 
