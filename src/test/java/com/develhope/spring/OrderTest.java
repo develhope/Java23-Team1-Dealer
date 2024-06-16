@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@Profile("test")
+//@Profile("test")
 @AutoConfigureMockMvc
 public class OrderTest {
     @Autowired
@@ -53,8 +53,9 @@ public class OrderTest {
     );
 
     private static final Vehicle vehicle = new Vehicle(
-            0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue", 40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000, false, 0, "", true, VehicleState.PURCHASED, false, false
-    );
+            0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue",
+            40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000,
+            false, 0, "", true, VehicleState.PURCHASABLE);
 
     private static final OrderDTO orderDTO = new OrderDTO(
             1, 100, false, OrderStatus.ORDERED, 1,1
