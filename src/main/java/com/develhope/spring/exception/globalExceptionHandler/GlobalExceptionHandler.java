@@ -1,9 +1,6 @@
 package com.develhope.spring.exception.globalExceptionHandler;
 
-import com.develhope.spring.exception.customException.NoResultsException;
-import com.develhope.spring.exception.customException.OrderNotFoundException;
-import com.develhope.spring.exception.customException.UserNotFoundException;
-import com.develhope.spring.exception.customException.VehicleNotFoundException;
+import com.develhope.spring.exception.customException.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,5 +29,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(VehicleNotFoundException.class)
     public ResponseEntity<String> handleVehicleNotFoundException(VehicleNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserWithoutPrivilegeException.class)
+    public ResponseEntity<String> handleUserWithoutPrivilegeException(UserWithoutPrivilegeException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadVehicleStateException.class)
+    public ResponseEntity<String> handleBadVehicleStateException(BadVehicleStateException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OutOfDateException.class)
+    public ResponseEntity<String> handleOutOfDateException(OutOfDateException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
