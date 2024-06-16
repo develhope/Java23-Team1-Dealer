@@ -1,9 +1,9 @@
 package com.develhope.spring;
 
-import com.develhope.spring.order.dto.OrderDTO;
-import com.develhope.spring.order.dto.OrderResponseDto;
-import com.develhope.spring.order.entity.OrderStatus;
-import com.develhope.spring.order.service.OrderService;
+import com.develhope.spring.purchase_order.dto.PurchaseOrderCreationDTO;
+import com.develhope.spring.purchase_order.dto.PurchaseOrderResponseDTO;
+import com.develhope.spring.purchase_order.entity.PurchaseOrderStatus;
+import com.develhope.spring.purchase_order.service.PurchaseOrderService;
 import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.User;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 //@Profile("test")
 @AutoConfigureMockMvc
-public class OrderTest {
+public class PurchaseOrderTest {
     @Autowired
-    private OrderService orderService;
+    private PurchaseOrderService purchaseService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -57,8 +56,8 @@ public class OrderTest {
             40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000,
             false, 0, "", true, VehicleState.PURCHASABLE);
 
-    private static final OrderDTO orderDTO = new OrderDTO(
-            1, 100, false, OrderStatus.ORDERED, 1,1
+    private static final PurchaseOrderCreationDTO ORDER_CREATION_DTO = new PurchaseOrderCreationDTO(
+            1, 100, false, PurchaseOrderStatus.ORDERED, 1,1
     );
 
 
@@ -77,14 +76,14 @@ public class OrderTest {
     @Test
     void createOrder() throws Exception {
 
-       MvcResult result = mockMvc.perform(post("/order")
+       MvcResult result = mockMvc.perform(post("/purchase_order")
                 .header("Authorization", "Bearer " + jwtToken)
-                .content(objectMapper.writeValueAsString(orderDTO))
+                .content(objectMapper.writeValueAsString(ORDER_CREATION_DTO))
                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk())
                .andReturn();
         String responseBody = result.getResponse().getContentAsString();
-        OrderResponseDto orderReturned = objectMapper.readValue(responseBody, OrderResponseDto.class);
+        PurchaseOrderResponseDTO orderReturned = objectMapper.readValue(responseBody, PurchaseOrderResponseDTO.class);
         assertNotNull(orderReturned);
     }
 

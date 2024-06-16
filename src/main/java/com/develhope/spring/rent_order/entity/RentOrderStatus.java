@@ -1,4 +1,4 @@
-package com.develhope.spring.rent.entity;
+package com.develhope.spring.rent_order.entity;
 
 public enum RentOrderStatus {
 

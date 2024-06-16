@@ -1,9 +1,9 @@
-package com.develhope.spring.rent.controller;
+package com.develhope.spring.rent_order.controller;
 
-import com.develhope.spring.rent.dto.RentOrderCreationDTO;
-import com.develhope.spring.rent.dto.RentOrderResponseDTO;
-import com.develhope.spring.rent.entity.RentOrder;
-import com.develhope.spring.rent.service.RentOrderService;
+import com.develhope.spring.rent_order.dto.RentOrderCreationDTO;
+import com.develhope.spring.rent_order.dto.RentOrderResponseDTO;
+import com.develhope.spring.rent_order.entity.RentOrder;
+import com.develhope.spring.rent_order.service.RentOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rent")
+@RequestMapping("/rent_order")
 public class RentOrderController {
     @Autowired
     private RentOrderService rentService;

@@ -1,9 +1,9 @@
 package com.develhope.spring;
 
-import com.develhope.spring.order.dto.OrderDTO;
-import com.develhope.spring.order.dto.OrderMapper;
-import com.develhope.spring.order.entity.Order;
-import com.develhope.spring.order.entity.OrderStatus;
+import com.develhope.spring.purchase_order.dto.PurchaseOrderCreationDTO;
+import com.develhope.spring.purchase_order.dto.PurchaseOrderMapper;
+import com.develhope.spring.purchase_order.entity.PurchaseOrder;
+import com.develhope.spring.purchase_order.entity.PurchaseOrderStatus;
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 @SpringBootTest
-public class OrderMapperTest {
+public class PurchaseOrderMapperTest {
     @Mock
     UserRepository userRepository;
 
@@ -31,7 +31,7 @@ public class OrderMapperTest {
     VehicleRepository vehicleRepository;
 
     @InjectMocks
-    OrderMapper orderMapper;
+    PurchaseOrderMapper purchaseMapper;
 
     private static final Vehicle VEHICLE = new Vehicle(
             0, VehicleKind.CAR, "Tesla", "m1,", 50, "Blue", 40, Gearbox.AUTOMATIC, 2011, FuelType.BATTERY, 10000, false, 0, "", true, VehicleState.PURCHASABLE
@@ -42,12 +42,12 @@ public class OrderMapperTest {
             "mara@gh.it", "mara", "gianni", UserKind.ADMIN
     );
 
-    private static final Order ORDER = new Order(
-            0, USER, 100, true, new Date(System.currentTimeMillis()) , OrderStatus.ORDERED, VEHICLE, USER
+    private static final PurchaseOrder PURCHASE_ORDER = new PurchaseOrder(
+            0, USER, 100, true, new Date(System.currentTimeMillis()) , PurchaseOrderStatus.ORDERED, VEHICLE, USER
     );
 
-    private static final OrderDTO ORDER_DTO = new OrderDTO(
-            1, 100, true, OrderStatus.ORDERED, 1,1
+    private static final PurchaseOrderCreationDTO ORDER_DTO = new PurchaseOrderCreationDTO(
+            1, 100, true, PurchaseOrderStatus.ORDERED, 1,1
     );
 
     @BeforeEach
@@ -62,9 +62,9 @@ public class OrderMapperTest {
         when(userRepository.findById(any()))
                 .thenReturn(Optional.ofNullable(USER));
 
-        Order returnedOrder = orderMapper.toOrder(ORDER_DTO);
-        ORDER.setCreatedAt(returnedOrder.getCreatedAt());
-        assertEquals(ORDER, returnedOrder);
+        PurchaseOrder returnedPurchaseOrder = purchaseMapper.toPurchaseOrder(ORDER_DTO);
+        PURCHASE_ORDER.setCreatedAt(returnedPurchaseOrder.getCreatedAt());
+        assertEquals(PURCHASE_ORDER, returnedPurchaseOrder);
     }
 
 }

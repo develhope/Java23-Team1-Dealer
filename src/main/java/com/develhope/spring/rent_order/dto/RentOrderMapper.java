@@ -1,11 +1,9 @@
-package com.develhope.spring.rent.dto;
+package com.develhope.spring.rent_order.dto;
 
 import com.develhope.spring.exception.customException.UserNotFoundException;
-import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
-import com.develhope.spring.rent.entity.RentOrder;
-import com.develhope.spring.rent.entity.RentOrderStatus;
-import com.develhope.spring.user.entity.UserKind;
+import com.develhope.spring.rent_order.entity.RentOrder;
+import com.develhope.spring.rent_order.entity.RentOrderStatus;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import lombok.Data;

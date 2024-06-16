@@ -1,14 +1,14 @@
-package com.develhope.spring.rent.service;
+package com.develhope.spring.rent_order.service;
 
 import com.develhope.spring.exception.customException.BadVehicleStateException;
 import com.develhope.spring.exception.customException.OrderNotFoundException;
 import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
-import com.develhope.spring.rent.dto.RentOrderCreationDTO;
-import com.develhope.spring.rent.dto.RentOrderMapper;
-import com.develhope.spring.rent.dto.RentOrderResponseDTO;
-import com.develhope.spring.rent.entity.RentOrder;
-import com.develhope.spring.rent.entity.RentOrderStatus;
-import com.develhope.spring.rent.repository.RentRepository;
+import com.develhope.spring.rent_order.dto.RentOrderCreationDTO;
+import com.develhope.spring.rent_order.dto.RentOrderMapper;
+import com.develhope.spring.rent_order.dto.RentOrderResponseDTO;
+import com.develhope.spring.rent_order.entity.RentOrder;
+import com.develhope.spring.rent_order.entity.RentOrderStatus;
+import com.develhope.spring.rent_order.repository.RentRepository;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.entity.VehicleState;
@@ -46,7 +46,7 @@ public class RentOrderService {
 
     public RentOrder findRentById(long id) {
         return rentRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("No order founded with this id: " + id));
+                .orElseThrow(() -> new OrderNotFoundException("No purchase_order founded with this id: " + id));
     }
 
     public List<RentOrder> findAllRents () {
@@ -55,7 +55,7 @@ public class RentOrderService {
 
     public RentOrder updateRent (long id, RentOrderCreationDTO rentOrderCreationDTO) {
         RentOrder rentToUpdate = rentRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("No order founded with this id: " + id));
+                .orElseThrow(() -> new OrderNotFoundException("No purchase_order founded with this id: " + id));
         rentToUpdate.setId(id);
         rentToUpdate = rentMapper.toRentOrder(rentOrderCreationDTO);
         rentToUpdate.setId(id);
@@ -69,7 +69,7 @@ public class RentOrderService {
         if (rentRepository.existsById(id)) {
             rentRepository.deleteById(id);
         } else {
-            throw new OrderNotFoundException("No order founded with this id: " + id);
+            throw new OrderNotFoundException("No purchase_order founded with this id: " + id);
         }
     }
 
