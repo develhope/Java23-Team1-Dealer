@@ -9,10 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehicle")
+@RequestMapping("/vehicles")
 public class VehicleController {
 
     @Autowired
@@ -46,5 +47,10 @@ public class VehicleController {
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicleById(id);
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/mostpurchased")
+    public ResponseEntity<Collection<Integer>> mostPurchased () {
+        return  ResponseEntity.accepted().body(vehicleService.mostPurchasedVehicles());
     }
 }
