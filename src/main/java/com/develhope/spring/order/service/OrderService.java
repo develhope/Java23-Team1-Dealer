@@ -9,7 +9,10 @@ import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.repository.OrderRepository;
+import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
+import com.develhope.spring.user.service.NecessaryAuthority;
+import com.develhope.spring.user.service.UserService;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.exception.customException.OrderNotFoundException;
@@ -30,6 +33,8 @@ public class OrderService {
     private VehicleRepository vehicleRepository;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private UserService userService;
 
     public OrderResponseDto createOrder(OrderDTO orderDTO) {
         Order order = orderRepository.save(
@@ -46,7 +51,17 @@ public class OrderService {
     }
 
     public List<Order> findAllOrders() {
-        return orderRepository.findAll();
+
+        if (NecessaryAuthority
+                .of(UserKind.SELLER, UserKind.ADMIN)
+                .check())
+        {
+            return orderRepository.findAll();
+        } else {
+            return orderRepository.findAllByUserId(
+                    userService.loggedInUser().getId()
+            );
+        }
     }
 
     public Order updateOrder(long id, OrderDTO orderDTO) {
