@@ -33,8 +33,6 @@ public class OrderService {
     private VehicleRepository vehicleRepository;
     @Autowired
     private OrderMapper orderMapper;
-    @Autowired
-    private UserService userService;
 
     public OrderResponseDto createOrder(OrderDTO orderDTO) {
         Order order = orderRepository.save(
@@ -50,18 +48,12 @@ public class OrderService {
         }
     }
 
-    public List<Order> findAllOrders() {
+    public List<Order> findOrdersByUserId(long userId) {
+        return orderRepository.findAllByUserId(userId);
+    }
 
-        if (NecessaryAuthority
-                .of(UserKind.SELLER, UserKind.ADMIN)
-                .check())
-        {
-            return orderRepository.findAll();
-        } else {
-            return orderRepository.findAllByUserId(
-                    userService.loggedInUser().getId()
-            );
-        }
+    public List<Order> findAllOrders() {
+        return orderRepository.findAll();
     }
 
     public Order updateOrder(long id, OrderDTO orderDTO) {

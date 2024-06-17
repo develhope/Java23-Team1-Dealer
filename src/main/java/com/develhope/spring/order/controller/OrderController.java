@@ -5,6 +5,9 @@ import com.develhope.spring.order.dto.OrderResponseDto;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.service.OrderService;
+import com.develhope.spring.user.entity.UserKind;
+import com.develhope.spring.user.service.NecessaryAuthority;
+import com.develhope.spring.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<OrderResponseDto> create(@RequestBody OrderDTO orderDTO) {
@@ -33,7 +38,16 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<Order>> findAll() {
-        return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findAllOrders());
+        if (NecessaryAuthority
+                .of(UserKind.SELLER, UserKind.ADMIN)
+                .check())
+        {
+            return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findAllOrders());
+        } else {
+            return ResponseEntity.ok(orderService.findOrdersByUserId(
+                    userService.loggedInUser().getId()
+            ));
+        }
     }
 
     @PutMapping("/{id}")
