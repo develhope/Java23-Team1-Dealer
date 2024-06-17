@@ -62,6 +62,32 @@ public class NecessaryAuthority {
                 "Action permitted by user kind: " + authorities.toString());
 
     }
+
+    /**
+     * Checks if the current user has the necessary authorities. If the user does not have the required authority,
+     * {@code false} is returned.
+     *
+     * @throws AccessDeniedException if a no valid authentication is present.
+     */
+
+    public boolean check() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new AccessDeniedException("No valid authentication");
+        }
+
+        List<UserKind> loggedUserAuthorityList = authentication.getAuthorities().stream()
+                .map(grantedAuthority -> UserKind.valueOf(grantedAuthority.getAuthority()))
+                .toList();
+
+        for (UserKind authority : authorities) {
+            if (loggedUserAuthorityList.getFirst().equals(authority)) {
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
 
 
