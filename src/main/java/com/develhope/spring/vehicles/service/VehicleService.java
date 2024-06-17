@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class VehicleService {
@@ -33,12 +36,13 @@ public class VehicleService {
     }
 
     public MostOrderedVehicleDto findMostOrderedVehicleModel() {
-        Vehicle model = vehicleRepository.findMostOrderedVehicleModel();
-        if (model == null) {
+        MostOrderedVehicleModelCount mostOrderedVehicleModelCount = vehicleRepository.findMostOrderedVehicleModel();
+
+        if (mostOrderedVehicleModelCount == null
+                || mostOrderedVehicleModelCount.getModel() == null) {
             throw new NoResultsException("no valid data for this report function");
         }
-        return vehicleMapper.vehicleToDto(model);
-
+        return vehicleMapper.mostOrderedVehicleModelCountToDto(mostOrderedVehicleModelCount);
 
     }
 

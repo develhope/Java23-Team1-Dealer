@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long>, JpaSpecificationExecutor<Vehicle> {
 
 
 
-    @Query("SELECT v FROM Vehicle v JOIN Order o ON v.id = o.vehicle.id GROUP BY v.model ORDER BY COUNT(o.id) DESC LIMIT 1")
-    Vehicle findMostOrderedVehicleModel();
+    @Query("SELECT new com.develhope.spring.vehicles.entity.MostOrderedVehicleModelCount(v.brand, v.model) FROM Vehicle v right JOIN Order o ON v.id = o.vehicle.id GROUP BY v.model ORDER BY COUNT(o.id) DESC LIMIT 1")
+    MostOrderedVehicleModelCount findMostOrderedVehicleModel();
 }
