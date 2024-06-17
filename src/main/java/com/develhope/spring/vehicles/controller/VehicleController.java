@@ -1,6 +1,5 @@
 package com.develhope.spring.vehicles.controller;
 
-import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.vehicles.dto.MostOrderedVehicleDto;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;

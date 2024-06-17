@@ -2,7 +2,6 @@ package com.develhope.spring.vehicles.service;
 
 import com.develhope.spring.exception.customException.NoResultsException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
-import com.develhope.spring.order.repository.OrderRepository;
 import com.develhope.spring.vehicles.dto.MostOrderedVehicleDto;
 import com.develhope.spring.vehicles.dto.VehicleMapper;
 import com.develhope.spring.vehicles.entity.*;
@@ -16,8 +15,7 @@ import org.springframework.stereotype.Service;
 public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
-    @Autowired
-    private OrderRepository orderRepository;
+
     @Autowired
     private VehicleMapper vehicleMapper;
 
