@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.controller;
 
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
+import com.develhope.spring.vehicles.dto.MostOrderedVehicleDto;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -38,10 +39,10 @@ public class VehicleController {
     }
 
     @GetMapping("/mostOrderedModel")
-    public ResponseEntity<String> getMostOrderedVehicleModel() {
+    public ResponseEntity<MostOrderedVehicleDto> getMostOrderedVehicleModel() {
 
         return ResponseEntity
-                .status(HttpStatus.FOUND)
+                .status(HttpStatus.OK)
                 .body(vehicleService.findMostOrderedVehicleModel());
 
     }

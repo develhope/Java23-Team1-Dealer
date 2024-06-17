@@ -13,6 +13,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long>, JpaSpec
 
 
 
-    @Query("SELECT v.model FROM Vehicle v JOIN Order o ON v.id = o.vehicle.id GROUP BY v.model ORDER BY COUNT(o.id) DESC LIMIT 1")
-    String findMostOrderedVehicleModel();
+    @Query("SELECT v FROM Vehicle v JOIN Order o ON v.id = o.vehicle.id GROUP BY v.model ORDER BY COUNT(o.id) DESC LIMIT 1")
+    Vehicle findMostOrderedVehicleModel();
 }
