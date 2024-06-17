@@ -42,7 +42,7 @@ public class OrderController {
                 .of(UserKind.SELLER, UserKind.ADMIN)
                 .check())
         {
-            return ResponseEntity.status(HttpStatus.FOUND).body(orderService.findAllOrders());
+            return ResponseEntity.ok(orderService.findAllOrders());
         } else {
             return ResponseEntity.ok(orderService.findOrdersByUserId(
                     userService.loggedInUser().getId()
