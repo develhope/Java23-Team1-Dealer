@@ -9,7 +9,10 @@ import com.develhope.spring.user.entity.User;
 import com.develhope.spring.order.entity.Order;
 import com.develhope.spring.order.entity.OrderStatus;
 import com.develhope.spring.order.repository.OrderRepository;
+import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.repository.UserRepository;
+import com.develhope.spring.user.service.NecessaryAuthority;
+import com.develhope.spring.user.service.UserService;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.exception.customException.OrderNotFoundException;
@@ -43,6 +46,10 @@ public class OrderService {
         } else {
             throw new OrderNotFoundException("No order founded with this id: " + id);
         }
+    }
+
+    public List<Order> findOrdersByUserId(long userId) {
+        return orderRepository.findAllByUserId(userId);
     }
 
     public List<Order> findAllOrders() {
