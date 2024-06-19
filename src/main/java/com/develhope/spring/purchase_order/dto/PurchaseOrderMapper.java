@@ -25,8 +25,8 @@ public class PurchaseOrderMapper {
 
     public PurchaseOrder toPurchaseOrder(PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
         PurchaseOrder purchaseOrderEntity = new PurchaseOrder();
-        purchaseOrderEntity.setUser(
-                userRepository.findById(purchaseOrderCreationDTO.getUserId())
+        purchaseOrderEntity.setBuyer(
+                userRepository.findById(purchaseOrderCreationDTO.getBuyerId())
                         .orElseThrow(() -> new UserNotFoundException("User not found"))
         );
         purchaseOrderEntity.setVehicle(
@@ -47,7 +47,7 @@ public class PurchaseOrderMapper {
     public PurchaseOrderResponseDTO toPurchaseOrderResponseDTO(PurchaseOrder purchaseOrder) {
         PurchaseOrderResponseDTO purchaseOrderResponseDTO = new PurchaseOrderResponseDTO();
         purchaseOrderResponseDTO.setId(purchaseOrder.getId());
-        purchaseOrderResponseDTO.setUserId(purchaseOrder.getUser().getId());
+        purchaseOrderResponseDTO.setBuyerId(purchaseOrder.getBuyer().getId());
         purchaseOrderResponseDTO.setVehicleId(purchaseOrder.getVehicle().getId());
         purchaseOrderResponseDTO.setCreatedAt(purchaseOrder.getCreatedAt());
         purchaseOrderResponseDTO.setPurchaseOrderStatus(purchaseOrder.getPurchaseOrderStatus());

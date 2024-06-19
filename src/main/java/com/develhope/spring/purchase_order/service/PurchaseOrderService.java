@@ -51,12 +51,12 @@ public class PurchaseOrderService {
 
     public PurchaseOrder updateOrder(long id, PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
         PurchaseOrder purchaseOrderToUpdate = purchaseRepository.findById(id).get();
-        User user = userRepository.findById(purchaseOrderCreationDTO.getUserId())
+        User user = userRepository.findById(purchaseOrderCreationDTO.getBuyerId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
         Vehicle vehicle = vehicleRepository.findById(purchaseOrderCreationDTO.getVehicleId())
                 .orElseThrow(() -> new VehicleNotFoundException("Vehicle not found"));
         purchaseOrderToUpdate.setId(id);
-        purchaseOrderToUpdate.setUser(user);
+        purchaseOrderToUpdate.setBuyer(user);
         purchaseOrderToUpdate.setVehicle(vehicle);
         purchaseOrderToUpdate.setPurchaseOrderStatus(purchaseOrderCreationDTO.getPurchaseOrderStatus());
         purchaseOrderToUpdate.setDeposit(purchaseOrderCreationDTO.getDeposit());
