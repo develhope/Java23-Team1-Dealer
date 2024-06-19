@@ -42,19 +42,19 @@ public class PurchaseOrderController {
         return ResponseEntity.status(HttpStatus.FOUND).body(purchaseService.findAllOrders());
     }
 
-    @GetMapping
-    public ResponseEntity<List<PurchaseOrder>> findAllByUserId() {
-        if (NecessaryAuthority
-                .of(UserKind.SELLER, UserKind.ADMIN)
-                .check())
-        {
-            return ResponseEntity.ok(purchaseService.findAllOrders());
-        } else {
-            return ResponseEntity.ok(purchaseService.findOrdersByUserId(
-                    userService.loggedInUser().getId()
-            ));
-        }
-    }
+//    @GetMapping
+//    public ResponseEntity<List<PurchaseOrder>> findAllByUserId() {
+//        if (NecessaryAuthority
+//                .of(UserKind.SELLER, UserKind.ADMIN)
+//                .check())
+//        {
+//            return ResponseEntity.ok(purchaseService.findAllOrders());
+//        } else {
+//            return ResponseEntity.ok(purchaseService.findOrdersByUserId(
+//                    userService.loggedInUser().getId()
+//            ));
+//        }
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<PurchaseOrder> update(@PathVariable long id, @RequestBody PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
