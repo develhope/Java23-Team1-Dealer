@@ -1,6 +1,6 @@
-package com.develhope.spring.order.dto;
+package com.develhope.spring.purchase_order.dto;
 
-import com.develhope.spring.order.entity.OrderStatus;
+import com.develhope.spring.purchase_order.entity.PurchaseOrderStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
@@ -10,14 +10,14 @@ import java.util.Date;
 
 @Data
 @Service
-public class OrderResponseDto {
+public class PurchaseOrderResponseDTO {
     private long id;
     private long userId;
     private double deposit;
     private boolean payed;
     private Date createdAt;
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private PurchaseOrderStatus purchaseOrderStatus;
     private long vehicleId;
     private long sellerId;
 }

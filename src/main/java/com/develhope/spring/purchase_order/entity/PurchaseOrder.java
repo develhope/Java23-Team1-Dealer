@@ -1,4 +1,4 @@
-package com.develhope.spring.rent.entity;
+package com.develhope.spring.purchase_order.entity;
 
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.vehicles.entity.Vehicle;
@@ -10,28 +10,25 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "rent")
+@Table(name = "`purchase_order`")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentOrder {
+public class PurchaseOrder {
+
     @Id
     @GeneratedValue
     private long id;
-    @OneToOne
-    private User user;
-    @Temporal(TemporalType.DATE)
-    private Date startRent, stopRent;
-    private double dailyPrice, totalPrice;
-    private boolean payed;
-    @Enumerated(EnumType.STRING)
-    private RentOrderStatus rentOrderStatus;
     @ManyToOne
+    private User user;
+    private double deposit;
+    private boolean payed;
+    private Date createdAt;
+    @Enumerated(EnumType.STRING)
+    private PurchaseOrderStatus purchaseOrderStatus;
+    @OneToOne
     private Vehicle vehicle;
     @ManyToOne
     private User seller;
 
-    //    public double getTotalPrice () {
-//        aggiungere logica che calcola il prezzo totale in base allo startRent e stopRent.
-//    }
 }

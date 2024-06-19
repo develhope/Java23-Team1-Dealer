@@ -1,26 +1,23 @@
-package com.develhope.spring.order.dto;
+package com.develhope.spring.purchase_order.dto;
 
-import com.develhope.spring.order.entity.OrderStatus;
-import com.develhope.spring.user.entity.User;
+import com.develhope.spring.purchase_order.entity.PurchaseOrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
+public class PurchaseOrderCreationDTO {
     private long userId;
     private double deposit;
     private boolean payed;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private PurchaseOrderStatus purchaseOrderStatus;
     private long vehicleId;
     private long sellerId;
 }

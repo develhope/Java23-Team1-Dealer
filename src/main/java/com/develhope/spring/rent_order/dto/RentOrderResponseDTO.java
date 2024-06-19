@@ -1,6 +1,6 @@
-package com.develhope.spring.rent.dto;
+package com.develhope.spring.rent_order.dto;
 
-import com.develhope.spring.rent.entity.RentOrderStatus;
+import com.develhope.spring.rent_order.entity.RentOrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
