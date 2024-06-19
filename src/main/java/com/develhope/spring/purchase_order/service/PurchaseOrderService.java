@@ -49,6 +49,10 @@ public class PurchaseOrderService {
         return purchaseRepository.findAll();
     }
 
+    public List<PurchaseOrder> findOrdersByUserId(long userId) {
+        return purchaseRepository.findAllByUserId(userId);
+    }
+
     public PurchaseOrder updateOrder(long id, PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
         PurchaseOrder purchaseOrderToUpdate = purchaseRepository.findById(id).get();
         User user = userRepository.findById(purchaseOrderCreationDTO.getBuyerId())
