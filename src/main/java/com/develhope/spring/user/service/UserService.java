@@ -6,15 +6,19 @@ import com.develhope.spring.user.entity.User;
 import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -28,7 +32,6 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
 
-
     public List<User> findAll() {
         List<User> users = userRepository.findAll();
         if (users.isEmpty()) throw new UserNotFoundException("No users where register");
@@ -37,13 +40,14 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow( () -> new UsernameNotFoundException("User not found with username " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username " + username));
     }
 
     public User create(RegistrationDto registrationDto) {
         if (userRepository.existsByUsername(registrationDto.getUsername())) {
             throw new BadCredentialsException("Username is already in use");
-        };
+        }
+        ;
         if (userRepository.existsByEmail(registrationDto.getEmail())) {
             throw new BadCredentialsException("Email is already in use");
         }
@@ -101,11 +105,20 @@ public class UserService {
                 )
         );
 
-        return userRepository.findByUsernameOrEmail(input.getUsernameOrEmail(),input.getUsernameOrEmail())
+        return userRepository.findByUsernameOrEmail(input.getUsernameOrEmail(), input.getUsernameOrEmail())
                 .orElseThrow();
     }
 
     public boolean existsById(Long id) {
         return userRepository.existsById(id);
     }
+
+    public User loggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new AccessDeniedException("No valid authentication");
+        }
+        return findByUsername(authentication.getName());
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.develhope.spring.order.entity;
+package com.develhope.spring.purchase_order.entity;
 
 import com.develhope.spring.user.entity.User;
 import com.develhope.spring.vehicles.entity.Vehicle;
@@ -8,14 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.TimeZone;
 
 @Entity
-@Table(name = "`order`")
+@Table(name = "`purchase_order`")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class PurchaseOrder {
 
     @Id
     @GeneratedValue
@@ -26,7 +25,7 @@ public class Order {
     private boolean payed;
     private Date createdAt;
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private PurchaseOrderStatus purchaseOrderStatus;
     @OneToOne
     private Vehicle vehicle;
     @ManyToOne
