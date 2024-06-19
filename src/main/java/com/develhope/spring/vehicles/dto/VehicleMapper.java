@@ -1,9 +1,11 @@
 package com.develhope.spring.vehicles.dto;
+import com.develhope.spring.vehicles.entity.MostOrderedVehicleModelCount;
 import com.develhope.spring.vehicles.entity.Vehicle;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class VehicleMapper {
     public static VehicleDTO toDTO(Vehicle vehicle) {
         VehicleDTO dto = new VehicleDTO();
@@ -30,4 +32,10 @@ public class VehicleMapper {
                 .map(VehicleMapper::toDTO)
                 .collect(Collectors.toList());
     }
+    public MostOrderedVehicleDTO mostOrderedVehicleModelCountToDto(MostOrderedVehicleModelCount mostOrderedVehicleModelCount) {
+        return new MostOrderedVehicleDTO(mostOrderedVehicleModelCount.getBrand(), mostOrderedVehicleModelCount.getModel());
+
+
+    }
+
 }

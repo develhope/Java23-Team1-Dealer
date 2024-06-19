@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicles.controller;
 
+import com.develhope.spring.vehicles.dto.MostOrderedVehicleDTO;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -46,5 +47,13 @@ public class VehicleController {
     public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicleById(id);
         return ResponseEntity.notFound().build();
+    }
+    @GetMapping("/mostOrderedModel")
+    public ResponseEntity<MostOrderedVehicleDTO> getMostOrderedVehicleModel() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(vehicleService.findMostOrderedVehicleModel());
+
     }
 }
