@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicles.controller;
 
+import com.develhope.spring.vehicles.dto.VehicleDTO;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -50,7 +51,7 @@ public class VehicleController {
     }
 
     @GetMapping("/mostpurchased")
-    public ResponseEntity<Collection<Integer>> mostPurchased () {
+    public ResponseEntity<Collection<MostPurchasedModel>> mostPurchased () {
         return  ResponseEntity.accepted().body(vehicleService.mostPurchasedVehicles());
     }
 }

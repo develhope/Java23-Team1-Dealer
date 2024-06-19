@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.service;
 
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
+import com.develhope.spring.vehicles.dto.VehicleDTO;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,14 @@ public class VehicleService {
         return vehicleRepository.existsById(id);
     }
 
-    public Collection<Integer> mostPurchasedVehicles () {
-        return  vehicleRepository.findMostPurchasedVehicleModel();
+    public Collection<MostPurchasedModel> mostPurchasedVehicles () {
+          return vehicleRepository.findMostPurchasedVehicleModel();
     }
 
+    /*public VehicleDTO convertFromEntityToDto (Vehicle vehicle) {
+        VehicleDTO vehicleDTO = new VehicleDTO();
+        vehicleDTO.setBrand(vehicle.getBrand());
+        vehicleDTO.setModel(vehicle.getModel());
+        vehicleDTO.setNumberOfPurchases();
+    }*/
 }
