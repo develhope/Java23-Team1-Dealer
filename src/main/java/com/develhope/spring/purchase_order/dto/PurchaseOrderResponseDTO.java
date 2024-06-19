@@ -12,7 +12,7 @@ import java.util.Date;
 @Service
 public class PurchaseOrderResponseDTO {
     private long id;
-    private long userId;
+    private long buyerId;
     private double deposit;
     private boolean payed;
     private Date createdAt;

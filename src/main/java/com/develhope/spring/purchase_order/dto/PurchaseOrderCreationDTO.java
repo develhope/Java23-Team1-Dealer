@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseOrderCreationDTO {
-    private long userId;
+    private long buyerId;
     private double deposit;
     private boolean payed;
     @Column(nullable = false)

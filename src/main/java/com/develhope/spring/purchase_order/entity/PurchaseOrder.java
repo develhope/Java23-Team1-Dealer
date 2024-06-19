@@ -20,7 +20,7 @@ public class PurchaseOrder {
     @GeneratedValue
     private long id;
     @ManyToOne
-    private User user;
+    private User buyer;
     private double deposit;
     private boolean payed;
     private Date createdAt;
