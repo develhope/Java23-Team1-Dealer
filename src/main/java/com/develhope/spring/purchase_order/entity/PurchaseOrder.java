@@ -26,7 +26,8 @@ public class PurchaseOrder {
     private Date createdAt;
     @Enumerated(EnumType.STRING)
     private PurchaseOrderStatus purchaseOrderStatus;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
     @ManyToOne
     private User seller;
