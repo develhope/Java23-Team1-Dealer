@@ -44,23 +44,26 @@ public class RentOrderService {
         // il totalPrice va impostato in base a startRent e stopRent.
     }
 
-    public RentOrder findRentById(long id) {
-        return rentRepository.findById(id)
+    public RentOrderResponseDTO findRentById(long id) {
+        RentOrder rent = rentRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException("No purchase_order founded with this id: " + id));
+        return RentOrderMapper.toRentOrderResponseDTO(rent);
     }
 
-    public List<RentOrder> findAllRents () {
-        return rentRepository.findAll();
+    public List<RentOrderResponseDTO> findAllRents () {
+        List<RentOrder> rentList = rentRepository.findAll();
+        return rentMapper.toRentOrderResponseDTOList(rentList);
     }
 
-    public RentOrder updateRent (long id, RentOrderCreationDTO rentOrderCreationDTO) {
+    public RentOrderResponseDTO updateRent (long id, RentOrderCreationDTO rentOrderCreationDTO) {
         RentOrder rentToUpdate = rentRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException("No purchase_order founded with this id: " + id));
         rentToUpdate.setId(id);
         rentToUpdate = rentMapper.toRentOrder(rentOrderCreationDTO);
         rentToUpdate.setId(id);
         rentToUpdate.setRentOrderStatus(RentOrderStatus.ACCEPTED);
-        return rentRepository.save(rentToUpdate);
+        rentRepository.save(rentToUpdate);
+        return RentOrderMapper.toRentOrderResponseDTO(rentToUpdate);
         // da aggiungere anche un check sul pagamento, in modo da impostare "payed" a true.
         // il totalPrice va impostato in base a startRent e stopRent.
     }

@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Data
 @NoArgsConstructor
@@ -40,7 +43,7 @@ public class RentOrderMapper {
         return rentOrderEntity;
     }
 
-    public RentOrderResponseDTO toRentOrderResponseDTO(RentOrder rentOrder) {
+    public static RentOrderResponseDTO toRentOrderResponseDTO(RentOrder rentOrder) {
         RentOrderResponseDTO rentOrderResponseEntity = new RentOrderResponseDTO();
         rentOrderResponseEntity.setId(rentOrder.getId());
         rentOrderResponseEntity.setBuyerId(rentOrder.getUser().getId());
@@ -53,6 +56,10 @@ public class RentOrderMapper {
         rentOrderResponseEntity.setVehicleId(rentOrder.getVehicle().getId());
         rentOrderResponseEntity.setSellerId(rentOrder.getSeller().getId());
         return rentOrderResponseEntity;
+    }
+
+    public List<RentOrderResponseDTO> toRentOrderResponseDTOList (List<RentOrder> rentList) {
+        return rentList.stream().map(RentOrderMapper::toRentOrderResponseDTO).collect(Collectors.toList());
     }
 
 }

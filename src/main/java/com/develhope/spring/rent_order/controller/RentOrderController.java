@@ -23,17 +23,17 @@ public class RentOrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RentOrder> findById(@PathVariable long id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(rentService.findRentById(id));
+    public ResponseEntity<RentOrderResponseDTO> findById(@PathVariable long id) {
+        return ResponseEntity.ok().body(rentService.findRentById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<RentOrder>> findAll() {
-        return ResponseEntity.status(HttpStatus.FOUND).body(rentService.findAllRents());
+    public ResponseEntity<List<RentOrderResponseDTO>> findAll() {
+        return ResponseEntity.ok().body(rentService.findAllRents());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RentOrder> update(@PathVariable long id, @RequestBody RentOrderCreationDTO rentOrderCreationDTO) {
+    public ResponseEntity<RentOrderResponseDTO> update(@PathVariable long id, @RequestBody RentOrderCreationDTO rentOrderCreationDTO) {
         return ResponseEntity.ok().body(rentService.updateRent(id, rentOrderCreationDTO));
     }
 

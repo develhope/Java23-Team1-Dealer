@@ -11,9 +11,11 @@ import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.service.VehicleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -36,12 +38,15 @@ public class RentOrderControllerTest {
     private VehicleService vehicleService;
     String adminJwtToken;
 
-    private final static RegistrationDto USER_REGISTRATION_BUYER = new RegistrationDto("Rocco", "Rock",
-            "3202020202", "roccorock@gmail.com",
-            "RoccoRock", "rocco23624", UserKind.BUYER);
     private final static RegistrationDto USER_REGISTRATION_ADMIN = new RegistrationDto("Amministratore", "Delegato",
             "3333333333", "admin@gmail.com",
             "admin", "admin", UserKind.ADMIN);
+    private final static RegistrationDto USER_REGISTRATION_SELLER = new RegistrationDto("Seller", "SonoIlSeller",
+            "2222222222", "seller@gmail.com",
+            "seller", "seller", UserKind.SELLER);
+    private final static RegistrationDto USER_REGISTRATION_BUYER = new RegistrationDto("Rocco", "Rock",
+            "3202020202", "roccorock@gmail.com",
+            "buyer", "buyer", UserKind.BUYER);
     private final static LoginDto USER_LOGIN_BUYER = new LoginDto("RoccoRock", "rocco23624");
     private final static LoginDto USER_LOGIN_ADMIN = new LoginDto("admin", "admin");
     private final static Vehicle DEFAULT_VEHICLE1 = new Vehicle(
@@ -77,6 +82,8 @@ public class RentOrderControllerTest {
         vehicleService.createVehicle(DEFAULT_VEHICLE3);
         vehicleService.createVehicle(DEFAULT_VEHICLE4);
         userService.create(USER_REGISTRATION_ADMIN);
+        userService.create(USER_REGISTRATION_SELLER);
+        userService.create(USER_REGISTRATION_BUYER);
 
         MvcResult result = mockMvc.perform(post("/user/login")
                         .content(objectMapper.writeValueAsString(USER_LOGIN_ADMIN))
@@ -88,5 +95,7 @@ public class RentOrderControllerTest {
         adminJwtToken = loginResponse.getToken();
     }
 
+    @Test
+    @DirtiesContext
 
 }
