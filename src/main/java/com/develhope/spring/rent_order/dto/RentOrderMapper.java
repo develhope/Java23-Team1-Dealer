@@ -22,9 +22,9 @@ public class RentOrderMapper {
 
     public RentOrder toRentOrder (RentOrderCreationDTO rentOrderCreationDTO) {
         RentOrder rentOrderEntity = new RentOrder();
-        rentOrderEntity.setUser(userRepository.findById(rentOrderCreationDTO.getUserId())
+        rentOrderEntity.setUser(userRepository.findById(rentOrderCreationDTO.getBuyerId())
                 .orElseThrow(() -> new UserNotFoundException(
-                        "User with id: " + rentOrderCreationDTO.getUserId() + " not found")));
+                        "User with id: " + rentOrderCreationDTO.getBuyerId() + " not found")));
         rentOrderEntity.setVehicle(vehicleRepository.findById(rentOrderCreationDTO.getVehicleId())
                 .orElseThrow(() -> new VehicleNotFoundException(
                         "Vehicle with id: " + rentOrderCreationDTO.getVehicleId() + " not found")));
@@ -43,7 +43,7 @@ public class RentOrderMapper {
     public RentOrderResponseDTO toRentOrderResponseDTO(RentOrder rentOrder) {
         RentOrderResponseDTO rentOrderResponseEntity = new RentOrderResponseDTO();
         rentOrderResponseEntity.setId(rentOrder.getId());
-        rentOrderResponseEntity.setUserId(rentOrder.getUser().getId());
+        rentOrderResponseEntity.setBuyerId(rentOrder.getUser().getId());
         rentOrderResponseEntity.setStartRent(rentOrder.getStartRent());
         rentOrderResponseEntity.setStopRent(rentOrder.getStopRent());
         rentOrderResponseEntity.setDailyPrice(rentOrder.getDailyPrice());
