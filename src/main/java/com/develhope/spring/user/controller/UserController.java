@@ -51,7 +51,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<User> create(@RequestBody RegistrationDto registrationDto) {
         User createdUser = userService.create(registrationDto);
         return ResponseEntity.ok(createdUser);
@@ -70,8 +70,8 @@ public class UserController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<Void> deleteById(@RequestParam Long id) {
         NecessaryAuthority.of(
                         UserKind.ADMIN,
                         UserKind.SELLER)
@@ -80,8 +80,8 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User userDetails) {
+    @PutMapping("/update")
+    public ResponseEntity<User> update(@RequestParam Long id, @RequestBody User userDetails) {
         NecessaryAuthority.of(
                         UserKind.ADMIN,
                         UserKind.SELLER)

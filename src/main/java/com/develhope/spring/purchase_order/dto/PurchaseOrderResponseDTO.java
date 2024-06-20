@@ -14,7 +14,7 @@ public class PurchaseOrderResponseDTO {
     private long id;
     private long buyerId;
     private double deposit;
-    private boolean payed;
+    private boolean paid;
     private Date createdAt;
     @Enumerated(EnumType.STRING)
     private PurchaseOrderStatus purchaseOrderStatus;

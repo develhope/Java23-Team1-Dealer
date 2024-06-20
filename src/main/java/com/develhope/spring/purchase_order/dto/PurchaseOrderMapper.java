@@ -38,7 +38,7 @@ public class PurchaseOrderMapper {
         purchaseOrderEntity.setCreatedAt(new Date(System.currentTimeMillis()));
         purchaseOrderEntity.setPurchaseOrderStatus(purchaseOrderCreationDTO.getPurchaseOrderStatus());
         purchaseOrderEntity.setDeposit(purchaseOrderCreationDTO.getDeposit());
-        purchaseOrderEntity.setPayed(purchaseOrderCreationDTO.isPayed());
+        purchaseOrderEntity.setPaid(purchaseOrderCreationDTO.isPaid());
         purchaseOrderEntity.setSeller( userRepository.findById(purchaseOrderCreationDTO.getSellerId())
                 .orElseThrow(() -> new UserNotFoundException("Seller not found"))
         );
@@ -54,7 +54,7 @@ public class PurchaseOrderMapper {
         purchaseOrderResponseDTO.setCreatedAt(purchaseOrder.getCreatedAt());
         purchaseOrderResponseDTO.setPurchaseOrderStatus(purchaseOrder.getPurchaseOrderStatus());
         purchaseOrderResponseDTO.setDeposit(purchaseOrder.getDeposit());
-        purchaseOrderResponseDTO.setPayed(purchaseOrder.isPayed());
+        purchaseOrderResponseDTO.setPaid(purchaseOrder.isPaid());
         purchaseOrderResponseDTO.setSellerId(purchaseOrder.getSeller().getId());
         return purchaseOrderResponseDTO;
     }

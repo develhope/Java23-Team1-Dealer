@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/purchase_order")
 public class PurchaseOrderController {
     @Autowired
-    private PurchaseOrderService purchaseService;
+    private PurchaseOrderService purchaseOrderService;
 
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
@@ -37,15 +37,10 @@ public class PurchaseOrderController {
 
     @PostMapping
     public ResponseEntity<PurchaseOrderResponseDTO> create(@RequestBody PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
-        return ResponseEntity.ok(purchaseService.createOrder(purchaseOrderCreationDTO));
+        return ResponseEntity.ok(purchaseOrderService.createOrder(purchaseOrderCreationDTO));
     }
 
-    @GetMapping("/{id}")
-    public PurchaseOrder findById(@PathVariable long id) {
-        return purchaseService.findOrderById(id);
-    }
-
-    @GetMapping(path = "/filter")
+    @GetMapping
     public ResponseEntity<List<PurchaseOrderResponseDTO>> filterPurchaseOrder(
             @RequestBody PurchaseOrderFilterService purchaseOrderFilterService) {
         purchaseOrderFilterService.setPurchaseOrderRepository(purchaseOrderRepository);
@@ -55,28 +50,29 @@ public class PurchaseOrderController {
         }
 
         return ResponseEntity
-                .ok(purchaseService.filterPurchaseOrder(purchaseOrderFilterService));
+                .ok(purchaseOrderService.filterPurchaseOrder(purchaseOrderFilterService));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PurchaseOrder> update(@PathVariable long id, @RequestBody PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
-        return ResponseEntity.ok().body(purchaseService.updateOrder(id, purchaseOrderCreationDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable long id) {
-        purchaseService.deleteOrderById(id);
-        return ResponseEntity.ok().body("Deleted");
+    @PutMapping
+    public ResponseEntity<PurchaseOrder> update(@RequestParam long id, @RequestBody PurchaseOrderCreationDTO purchaseOrderCreationDTO) {
+        return ResponseEntity.ok().body(purchaseOrderService.updateOrder(id, purchaseOrderCreationDTO));
     }
 
     @DeleteMapping
+    public ResponseEntity<String> deleteById(@RequestParam long id) {
+        purchaseOrderService.deleteOrderById(id);
+        return ResponseEntity.ok().body("Deleted");
+    }
+
+    @DeleteMapping(path = "/all")
     public ResponseEntity<String> deleteAll() {
-        purchaseService.deleteAllOrders();
+        NecessaryAuthority.of(UserKind.ADMIN).grant();
+        purchaseOrderService.deleteAllOrders();
         return ResponseEntity.ok().body("All orderse where deleted");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<PurchaseOrder> updateOrderStatus(@PathVariable long id, @RequestParam PurchaseOrderStatus purchaseOrderStatus) {
-        return ResponseEntity.ok().body(purchaseService.updateOrderStatus(id, purchaseOrderStatus));
+    @PatchMapping
+    public ResponseEntity<PurchaseOrder> updateOrderStatus(@RequestParam long id, @RequestParam PurchaseOrderStatus purchaseOrderStatus) {
+        return ResponseEntity.ok().body(purchaseOrderService.updateOrderStatus(id, purchaseOrderStatus));
     }
 }

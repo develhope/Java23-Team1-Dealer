@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class PurchaseOrderCreationDTO {
     private long buyerId;
     private double deposit;
-    private boolean payed;
+    private boolean paid;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PurchaseOrderStatus purchaseOrderStatus;

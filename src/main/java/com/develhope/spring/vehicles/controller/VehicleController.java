@@ -26,7 +26,7 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleAdded);
     }
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<List<Vehicle>> getFilteredVehicles(
             @RequestBody VehicleServiceFilter vehicleServiceFilter
     ) {
@@ -36,14 +36,14 @@ public class VehicleController {
                 .body(vehicleServiceFilter.getFilteredVehicles());
     }
 
-    @GetMapping("/mostExpensiveSoldedVehicle")
+    @GetMapping("/mostExpensiveSoldVehicle")
     public ResponseEntity<Vehicle> findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(vehicleService.findMostExpensiveSoldedVehicle(vehicleServiceFilter));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<Void> deleteVehicle(@RequestParam Long id) {
         vehicleService.deleteVehicleById(id);
         return ResponseEntity.notFound().build();
     }
