@@ -1,14 +1,21 @@
 package com.develhope.spring;
 
+import com.develhope.spring.purchase_order.dto.PurchaseOrderResponseDTO;
+import com.develhope.spring.rent_order.controller.RentOrderController;
+import com.develhope.spring.rent_order.dto.RentOrderCreationDTO;
+import com.develhope.spring.rent_order.dto.RentOrderMapper;
+import com.develhope.spring.rent_order.dto.RentOrderResponseDTO;
 import com.develhope.spring.rent_order.service.RentOrderService;
 import com.develhope.spring.user.dto.LoginDto;
 import com.develhope.spring.user.dto.RegistrationDto;
 import com.develhope.spring.user.entity.LoginResponse;
+import com.develhope.spring.user.entity.User;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.JwtService;
 import com.develhope.spring.user.service.UserService;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.service.VehicleService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +26,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,6 +43,8 @@ public class RentOrderControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private RentOrderService rentService;
+    @Autowired
+    private RentOrderMapper rentMapper;
     @Autowired
     private UserService userService;
     @Autowired
@@ -74,28 +87,36 @@ public class RentOrderControllerTest {
             2015, FuelType.BATTERY, 9500.0,
             false, 0.0, "none",
             true, VehicleState.PURCHASABLE);
+    private final static RentOrderCreationDTO VALID_RENT_CREATION_DTO = new RentOrderCreationDTO(
+            3, new Date(15/ 7 /2024), new Date(20/ 7 /2024),30, 150, 3,2);
 
     @BeforeEach
     public void setup() throws Exception {
+        userService.create(USER_REGISTRATION_ADMIN);
+        userService.create(USER_REGISTRATION_SELLER);
+        userService.create(USER_REGISTRATION_BUYER);
         vehicleService.createVehicle(DEFAULT_VEHICLE1);
         vehicleService.createVehicle(DEFAULT_VEHICLE2);
         vehicleService.createVehicle(DEFAULT_VEHICLE3);
         vehicleService.createVehicle(DEFAULT_VEHICLE4);
-        userService.create(USER_REGISTRATION_ADMIN);
-        userService.create(USER_REGISTRATION_SELLER);
-        userService.create(USER_REGISTRATION_BUYER);
-
-        MvcResult result = mockMvc.perform(post("/user/login")
-                        .content(objectMapper.writeValueAsString(USER_LOGIN_ADMIN))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-        String jsonResponse = result.getResponse().getContentAsString();
-        LoginResponse loginResponse = objectMapper.readValue(jsonResponse, LoginResponse.class);
-        adminJwtToken = loginResponse.getToken();
+        User response = userService.authenticate(
+                new LoginDto(USER_REGISTRATION_ADMIN.getUsername(), USER_REGISTRATION_ADMIN.getPassword()));
+        assertNotNull(response);
+        adminJwtToken = jwtService.generateToken(response);
     }
 
     @Test
     @DirtiesContext
+    void createRentOrderTest_withValidRent () throws Exception {
+        MvcResult result = mockMvc.perform(post("/rent_order")
+                        .header("Authorization", "Bearer " + adminJwtToken)
+                        .content(objectMapper.writeValueAsString(VALID_RENT_CREATION_DTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+        String responseBody = result.getResponse().getContentAsString();
+        RentOrderResponseDTO rentResult = objectMapper.readValue(responseBody, RentOrderResponseDTO.class);
+        assertNotNull(rentResult);
+    }
 
 }
