@@ -5,6 +5,7 @@ import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.purchase_order.entity.PurchaseOrder;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Service
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseOrderMapper {
 
     @Autowired
@@ -36,7 +38,7 @@ public class PurchaseOrderMapper {
         purchaseOrderEntity.setCreatedAt(new Date(System.currentTimeMillis()));
         purchaseOrderEntity.setPurchaseOrderStatus(purchaseOrderCreationDTO.getPurchaseOrderStatus());
         purchaseOrderEntity.setDeposit(purchaseOrderCreationDTO.getDeposit());
-        purchaseOrderEntity.setPayed(purchaseOrderCreationDTO.isPayed());
+        purchaseOrderEntity.setPaid(purchaseOrderCreationDTO.isPaid());
         purchaseOrderEntity.setSeller( userRepository.findById(purchaseOrderCreationDTO.getSellerId())
                 .orElseThrow(() -> new UserNotFoundException("Seller not found"))
         );
@@ -52,7 +54,7 @@ public class PurchaseOrderMapper {
         purchaseOrderResponseDTO.setCreatedAt(purchaseOrder.getCreatedAt());
         purchaseOrderResponseDTO.setPurchaseOrderStatus(purchaseOrder.getPurchaseOrderStatus());
         purchaseOrderResponseDTO.setDeposit(purchaseOrder.getDeposit());
-        purchaseOrderResponseDTO.setPayed(purchaseOrder.isPayed());
+        purchaseOrderResponseDTO.setPaid(purchaseOrder.isPaid());
         purchaseOrderResponseDTO.setSellerId(purchaseOrder.getSeller().getId());
         return purchaseOrderResponseDTO;
     }

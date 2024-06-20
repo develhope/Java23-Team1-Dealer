@@ -37,8 +37,7 @@ public class VehicleServiceFilter {
     private Boolean isNew;
     private VehicleState vehicleState;
 
-    public List<Vehicle> getFilteredVehicles(
-    ) {
+    public List<Vehicle> getFilteredVehicles() {
         Specification<Vehicle> specification = Specification.where(null);
 
         if (vehicleKind != null) {
