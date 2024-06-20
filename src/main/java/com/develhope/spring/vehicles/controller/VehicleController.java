@@ -32,7 +32,7 @@ public class VehicleController {
     ) {
         vehicleServiceFilter.setVehicleRepository(vehicleRepository);
         return ResponseEntity
-                .status(HttpStatus.FOUND)
+                .ok()
                 .body(vehicleServiceFilter.getFilteredVehicles());
     }
 

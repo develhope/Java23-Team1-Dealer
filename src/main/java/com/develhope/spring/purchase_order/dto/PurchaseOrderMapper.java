@@ -5,6 +5,7 @@ import com.develhope.spring.exception.customException.VehicleNotFoundException;
 import com.develhope.spring.purchase_order.entity.PurchaseOrder;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Service
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseOrderMapper {
 
     @Autowired

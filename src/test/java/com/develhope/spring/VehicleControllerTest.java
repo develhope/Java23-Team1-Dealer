@@ -125,7 +125,7 @@ public class VehicleControllerTest {
                                 """
                         )
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();

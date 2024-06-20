@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +44,15 @@ public class PurchaseOrderService {
         } else {
             throw new OrderNotFoundException("No purchase_order founded with this id: " + id);
         }
+    }
+
+    public List<PurchaseOrderResponseDTO> filterPurchaseOrder(PurchaseOrderFilterService purchaseOrderFilterService) {
+        List<PurchaseOrder> purchaseOrders = purchaseOrderFilterService.filterPurchaseOrder();
+        List<PurchaseOrderResponseDTO> purchaseOrderResponseDTOS = new ArrayList<>();
+        for (PurchaseOrder purchaseOrder : purchaseOrders) {
+            purchaseOrderResponseDTOS.add(purchaseMapper.toPurchaseOrderResponseDTO(purchaseOrder));
+        }
+        return purchaseOrderResponseDTOS;
     }
 
     public List<PurchaseOrder> findAllOrders() {

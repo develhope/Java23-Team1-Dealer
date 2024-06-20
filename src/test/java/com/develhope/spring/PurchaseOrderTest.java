@@ -19,11 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -75,7 +79,6 @@ public class PurchaseOrderTest {
 
     @Test
     void createOrder() throws Exception {
-
        MvcResult result = mockMvc.perform(post("/purchase_order")
                 .header("Authorization", "Bearer " + jwtToken)
                 .content(objectMapper.writeValueAsString(ORDER_CREATION_DTO))
@@ -86,5 +89,25 @@ public class PurchaseOrderTest {
         PurchaseOrderResponseDTO orderReturned = objectMapper.readValue(responseBody, PurchaseOrderResponseDTO.class);
         assertNotNull(orderReturned);
     }
+    @Test
+    @DirtiesContext
+    public void testFilterOrders() throws Exception {
+        purchaseService.createOrder(ORDER_CREATION_DTO);
+        MvcResult result = mockMvc.perform(get("/purchase_order/filter")
+                        .header("Authorization", "Bearer " + jwtToken)
+                        .content("""
+                                {
+                                "buyerId": 1,
+                                "payed": false
+                                }
+                                """
+                        )
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
 
+        String jsonResponse = result.getResponse().getContentAsString();
+        List<Vehicle> vehicles = objectMapper.readValue(jsonResponse, List.class);
+        assertEquals(1, vehicles.size());
+    }
 }
