@@ -22,11 +22,12 @@ public class PurchaseOrder {
     @ManyToOne
     private User buyer;
     private double deposit;
-    private boolean payed;
+    private boolean paid;
     private Date createdAt;
     @Enumerated(EnumType.STRING)
     private PurchaseOrderStatus purchaseOrderStatus;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
     @ManyToOne
     private User seller;

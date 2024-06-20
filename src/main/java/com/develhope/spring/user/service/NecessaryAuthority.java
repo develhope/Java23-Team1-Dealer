@@ -1,5 +1,6 @@
 package com.develhope.spring.user.service;
 
+import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.user.entity.UserKind;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -59,7 +60,7 @@ public class NecessaryAuthority {
             }
 
         }
-        throw new AccessDeniedException("Access denied. User " + authentication.getName()
+        throw new UserWithoutPrivilegeException("Access denied. User " + authentication.getName()
                 + " does not have the required authority. \n" +
                 "Action permitted by user kind: " + authorities.toString());
 

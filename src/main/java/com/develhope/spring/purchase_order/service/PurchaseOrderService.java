@@ -12,11 +12,11 @@ import com.develhope.spring.purchase_order.repository.PurchaseOrderRepository;
 import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.entity.Vehicle;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
-import com.develhope.spring.exception.customException.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,12 +37,13 @@ public class PurchaseOrderService {
         return purchaseMapper.toPurchaseOrderResponseDTO(purchaseOrder);
     }
 
-    public PurchaseOrder findOrderById(long id) {
-        if (purchaseRepository.existsById(id)) {
-            return purchaseRepository.findById(id).get();
-        } else {
-            throw new OrderNotFoundException("No purchase_order founded with this id: " + id);
+    public List<PurchaseOrderResponseDTO> filterPurchaseOrder(PurchaseOrderFilterService purchaseOrderFilterService) {
+        List<PurchaseOrder> purchaseOrders = purchaseOrderFilterService.filterPurchaseOrder();
+        List<PurchaseOrderResponseDTO> purchaseOrderResponseDTOS = new ArrayList<>();
+        for (PurchaseOrder purchaseOrder : purchaseOrders) {
+            purchaseOrderResponseDTOS.add(purchaseMapper.toPurchaseOrderResponseDTO(purchaseOrder));
         }
+        return purchaseOrderResponseDTOS;
     }
 
     public List<PurchaseOrder> findAllOrders() {
@@ -61,7 +62,7 @@ public class PurchaseOrderService {
         purchaseOrderToUpdate.setVehicle(vehicle);
         purchaseOrderToUpdate.setPurchaseOrderStatus(purchaseOrderCreationDTO.getPurchaseOrderStatus());
         purchaseOrderToUpdate.setDeposit(purchaseOrderCreationDTO.getDeposit());
-        purchaseOrderToUpdate.setPayed(purchaseOrderCreationDTO.isPayed());
+        purchaseOrderToUpdate.setPaid(purchaseOrderCreationDTO.isPaid());
         return purchaseRepository.save(purchaseOrderToUpdate);
     }
 
