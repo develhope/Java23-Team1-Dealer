@@ -2,6 +2,7 @@ package com.develhope.spring.purchase_order.service;
 
 import com.develhope.spring.exception.customException.UserNotFoundException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
+import com.develhope.spring.purchase_order.dto.OrderCountDTO;
 import com.develhope.spring.purchase_order.dto.PurchaseOrderCreationDTO;
 import com.develhope.spring.purchase_order.dto.PurchaseOrderMapper;
 import com.develhope.spring.purchase_order.dto.PurchaseOrderResponseDTO;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -77,6 +79,10 @@ public class PurchaseOrderService {
         PurchaseOrder purchaseOrder = purchaseRepository.findById(orderId).get();
         purchaseOrder.setPurchaseOrderStatus(purchaseOrderStatus);
         return purchaseOrder;
+    }
+
+    public List<OrderCountDTO> getOrderCountByBrandAndModel(Date startDate, Date endDate) {
+        return purchaseRepository.findOrderCountByBrandAndModel(startDate, endDate);
     }
 }
 

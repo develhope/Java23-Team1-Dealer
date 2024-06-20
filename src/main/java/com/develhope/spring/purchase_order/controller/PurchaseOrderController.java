@@ -1,5 +1,6 @@
 package com.develhope.spring.purchase_order.controller;
 
+import com.develhope.spring.purchase_order.dto.OrderCountDTO;
 import com.develhope.spring.purchase_order.dto.PurchaseOrderCreationDTO;
 import com.develhope.spring.purchase_order.dto.PurchaseOrderResponseDTO;
 import com.develhope.spring.purchase_order.entity.PurchaseOrder;
@@ -9,6 +10,7 @@ import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.NecessaryAuthority;
 import com.develhope.spring.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -76,5 +79,12 @@ public class PurchaseOrderController {
     @PatchMapping("/{id}")
     public ResponseEntity<PurchaseOrder> updateOrderStatus (@PathVariable long id, @RequestParam PurchaseOrderStatus purchaseOrderStatus) {
         return ResponseEntity.ok().body(purchaseService.updateOrderStatus(id, purchaseOrderStatus));
+    }
+
+    @GetMapping("/vehicles/mostPurchased/period")
+    public List<OrderCountDTO> getOrderCountByBrandAndModel(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        return purchaseService.getOrderCountByBrandAndModel(startDate, endDate);
     }
 }

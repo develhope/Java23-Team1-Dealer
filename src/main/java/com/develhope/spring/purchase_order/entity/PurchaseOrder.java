@@ -17,18 +17,28 @@ import java.util.Date;
 public class PurchaseOrder {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @ManyToOne
+    @JoinColumn(name = "buyer_id", nullable = false)
     private User buyer;
+
     private double deposit;
+
     private boolean payed;
+
+    @Temporal(TemporalType.DATE)
     private Date createdAt;
+
     @Enumerated(EnumType.STRING)
     private PurchaseOrderStatus purchaseOrderStatus;
-    @OneToOne
-    private Vehicle vehicle;
-    @ManyToOne
-    private User seller;
 
+    @OneToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
+    private Vehicle vehicle;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id", nullable = false)
+    private User seller;
 }
