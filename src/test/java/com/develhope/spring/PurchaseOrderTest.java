@@ -67,8 +67,8 @@ public class PurchaseOrderTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        if (!userService.existsById(1L)) userService.create(registrationDto);
-        if (!vehicleService.existsById(1L)) vehicleService.createVehicle(vehicle);
+        userService.create(registrationDto);
+        vehicleService.createVehicle(vehicle);
 
         User response = userService.authenticate(
                 new LoginDto(registrationDto.getUsername(), registrationDto.getPassword()));
@@ -78,6 +78,7 @@ public class PurchaseOrderTest {
     }
 
     @Test
+    @DirtiesContext
     void createOrder() throws Exception {
        MvcResult result = mockMvc.perform(post("/purchase_order")
                 .header("Authorization", "Bearer " + jwtToken)
