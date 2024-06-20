@@ -1,5 +1,6 @@
 package com.develhope.spring;
 
+import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.user.entity.UserKind;
 import com.develhope.spring.user.service.NecessaryAuthority;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,8 +60,8 @@ public class NecessaryAuthorityTest {
                 .toList()).thenReturn(authorities);
 
 
-        AccessDeniedException exception = assertThrows(
-                AccessDeniedException.class,
+        UserWithoutPrivilegeException exception = assertThrows(
+                UserWithoutPrivilegeException.class,
                 () -> NecessaryAuthority.of(UserKind.SELLER).grant());
     }
 

@@ -119,7 +119,7 @@ public class VehicleControllerTest {
                         .header("Authorization", "Bearer " + adminJwtToken)
                         .content("""
                                  {
-                                 "buyerId": 1
+                                 "buyerId": 1,
                                  "brand": "Toyota"
                                  }
                                  """
