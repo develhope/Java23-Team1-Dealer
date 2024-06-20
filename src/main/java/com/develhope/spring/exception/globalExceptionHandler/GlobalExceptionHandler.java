@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserWithoutPrivilegeException.class)
     public ResponseEntity<String> handleUserWithoutPrivilegeException(UserWithoutPrivilegeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(BadVehicleStateException.class)

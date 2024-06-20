@@ -14,6 +14,7 @@ import com.develhope.spring.user.repository.UserRepository;
 import com.develhope.spring.vehicles.entity.VehicleState;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class RentOrderService {
         }
         rentEntity.setRentOrderStatus(RentOrderStatus.ACCEPTED);
         rentRepository.save(rentEntity);
-        return rentMapper.toRentOrderResponseDTO(rentEntity);
+        return RentOrderMapper.toRentOrderResponseDTO(rentEntity);
         // da aggiungere anche un check sul pagamento, in modo da impostare "payed" a true.
         // il totalPrice va impostato in base a startRent e stopRent.
     }
