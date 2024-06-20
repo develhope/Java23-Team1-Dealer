@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -29,11 +30,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 public class RentOrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -43,8 +46,6 @@ public class RentOrderControllerTest {
     private ObjectMapper objectMapper;
     @Autowired
     private RentOrderService rentService;
-    @Autowired
-    private RentOrderMapper rentMapper;
     @Autowired
     private UserService userService;
     @Autowired
@@ -116,7 +117,7 @@ public class RentOrderControllerTest {
                 .andReturn();
         String responseBody = result.getResponse().getContentAsString();
         RentOrderResponseDTO rentResult = objectMapper.readValue(responseBody, RentOrderResponseDTO.class);
-        assertNotNull(rentResult);
+        assertEquals(rentResult.getId(), 1);
     }
 
 }
