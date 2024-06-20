@@ -115,8 +115,15 @@ public class VehicleControllerTest {
     @Test
     @DirtiesContext
     public void testGetFilteredVehicles() throws Exception {
-        MvcResult result = mockMvc.perform(get("?brand=Toyota&model=corolla")
+        MvcResult result = mockMvc.perform(get("/vehicle")
                         .header("Authorization", "Bearer " + adminJwtToken)
+                        .content("""
+                                 {
+                                 "buyerId": 1
+                                 "brand": "Toyota"
+                                 }
+                                 """
+                        )
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();

@@ -178,7 +178,7 @@ public class UserTests {
                 "fi@gh.it", "fi", "gianni", UserKind.ADMIN
         );
 
-        mockMvc.perform(post("/user/create")
+        mockMvc.perform(post("/user")
                         .content(objectMapper.writeValueAsString(registrationDto))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -213,7 +213,7 @@ public class UserTests {
 
         String jwtToken = jwtService.generateToken(returnedUser);
 
-        mockMvc.perform(delete("/user/delete/" + returnedUser.getId())
+        mockMvc.perform(delete("/user?id=" + returnedUser.getId())
                         .header("Authorization", "Bearer " + jwtToken))
                 .andExpect(status().isOk());
     }

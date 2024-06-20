@@ -94,12 +94,12 @@ public class PurchaseOrderTest {
     @DirtiesContext
     public void testFilterOrders() throws Exception {
         purchaseService.createOrder(ORDER_CREATION_DTO);
-        MvcResult result = mockMvc.perform(get("/purchase_order/filter")
+        MvcResult result = mockMvc.perform(get("/purchase_order")
                         .header("Authorization", "Bearer " + jwtToken)
                         .content("""
                                 {
                                 "buyerId": 1,
-                                "payed": false
+                                "paid": false
                                 }
                                 """
                         )
