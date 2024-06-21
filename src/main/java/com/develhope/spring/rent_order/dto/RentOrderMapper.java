@@ -51,7 +51,7 @@ public class RentOrderMapper {
         rentOrderResponseEntity.setStopRent(rentOrder.getStopRent());
         rentOrderResponseEntity.setDailyPrice(rentOrder.getDailyPrice());
         rentOrderResponseEntity.setTotalPrice(rentOrder.getTotalPrice());
-        rentOrderResponseEntity.setPayed(rentOrder.isPaid());
+        rentOrderResponseEntity.setPaid(rentOrder.isPaid());
         rentOrderResponseEntity.setRentOrderStatus(rentOrder.getRentOrderStatus());
         rentOrderResponseEntity.setVehicleId(rentOrder.getVehicle().getId());
         rentOrderResponseEntity.setSellerId(rentOrder.getSeller().getId());

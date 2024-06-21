@@ -19,7 +19,7 @@ public class RentOrderResponseDTO {
     @Temporal(TemporalType.DATE)
     private Date startRent, stopRent;
     private double dailyPrice, totalPrice;
-    private boolean payed;
+    private boolean paid;
     @Enumerated(EnumType.STRING)
     private RentOrderStatus rentOrderStatus;
     private long vehicleId;

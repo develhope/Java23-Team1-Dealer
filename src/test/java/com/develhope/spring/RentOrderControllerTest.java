@@ -130,18 +130,24 @@ public class RentOrderControllerTest {
 
     @Test
     @DirtiesContext
-        // questo test lancia correttamente l'eccezione, tuttavia non capisco perchè non lo fa con il mockMvc.
     void createRentTest_withInvalidSeller() throws Exception {
-        assertThrows(UserWithoutPrivilegeException.class,
-                () -> rentController.create(INVALID_SELLER_RENT_CREATION_DTO));
+        mockMvc.perform(post("/rent_order")
+                        .header("Authorization", "Bearer " + adminJwtToken)
+                        .content(objectMapper.writeValueAsString(INVALID_SELLER_RENT_CREATION_DTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andReturn();
     }
 
     @Test
     @DirtiesContext
-        // questo test lancia correttamente l'eccezione, tuttavia non capisco perchè non lo fa con il mockMvc.
     void createRentTest_withInvalidVehicle() throws Exception {
-        assertThrows(BadVehicleStateException.class,
-                () -> rentController.create(INVALID_VEHICLE_RENT_CREATION_DTO));
+        mockMvc.perform(post("/rent_order")
+                        .header("Authorization", "Bearer " + adminJwtToken)
+                        .content(objectMapper.writeValueAsString(INVALID_VEHICLE_RENT_CREATION_DTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 
     @Test
@@ -149,7 +155,7 @@ public class RentOrderControllerTest {
     void findRentByIdTest_withValidId() throws Exception {
         rentController.create(VALID_RENT_CREATION_DTO);
         MvcResult result = mockMvc.perform(get("/rent_order/1")
-                .header("Authorization", "Bearer " + adminJwtToken))
+                        .header("Authorization", "Bearer " + adminJwtToken))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -161,8 +167,10 @@ public class RentOrderControllerTest {
     @Test
     @DirtiesContext
     void findRentByIdTest_withInvalidId() throws Exception {
-        assertThrows(OrderNotFoundException.class,
-                () -> rentController.findById(1));
+        mockMvc.perform(get("/rent_order/1")
+                        .header("Authorization", "Bearer " + adminJwtToken))
+                .andExpect(status().isNotFound())
+                .andReturn();
     }
 
     @Test
@@ -186,8 +194,8 @@ public class RentOrderControllerTest {
         rentController.create(VALID_RENT_CREATION_DTO);
         MvcResult result = mockMvc.perform(put("/rent_order/1")
                         .header("Authorization", "Bearer " + adminJwtToken)
-                .content(objectMapper.writeValueAsString(UPDATED_RENT_CREATION_DTO))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(UPDATED_RENT_CREATION_DTO))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -199,7 +207,7 @@ public class RentOrderControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteRentById_withValidId () throws Exception {
+    void deleteRentById_withValidId() throws Exception {
         rentController.create(VALID_RENT_CREATION_DTO);
         MvcResult result = mockMvc.perform(delete("/rent_order/1")
                         .header("Authorization", "Bearer " + adminJwtToken))
@@ -212,14 +220,16 @@ public class RentOrderControllerTest {
 
     @Test
     @DirtiesContext
-    void deleteRentById_withInvalidId () throws Exception {
-        assertThrows(OrderNotFoundException.class,
-                () -> rentController.deleteById(1));
+    void deleteRentById_withInvalidId() throws Exception {
+        mockMvc.perform(delete("/rent_order/1")
+                        .header("Authorization", "Bearer " + adminJwtToken))
+                .andExpect(status().isNotFound())
+                .andReturn();
     }
 
     @Test
     @DirtiesContext
-    void deleteAllOrdersTest () throws Exception {
+    void deleteAllOrdersTest() throws Exception {
         rentController.create(VALID_RENT_CREATION_DTO);
         rentController.create(VALID_RENT_CREATION_DTO2);
         MvcResult result = mockMvc.perform(delete("/rent_order")
