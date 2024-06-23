@@ -1,5 +1,6 @@
 package com.develhope.spring.vehicles.controller;
 
+import com.develhope.spring.vehicles.dto.VehicleDTO;
 import com.develhope.spring.vehicles.dto.MostOrderedVehicleDTO;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
@@ -10,10 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehicle")
+@RequestMapping("/vehicles")
 public class VehicleController {
 
     @Autowired
@@ -48,12 +50,16 @@ public class VehicleController {
         vehicleService.deleteVehicleById(id);
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/mostpurchased")
+    public ResponseEntity<Collection<MostPurchasedModel>> mostPurchased () {
+        return  ResponseEntity.accepted().body(vehicleService.mostPurchasedVehicles());
+
     @GetMapping("/mostOrderedModel")
     public ResponseEntity<MostOrderedVehicleDTO> getMostOrderedVehicleModel() {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(vehicleService.findMostOrderedVehicleModel());
-
     }
 }

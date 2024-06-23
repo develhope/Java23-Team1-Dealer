@@ -47,4 +47,11 @@ public class Vehicle {
     private boolean isNew;
     @Enumerated(EnumType.STRING)
     private VehicleState vehicleState;
+    /*private int numberOfPurchases;
+
+    public Vehicle (String brand, String model, int numberOfPurchases) {
+        this.brand = brand;
+        this.model = model;
+        this.numberOfPurchases = numberOfPurchases;
+    }*/
 }

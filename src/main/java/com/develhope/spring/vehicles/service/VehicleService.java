@@ -2,6 +2,7 @@ package com.develhope.spring.vehicles.service;
 
 import com.develhope.spring.exception.customException.NoResultsException;
 import com.develhope.spring.exception.customException.VehicleNotFoundException;
+import com.develhope.spring.vehicles.dto.VehicleDTO;
 import com.develhope.spring.vehicles.dto.MostOrderedVehicleDTO;
 import com.develhope.spring.vehicles.dto.VehicleMapper;
 import com.develhope.spring.vehicles.entity.*;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -59,5 +61,7 @@ public class VehicleService {
         return vehicleRepository.existsById(id);
     }
 
-
+    public Collection<MostPurchasedModel> mostPurchasedVehicles () {
+          return vehicleRepository.findMostPurchasedVehicleModel();
+    }
 }
