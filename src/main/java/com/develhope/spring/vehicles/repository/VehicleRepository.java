@@ -16,4 +16,7 @@ public interface VehicleRepository extends JpaRepository <Vehicle, Long>, JpaSpe
     Collection <MostPurchasedModel> findMostPurchasedVehicleModel();
     //int countByVehicleState(VehicleState vehicleState);
     //Collection<String> findAllModelsGroupByModel ();
+
+    @Query("SELECT new com.develhope.spring.vehicles.entity.MostOrderedVehicleModelCount(v.brand, v.model) FROM Vehicle v right JOIN PurchaseOrder o ON v.id = o.vehicle.id GROUP BY v.model ORDER BY COUNT(o.id) DESC LIMIT 1")
+    MostOrderedVehicleModelCount findMostOrderedVehicleModel();
 }

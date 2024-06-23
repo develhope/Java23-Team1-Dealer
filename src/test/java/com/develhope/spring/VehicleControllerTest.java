@@ -115,17 +115,17 @@ public class VehicleControllerTest {
     @Test
     @DirtiesContext
     public void testGetFilteredVehicles() throws Exception {
-        MvcResult result = mockMvc.perform(get("/vehicle/filter")
+        MvcResult result = mockMvc.perform(get("/vehicle")
                         .header("Authorization", "Bearer " + adminJwtToken)
                         .content("""
-                                {
-                                "brand":"Toyota",
-                                "model":"Corolla"
-                                }
-                                """
+                                 {
+                                 "buyerId": 1,
+                                 "brand": "Toyota"
+                                 }
+                                 """
                         )
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();
@@ -136,7 +136,7 @@ public class VehicleControllerTest {
     @Test
     @DirtiesContext
     void testfindMostExpensiveSoldedVehicle_withValidVehicle() throws Exception {
-        this.mockMvc.perform(get("/vehicle/mostExpensiveSoldedVehicle")
+        this.mockMvc.perform(get("/vehicle/mostExpensiveSoldVehicle")
                 .header("Authorization", "Bearer " + adminJwtToken)
                         .content("""
                                 {

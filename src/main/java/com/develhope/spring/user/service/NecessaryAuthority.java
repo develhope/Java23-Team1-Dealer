@@ -1,5 +1,6 @@
 package com.develhope.spring.user.service;
 
+import com.develhope.spring.exception.customException.UserWithoutPrivilegeException;
 import com.develhope.spring.user.entity.UserKind;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ public class NecessaryAuthority {
 
     private final List<UserKind> authorities;
 
+    private final Authentication authentication;
+
     /**
      * Private constructor to initialize the {@code NecessaryAuthority} with the given authorities.
      *
@@ -23,6 +26,10 @@ public class NecessaryAuthority {
      */
     private NecessaryAuthority(UserKind... authorities) {
         this.authorities = Arrays.asList(authorities);
+        authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new AccessDeniedException("No valid authentication");
+        }
     }
 
     /**
@@ -42,10 +49,6 @@ public class NecessaryAuthority {
      * @throws AccessDeniedException if the current user does not have the required authority.
      */
     public void grant() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            throw new AccessDeniedException("No valid authentication");
-        }
 
         List<UserKind> loggedUserAuthorityList = authentication.getAuthorities().stream()
                 .map(grantedAuthority -> UserKind.valueOf(grantedAuthority.getAuthority()))
@@ -57,11 +60,35 @@ public class NecessaryAuthority {
             }
 
         }
-        throw new AccessDeniedException("Access denied. User " + authentication.getName()
+        throw new UserWithoutPrivilegeException("Access denied. User " + authentication.getName()
                 + " does not have the required authority. \n" +
                 "Action permitted by user kind: " + authorities.toString());
 
     }
+
+    /**
+     * Checks if the current user has the necessary authorities. If the user does not have the required authority,
+     * {@code false} is returned.
+     *
+     * @throws AccessDeniedException if a no valid authentication is present.
+     */
+
+    public boolean check() {
+
+        List<UserKind> loggedUserAuthorityList = authentication.getAuthorities().stream()
+                .map(grantedAuthority -> UserKind.valueOf(grantedAuthority.getAuthority()))
+                .toList();
+
+        for (UserKind authority : authorities) {
+            if (loggedUserAuthorityList.getFirst().equals(authority)) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+
 }
 
 

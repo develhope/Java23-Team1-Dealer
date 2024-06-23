@@ -1,6 +1,7 @@
 package com.develhope.spring.vehicles.controller;
 
 import com.develhope.spring.vehicles.dto.VehicleDTO;
+import com.develhope.spring.vehicles.dto.MostOrderedVehicleDTO;
 import com.develhope.spring.vehicles.entity.*;
 import com.develhope.spring.vehicles.repository.VehicleRepository;
 import com.develhope.spring.vehicles.service.VehicleService;
@@ -28,24 +29,24 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleAdded);
     }
 
-    @GetMapping("/filter")
+    @GetMapping
     public ResponseEntity<List<Vehicle>> getFilteredVehicles(
             @RequestBody VehicleServiceFilter vehicleServiceFilter
     ) {
         vehicleServiceFilter.setVehicleRepository(vehicleRepository);
         return ResponseEntity
-                .status(HttpStatus.FOUND)
+                .ok()
                 .body(vehicleServiceFilter.getFilteredVehicles());
     }
 
-    @GetMapping("/mostExpensiveSoldedVehicle")
+    @GetMapping("/mostExpensiveSoldVehicle")
     public ResponseEntity<Vehicle> findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(vehicleService.findMostExpensiveSoldedVehicle(vehicleServiceFilter));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteVehicle(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<Void> deleteVehicle(@RequestParam Long id) {
         vehicleService.deleteVehicleById(id);
         return ResponseEntity.notFound().build();
     }
@@ -53,5 +54,12 @@ public class VehicleController {
     @GetMapping("/mostpurchased")
     public ResponseEntity<Collection<MostPurchasedModel>> mostPurchased () {
         return  ResponseEntity.accepted().body(vehicleService.mostPurchasedVehicles());
+
+    @GetMapping("/mostOrderedModel")
+    public ResponseEntity<MostOrderedVehicleDTO> getMostOrderedVehicleModel() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(vehicleService.findMostOrderedVehicleModel());
     }
 }
