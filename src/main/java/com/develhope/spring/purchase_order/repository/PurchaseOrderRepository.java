@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
 
-    @Query("SELECT new com.develhope.spring.vehicles.dto.OrderCountDTO(v.brand, v.model, COUNT(po.id)) " +
+    @Query("SELECT new com.develhope.spring.purchase_order.dto.OrderCountDTO(v.brand, v.model, COUNT(po.id)) " +
             "FROM PurchaseOrder po JOIN po.vehicle v " +
             "WHERE po.createdAt BETWEEN :startDate AND :endDate " +
             "GROUP BY v.brand, v.model")

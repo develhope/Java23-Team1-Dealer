@@ -83,8 +83,8 @@ public class PurchaseOrderController {
 
     @GetMapping("/vehicles/mostPurchased/period")
     public List<OrderCountDTO> getOrderCountByBrandAndModel(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-        return purchaseService.getOrderCountByBrandAndModel(startDate, endDate);
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date to) {
+        return purchaseService.getOrderCountByBrandAndModel(from, to);
     }
 }
