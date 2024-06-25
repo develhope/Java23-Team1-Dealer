@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehicles")
+@RequestMapping("/vehicle")
 public class VehicleController {
 
     @Autowired
@@ -40,7 +40,7 @@ public class VehicleController {
     }
 
     @GetMapping("/mostExpensiveSoldVehicle")
-    public ResponseEntity<Vehicle> findMostExpensiveSoldedVehicle (@RequestBody VehicleServiceFilter vehicleServiceFilter) {
+    public ResponseEntity<Vehicle> findMostExpensiveSoldedVehicle(@RequestBody VehicleServiceFilter vehicleServiceFilter) {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(vehicleService.findMostExpensiveSoldedVehicle(vehicleServiceFilter));
     }
@@ -52,8 +52,10 @@ public class VehicleController {
     }
 
     @GetMapping("/mostpurchased")
-    public ResponseEntity<Collection<MostPurchasedModel>> mostPurchased () {
-        return  ResponseEntity.accepted().body(vehicleService.mostPurchasedVehicles());
+    public ResponseEntity<Collection<MostPurchasedModel>> mostPurchased() {
+        return ResponseEntity.accepted().body(vehicleService.mostPurchasedVehicles());
+
+    }
 
     @GetMapping("/mostOrderedModel")
     public ResponseEntity<MostOrderedVehicleDTO> getMostOrderedVehicleModel() {
