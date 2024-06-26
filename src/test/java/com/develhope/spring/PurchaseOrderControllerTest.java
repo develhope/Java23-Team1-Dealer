@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 //@Profile("test")
 @AutoConfigureMockMvc
-public class PurchaseOrderTest {
+public class PurchaseOrderControllerTest {
     @Autowired
     private PurchaseOrderService purchaseService;
     @Autowired
